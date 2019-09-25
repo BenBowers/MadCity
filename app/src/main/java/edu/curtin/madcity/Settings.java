@@ -2,6 +2,11 @@ package edu.curtin.madcity;
 
 public class Settings
 {
+    private static final int MIN_HEIGHT = 1;
+    private static final int MAX_HEIGHT = 100;
+    private static final int MIN_WIDTH = 1;
+    private static final int MAX_WIDTH = 100;
+
     private int mMapWidth = 50;
     private int mMapHeight = 10;
     private int mInitialMoney = 100;
