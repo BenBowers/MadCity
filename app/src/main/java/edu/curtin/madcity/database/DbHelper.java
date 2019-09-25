@@ -49,10 +49,14 @@ public class DbHelper extends SQLiteOpenHelper
         // CREATE MAP ELEMENT TABLE
         sqLiteDatabase.execSQL
                 (
-                        "CREATE TABLE " + MapElementTable.NAME + "(" +
+                        " CREATE TABLE " + MapElementTable.NAME + "(" +
+                                MapElementTable.Cols.X_LOC + " INTEGER, " +
+                                MapElementTable.Cols.Y_LOC + " INTEGER, " +
                                 MapElementTable.Cols.STRUCTURE + " INTEGER, " +
                                 MapElementTable.Cols.IMAGE + " BLOB, " +
-                                MapElementTable.Cols.OWNER_NAME + " TEXT)"
+                                MapElementTable.Cols.OWNER_NAME + " TEXT " +
+                                "PRIMARY KEY (" + MapElementTable.Cols.X_LOC + " " + MapElementTable.Cols.Y_LOC + ")" +
+                                ")"
                 );
 
     }
