@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MadCity</string>
+
+
+    <string name="status_time">Time Elapsed</string>
+    <string name="status_money">Money</string>
+    <string name="status_population">Population</string>
+    <string name="status_employment">Employment</string>
 </resources>
