@@ -6,14 +6,14 @@ import android.database.CursorWrapper;
 import edu.curtin.madcity.Settings;
 import edu.curtin.madcity.database.DbSchema.SettingsTable.Cols;
 
-public class SettingsCursor extends CursorWrapper
+public class SettingsCursor extends CursorWrapper implements DbCursor<Settings>
 {
     public SettingsCursor(Cursor cursor)
     {
         super(cursor);
     }
 
-    public Settings getSettings()
+    public Settings get()
     {
         return new Settings(
                 getInt(getColumnIndex(Cols.MAP_WIDTH)),
