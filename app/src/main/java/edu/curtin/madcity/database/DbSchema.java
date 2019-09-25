@@ -23,6 +23,23 @@ public class DbSchema
             public static final String ROAD_BUILDING_COST =
                     "road_building_cost";
         }
+
+        public static String createTable()
+        {
+            return
+                    "CREATE TABLE " + SettingsTable.NAME + "(" +
+                            Cols.MAP_WIDTH + " INTEGER, " +
+                            Cols.MAP_HEIGHT + " INTEGER, " +
+                            Cols.INITIAL_MONEY + " INTEGER, " +
+                            Cols.FAMILY_SIZE + " INTEGER, " +
+                            Cols.SHOP_SIZE + " INTEGER, " +
+                            Cols.SALARY + " INTEGER, " +
+                            Cols.TAX_RATE + " REAL, " +
+                            Cols.SERVICE_COST + " INTEGER, " +
+                            Cols.HOUSE_BUILDING_COST + " INTEGER, " +
+                            Cols.COMM_BUILDING_COST + " INTEGER, " +
+                            Cols.ROAD_BUILDING_COST + " INTEGER)";
+        }
     }
 
     public static class GameDataTable
@@ -34,6 +51,15 @@ public class DbSchema
             public static final String MONEY = "money";
             public static final String TIME = "time";
         }
+
+        public static String createTable()
+        {
+            return
+                    "CREATE TABLE " + GameDataTable.NAME + "(" +
+                            GameDataTable.Cols.MONEY + " INTEGER, " +
+                            GameDataTable.Cols.TIME + " INTEGER)";
+        }
+
     }
 
     public static class MapElementTable
@@ -49,6 +75,18 @@ public class DbSchema
             public static final String OWNER_NAME = "owner_name";
         }
 
+        public static String createTable()
+        {
+            return
+                    " CREATE TABLE " + MapElementTable.NAME + "(" +
+                            MapElementTable.Cols.X_LOC + " INTEGER, " +
+                            MapElementTable.Cols.Y_LOC + " INTEGER, " +
+                            MapElementTable.Cols.STRUCTURE + " INTEGER, " +
+                            MapElementTable.Cols.IMAGE + " BLOB, " +
+                            MapElementTable.Cols.OWNER_NAME + " TEXT, " +
+                            "PRIMARY KEY(" + MapElementTable.Cols.X_LOC + ", " + MapElementTable.Cols.Y_LOC + ")" +
+                            ")";
+        }
     }
 
 

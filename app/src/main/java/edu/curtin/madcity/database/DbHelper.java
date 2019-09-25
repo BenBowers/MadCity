@@ -22,43 +22,13 @@ public class DbHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
         // CREATE SETTINGS TABLE
-        sqLiteDatabase.execSQL
-                (
-                        "CREATE TABLE " + SettingsTable.NAME + "(" +
-                                SettingsTable.Cols.MAP_WIDTH + " INTEGER, " +
-                                SettingsTable.Cols.MAP_HEIGHT + " INTEGER, " +
-                                SettingsTable.Cols.INITIAL_MONEY + " INTEGER, " +
-                                SettingsTable.Cols.FAMILY_SIZE + " INTEGER, " +
-                                SettingsTable.Cols.SHOP_SIZE + " INTEGER, " +
-                                SettingsTable.Cols.SALARY + " INTEGER, " +
-                                SettingsTable.Cols.TAX_RATE + " REAL, " +
-                                SettingsTable.Cols.SERVICE_COST + " INTEGER, " +
-                                SettingsTable.Cols.HOUSE_BUILDING_COST + " INTEGER, " +
-                                SettingsTable.Cols.COMM_BUILDING_COST + " INTEGER, " +
-                                SettingsTable.Cols.ROAD_BUILDING_COST + " INTEGER)"
-                );
+        sqLiteDatabase.execSQL(SettingsTable.createTable());
 
         // CREATE GAME TABLE
-        sqLiteDatabase.execSQL
-                (
-                        "CREATE TABLE " + GameDataTable.NAME + "(" +
-                                GameDataTable.Cols.MONEY + " INTEGER, " +
-                                GameDataTable.Cols.TIME + " INTEGER)"
-                );
+        sqLiteDatabase.execSQL(GameDataTable.createTable());
 
         // CREATE MAP ELEMENT TABLE
-        sqLiteDatabase.execSQL
-                (
-                        " CREATE TABLE " + MapElementTable.NAME + "(" +
-                                MapElementTable.Cols.X_LOC + " INTEGER, " +
-                                MapElementTable.Cols.Y_LOC + " INTEGER, " +
-                                MapElementTable.Cols.STRUCTURE + " INTEGER, " +
-                                MapElementTable.Cols.IMAGE + " BLOB, " +
-                                MapElementTable.Cols.OWNER_NAME + " TEXT " +
-                                "PRIMARY KEY (" + MapElementTable.Cols.X_LOC + " " + MapElementTable.Cols.Y_LOC + ")" +
-                                ")"
-                );
-
+        sqLiteDatabase.execSQL(MapElementTable.createTable());
     }
 
     @Override
