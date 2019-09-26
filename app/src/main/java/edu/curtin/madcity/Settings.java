@@ -2,6 +2,9 @@ package edu.curtin.madcity;
 
 public class Settings
 {
+
+// CLASS CONSTANTS -----------------------------------------------------------
+
     public static final int DEFAULT_MAP_WIDTH = 50;
     public static final int MIN_MAP_WIDTH = 10;
     public static final int MAX_MAP_WIDTH = 500;
@@ -46,6 +49,8 @@ public class Settings
     public static final int MIN_ROAD_BUILDING_COST = 1;
     public static final int MAX_ROAD_BUILDING_COST = 500;
 
+// PRIVATE CLASS FIELDS ------------------------------------------------------
+
     private int mMapWidth;
     private int mMapHeight;
     private int mInitialMoney;
@@ -58,10 +63,18 @@ public class Settings
     private int mCommBuildingCost;
     private int mRoadBuildingCost;
 
+// CONSTRUCTORS --------------------------------------------------------------
+
+    public Settings()
+    {
+        setDefault();
+    }
+
     public Settings(int mapWidth, int mapHeight, int initialMoney,
                     int familySize, int shopSize, int salary, float taxRate,
                     int serviceCost, int houseBuildingCost,
-                    int commBuildingCost, int roadBuildingCost) throws IllegalArgumentException
+                    int commBuildingCost, int roadBuildingCost)
+            throws IllegalArgumentException
     {
         setMapWidth(mapWidth);
         setMapHeight(mapHeight);
@@ -76,10 +89,7 @@ public class Settings
         setRoadBuildingCost(roadBuildingCost);
     }
 
-    public Settings()
-    {
-        setDefault();
-    }
+// PUBLIC METHODS ------------------------------------------------------------
 
     public void setDefault()
     {
@@ -97,14 +107,75 @@ public class Settings
     }
 
 
+// PRIVATE METHODS -----------------------------------------------------------
+
+    private boolean withinInclusive(int x, int min, int max)
+    {
+        return x >= min && x <= max;
+    }
+
+// ACCESSORS -----------------------------------------------------------------
+
     public int getMapWidth()
     {
         return mMapWidth;
     }
 
+    public int getMapHeight()
+    {
+        return mMapHeight;
+    }
+
+    public int getInitialMoney()
+    {
+        return mInitialMoney;
+    }
+
+    public int getFamilySize()
+    {
+        return mFamilySize;
+    }
+
+    public int getShopSize()
+    {
+        return mShopSize;
+    }
+
+    public int getSalary()
+    {
+        return mSalary;
+    }
+
+    public float getTaxRate()
+    {
+        return mTaxRate;
+    }
+
+    public int getServiceCost()
+    {
+        return mServiceCost;
+    }
+
+    public int getHouseBuildingCost()
+    {
+        return mHouseBuildingCost;
+    }
+
+    public int getCommBuildingCost()
+    {
+        return mCommBuildingCost;
+    }
+
+    public int getRoadBuildingCost()
+    {
+        return mRoadBuildingCost;
+    }
+
+// MUTATORS ------------------------------------------------------------------
+
     public void setMapWidth(int mapWidth) throws IllegalArgumentException
     {
-        if (mapWidth >= MIN_MAP_WIDTH && mapWidth <= MAX_MAP_WIDTH)
+        if (withinInclusive(mapWidth, MIN_MAP_WIDTH, MAX_MAP_WIDTH))
         {
             mMapWidth = mapWidth;
         }
@@ -114,14 +185,9 @@ public class Settings
         }
     }
 
-    public int getMapHeight()
-    {
-        return mMapHeight;
-    }
-
     public void setMapHeight(int mapHeight) throws IllegalArgumentException
     {
-        if (mapHeight >= MIN_MAP_HEIGHT && mapHeight <= MAX_MAP_HEIGHT)
+        if (withinInclusive(mapHeight, MIN_MAP_HEIGHT, MAX_MAP_HEIGHT))
         {
             mMapHeight = mapHeight;
         }
@@ -131,14 +197,11 @@ public class Settings
         }
     }
 
-    public int getInitialMoney()
+    public void setInitialMoney(int initialMoney)
+            throws IllegalArgumentException
     {
-        return mInitialMoney;
-    }
-
-    public void setInitialMoney(int initialMoney) throws IllegalArgumentException
-    {
-        if (initialMoney >= MIN_INITIAL_MONEY && initialMoney <= MAX_INITIAL_MONEY)
+        if (withinInclusive(initialMoney,
+                            MIN_INITIAL_MONEY, MAX_INITIAL_MONEY))
         {
             mInitialMoney = initialMoney;
         }
@@ -148,14 +211,9 @@ public class Settings
         }
     }
 
-    public int getFamilySize()
-    {
-        return mFamilySize;
-    }
-
     public void setFamilySize(int familySize) throws IllegalArgumentException
     {
-        if (familySize >= MIN_FAMILY_SIZE && familySize <= MAX_FAMILY_SIZE)
+        if (withinInclusive(familySize, MIN_FAMILY_SIZE, MAX_FAMILY_SIZE))
         {
             mFamilySize = familySize;
         }
@@ -166,14 +224,9 @@ public class Settings
 
     }
 
-    public int getShopSize()
-    {
-        return mShopSize;
-    }
-
     public void setShopSize(int shopSize) throws IllegalArgumentException
     {
-        if (shopSize >= MIN_SHOP_SIZE && shopSize <= MAX_SHOP_SIZE)
+        if (withinInclusive(shopSize, MIN_SHOP_SIZE, MAX_SHOP_SIZE))
         {
             mShopSize = shopSize;
         }
@@ -183,14 +236,9 @@ public class Settings
         }
     }
 
-    public int getSalary()
-    {
-        return mSalary;
-    }
-
     public void setSalary(int salary) throws IllegalArgumentException
     {
-        if (salary >= MIN_SALARY && salary <= MAX_SALARY)
+        if (withinInclusive(salary, MIN_SALARY, MAX_SALARY))
         {
             mSalary = salary;
         }
@@ -198,11 +246,6 @@ public class Settings
         {
             throw new IllegalArgumentException("Salary out of range");
         }
-    }
-
-    public float getTaxRate()
-    {
-        return mTaxRate;
     }
 
     public void setTaxRate(float taxRate) throws IllegalArgumentException
@@ -217,14 +260,10 @@ public class Settings
         }
     }
 
-    public int getServiceCost()
+    public void setServiceCost(int serviceCost)
+            throws IllegalArgumentException
     {
-        return mServiceCost;
-    }
-
-    public void setServiceCost(int serviceCost) throws IllegalArgumentException
-    {
-        if (serviceCost >= MIN_SERVICE_COST && serviceCost <= MAX_SERVICE_COST)
+        if (withinInclusive(serviceCost, MIN_SERVICE_COST, MAX_SERVICE_COST))
         {
             mServiceCost = serviceCost;
         }
@@ -234,57 +273,48 @@ public class Settings
         }
     }
 
-    public int getHouseBuildingCost()
+    public void setHouseBuildingCost(int houseBuildingCost)
+            throws IllegalArgumentException
     {
-        return mHouseBuildingCost;
-    }
-
-    public void setHouseBuildingCost(int houseBuildingCost) throws IllegalArgumentException
-    {
-        if (houseBuildingCost >= MIN_HOUSE_BUILDING_COST && houseBuildingCost >= MAX_HOUSE_BUILDING_COST)
+        if (withinInclusive(houseBuildingCost,
+                            MIN_HOUSE_BUILDING_COST, MAX_HOUSE_BUILDING_COST))
         {
             mHouseBuildingCost = houseBuildingCost;
         }
         else
         {
-            throw new IllegalArgumentException("house building cost out of " +
-                                                       "range");
+            throw new IllegalArgumentException(
+                    "house building cost out of range");
         }
     }
 
-    public int getCommBuildingCost()
+    public void setCommBuildingCost(int commBuildingCost)
+            throws IllegalArgumentException
     {
-        return mCommBuildingCost;
-    }
-
-    public void setCommBuildingCost(int commBuildingCost) throws IllegalArgumentException
-    {
-        if (commBuildingCost >= MIN_COMM_BUILDING_COST && commBuildingCost <= MAX_COMM_BUILDING_COST)
+        if (withinInclusive(commBuildingCost,
+                            MIN_COMM_BUILDING_COST, MAX_COMM_BUILDING_COST))
         {
             mCommBuildingCost = commBuildingCost;
         }
         else
         {
-            throw new IllegalArgumentException("comm building cost is out " +
-                                                       "of range");
+            throw new IllegalArgumentException(
+                    "comm building cost is out of range");
         }
     }
 
-    public int getRoadBuildingCost()
+    public void setRoadBuildingCost(int roadBuildingCost)
+            throws IllegalArgumentException
     {
-        return mRoadBuildingCost;
-    }
-
-    public void setRoadBuildingCost(int roadBuildingCost) throws IllegalArgumentException
-    {
-        if (roadBuildingCost >= MIN_ROAD_BUILDING_COST && roadBuildingCost <= MAX_ROAD_BUILDING_COST)
+        if (withinInclusive(roadBuildingCost,
+                            MIN_ROAD_BUILDING_COST, MAX_ROAD_BUILDING_COST))
         {
             mRoadBuildingCost = roadBuildingCost;
         }
         else
         {
-            throw new IllegalArgumentException("road building cost out of " +
-                                                       "range");
+            throw new IllegalArgumentException(
+                    "road building cost out of range");
         }
     }
 }
