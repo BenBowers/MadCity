@@ -6,4 +6,19 @@
     <string name="status_money">Money</string>
     <string name="status_population">Population</string>
     <string name="status_employment">Employment</string>
+
+    <!--  Settings menu strings -->
+    <string name="settings_map_width">Map Width</string>
+    <string name="settings_map_height">Map Hight</string>
+    <string name="settings_initial_money">Initial Money</string>
+    <string name="settings_family_size">Family Size</string>
+    <string name="settings_shop_size">Shop Size</string>
+    <string name="settings_salary">Salary</string>
+    <string name="settings_tax_rate">Tax Rate</string>
+    <string name="settings_service_cost">Service Cost</string>
+    <string name="settings_house_buildingCost">House Building Cost</string>
+    <string name="settings_comm_buildingCost">Commercial Building Cost</string>
+    <string name="settings_road_buildingCost">Road Building Cost</string>
+
+
 </resources>
