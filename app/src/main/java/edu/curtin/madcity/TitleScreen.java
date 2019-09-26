@@ -15,6 +15,7 @@ public class TitleScreen extends AppCompatActivity
     public static final String TAG = "TitleScreen";
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
+
     private Button mStartButton;
     private Button mSettingsButton;
 
@@ -23,6 +24,7 @@ public class TitleScreen extends AppCompatActivity
     {
         Log.d(TAG, "onCreate() called.");
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.title_screen);
 
         // Get references of the buttons
         mStartButton = findViewById(R.id.start_button);
@@ -42,13 +44,13 @@ public class TitleScreen extends AppCompatActivity
     private void startButtonOnClick()
     {
         Log.d(TAG, "startButtonOnClick() called");
-        // TODO: launch activity
+        startActivity(Game.getIntent(TitleScreen.this));
     }
 
     private void settingsButtonOnClick()
     {
         Log.d(TAG, "settingsButtonOnClick() called");
-        //TODO : launch activity
+        startActivity(SettingsMenu.getIntent(TitleScreen.this));
     }
 
-}
+}//TitleScreen.class
