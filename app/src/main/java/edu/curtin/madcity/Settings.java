@@ -49,6 +49,7 @@ public class Settings
     public static final int MIN_ROAD_BUILDING_COST = 1;
     public static final int MAX_ROAD_BUILDING_COST = 500;
 
+
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
     private int mMapWidth;
@@ -91,6 +92,9 @@ public class Settings
 
 // PUBLIC METHODS ------------------------------------------------------------
 
+    /**
+     * Sets all the class fields to their default values
+     */
     public void setDefault()
     {
         mMapWidth = DEFAULT_MAP_WIDTH;
@@ -106,9 +110,18 @@ public class Settings
         mRoadBuildingCost = DEFAULT_ROAD_BUILDING_COST;
     }
 
-
 // PRIVATE METHODS -----------------------------------------------------------
 
+    /**
+     * Method to check whether a parameter is within it's valid bounds
+     * <p>
+     * This was made to reduce the chance of error in the code
+     *
+     * @param x parameter to check
+     * @param min lower bound
+     * @param max upper bound
+     * @return true if x is with min an max (inclusive)
+     */
     private boolean withinInclusive(int x, int min, int max)
     {
         return x >= min && x <= max;
@@ -116,56 +129,101 @@ public class Settings
 
 // ACCESSORS -----------------------------------------------------------------
 
+    /**
+     * 
+     * @return map width
+     */
     public int getMapWidth()
     {
         return mMapWidth;
     }
 
+    /**
+     * 
+     * @return map height
+     */
     public int getMapHeight()
     {
         return mMapHeight;
     }
 
+    /**
+     * 
+     * @return initial money
+     */
     public int getInitialMoney()
     {
         return mInitialMoney;
     }
 
+    /**
+     * 
+     * @return family size
+     */
     public int getFamilySize()
     {
         return mFamilySize;
     }
 
+    /**
+     * 
+     * @return shop size
+     */
     public int getShopSize()
     {
         return mShopSize;
     }
 
+
+    /**
+     * 
+     * @return salary
+     */
     public int getSalary()
     {
         return mSalary;
     }
 
+    /**
+     * 
+     * @return tax rate
+     */
     public float getTaxRate()
     {
         return mTaxRate;
     }
 
+    /**
+     * 
+     * @return service cost
+     */
     public int getServiceCost()
     {
         return mServiceCost;
     }
 
+    /**
+     * 
+     * @return house building cost
+     */
     public int getHouseBuildingCost()
     {
         return mHouseBuildingCost;
     }
 
+    /**
+     * 
+     * @return comm building cost
+     */
     public int getCommBuildingCost()
     {
         return mCommBuildingCost;
     }
 
+    /**
+     * 
+     * @return road building cost
+     */
     public int getRoadBuildingCost()
     {
         return mRoadBuildingCost;
@@ -173,6 +231,12 @@ public class Settings
 
 // MUTATORS ------------------------------------------------------------------
 
+    /**
+     * sets the map width
+     * 
+     * @param mapWidth parameter to set the width to
+     * @throws IllegalArgumentException width is out of the max or min width
+     */
     public void setMapWidth(int mapWidth) throws IllegalArgumentException
     {
         if (withinInclusive(mapWidth, MIN_MAP_WIDTH, MAX_MAP_WIDTH))
@@ -185,6 +249,13 @@ public class Settings
         }
     }
 
+    /**
+     * Sets the map height
+     * 
+     * @param mapHeight Parameter to set the map hieght to
+     * @throws IllegalArgumentException Map height out of the max and min 
+     * bounds
+     */
     public void setMapHeight(int mapHeight) throws IllegalArgumentException
     {
         if (withinInclusive(mapHeight, MIN_MAP_HEIGHT, MAX_MAP_HEIGHT))
@@ -197,6 +268,12 @@ public class Settings
         }
     }
 
+    /**
+     * Sets the InitalMoney
+     *
+     * @param initialMoney Parameter to set the inital money to
+     * @throws IllegalArgumentException if the intial money is out of range
+     */
     public void setInitialMoney(int initialMoney)
             throws IllegalArgumentException
     {
