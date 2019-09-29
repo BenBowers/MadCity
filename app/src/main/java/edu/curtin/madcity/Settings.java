@@ -5,30 +5,37 @@ public class Settings
 
 // CLASS CONSTANTS -----------------------------------------------------------
 
+    private static final short MAP_WIDTH_IDX  = 0;
     public static final int DEFAULT_MAP_WIDTH = 50;
     public static final int MIN_MAP_WIDTH = 10;
     public static final int MAX_MAP_WIDTH = 500;
 
+    private static final short MAP_HEIGHT_IDX = 1;
     public static final int DEFAULT_MAP_HEIGHT = 10;
     public static final int MIN_MAP_HEIGHT = 5;
     public static final int MAX_MAP_HEIGHT = 20;
 
+    private static final short INITIAL_MONEY_IDX = 2;
     public static final int DEFAULT_INITIAL_MONEY = 100;
     public static final int MIN_INITIAL_MONEY = 50;
     public static final int MAX_INITIAL_MONEY = 5000;
 
+    private static final short FAMILY_SIZE_IDX = 3;
     public static final int DEFAULT_FAMILY_SIZE = 4;
     public static final int MIN_FAMILY_SIZE = 1;
     public static final int MAX_FAMILY_SIZE = 10;
 
+    private static final int SHOP_SIZE_IDX = 4;
     public static final int DEFAULT_SHOP_SIZE = 6;
     public static final int MIN_SHOP_SIZE = 1;
     public static final int MAX_SHOP_SIZE = 50;
 
+    public static final short SALARY_IDX = 5;
     public static final int DEFAULT_SALARY = 10;
     public static final int MIN_SALARY = 1;
     public static final int MAX_SALARY = 1000;
 
+    public static final short TAX_RATE_IDX = 6;
     public static final float DEFAULT_TAX_RATE = 0.3f;
     public static final float MIN_TAX_RATE = 0.1f;
     public static final float MAX_TAX_RATE = 1f;
@@ -52,17 +59,34 @@ public class Settings
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
-    private int mMapWidth;
-    private int mMapHeight;
-    private int mInitialMoney;
-    private int mFamilySize;
-    private int mShopSize;
-    private int mSalary;
-    private float mTaxRate;
-    private int mServiceCost;
-    private int mHouseBuildingCost;
-    private int mCommBuildingCost;
-    private int mRoadBuildingCost;
+
+    private Setting[] mSettings = new Setting[]
+    {
+        new Setting<>(R.string.settings_map_width,
+                      MAX_MAP_WIDTH, MIN_MAP_WIDTH),
+        new Setting<>(R.string.settings_map_height,
+                      MAX_MAP_HEIGHT, MIN_MAP_HEIGHT),
+        new Setting<>(R.string.settings_initial_money,
+                          MAX_INITIAL_MONEY, MIN_INITIAL_MONEY),
+        new Setting<>(R.string.settings_family_size,
+                      MAX_FAMILY_SIZE, MIN_FAMILY_SIZE),
+        new Setting<>(R.string.settings_shop_size,
+                      MAX_SHOP_SIZE, MIN_FAMILY_SIZE),
+        new Setting<>(R.string.settings_salary,
+                      MAX_SALARY, MIN_SALARY),
+        new Setting<>(R.string.settings_tax_rate,
+                      MAX_TAX_RATE, MIN_TAX_RATE),
+        new Setting<>(R.string.settings_service_cost,
+                      MAX_SERVICE_COST, MIN_SERVICE_COST),
+        new Setting<>(R.string.settings_house_buildingCost,
+                      MAX_HOUSE_BUILDING_COST, MIN_HOUSE_BUILDING_COST),
+        new Setting<>(R.string.settings_comm_buildingCost,
+                      MAX_COMM_BUILDING_COST, MIN_COMM_BUILDING_COST),
+        new Setting<>(R.string.settings_road_buildingCost,
+                      MAX_ROAD_BUILDING_COST, MIN_ROAD_BUILDING_COST)
+
+    };
+
 
 // CONSTRUCTORS --------------------------------------------------------------
 
@@ -71,24 +95,7 @@ public class Settings
         setDefault();
     }
 
-    public Settings(int mapWidth, int mapHeight, int initialMoney,
-                    int familySize, int shopSize, int salary, float taxRate,
-                    int serviceCost, int houseBuildingCost,
-                    int commBuildingCost, int roadBuildingCost)
-            throws IllegalArgumentException
-    {
-        setMapWidth(mapWidth);
-        setMapHeight(mapHeight);
-        setInitialMoney(initialMoney);
-        setFamilySize(familySize);
-        setShopSize(shopSize);
-        setSalary(salary);
-        setTaxRate(taxRate);
-        setServiceCost(serviceCost);
-        setHouseBuildingCost(houseBuildingCost);
-        setCommBuildingCost(commBuildingCost);
-        setRoadBuildingCost(roadBuildingCost);
-    }
+
 
 // PUBLIC METHODS ------------------------------------------------------------
 
@@ -112,20 +119,11 @@ public class Settings
 
 // PRIVATE METHODS -----------------------------------------------------------
 
-    /**
-     * Method to check whether a parameter is within it's valid bounds
-     * <p>
-     * This was made to reduce the chance of error in the code
-     *
-     * @param x parameter to check
-     * @param min lower bound
-     * @param max upper bound
-     * @return true if x is with min an max (inclusive)
-     */
-    private boolean withinInclusive(int x, int min, int max)
+    private Object getValue(int idx)
     {
-        return x >= min && x <= max;
+        return mSettings[idx].getValue();
     }
+
 
 // ACCESSORS -----------------------------------------------------------------
 
@@ -135,7 +133,7 @@ public class Settings
      */
     public int getMapWidth()
     {
-        return mMapWidth;
+        return (int)getValue(MAP_WIDTH_IDX);
     }
 
     /**
@@ -144,7 +142,7 @@ public class Settings
      */
     public int getMapHeight()
     {
-        return mMapHeight;
+        return (int)getValue(MAP_HEIGHT_IDX);
     }
 
     /**
@@ -153,7 +151,7 @@ public class Settings
      */
     public int getInitialMoney()
     {
-        return mInitialMoney;
+        return (int)getValue(INITIAL_MONEY_IDX);
     }
 
     /**
