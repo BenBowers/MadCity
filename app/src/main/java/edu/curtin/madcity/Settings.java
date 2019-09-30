@@ -2,40 +2,110 @@ package edu.curtin.madcity;
 
 public class Settings
 {
+    private abstract class Setting
+    {
+        private int mNameID;
+
+        public Setting(int nameID)
+        {
+            mNameID = nameID;
+        }
+
+        public int getNameID()
+        {
+            return mNameID;
+        }
+    }
+
+    private class IntSetting extends Setting
+    {
+        private int mValue;
+        public final int MAX;
+        public final int MIN;
+
+        public IntSetting(int nameID, int max, int min)
+        {
+            super(nameID);
+            MAX = max;
+            MIN = min;
+        }
+
+        public int getValue()
+        {
+            return mValue;
+        }
+
+        public void setValue(int value)
+        {
+            if(value >= MIN && value <= MAX)
+            {
+                mValue = value;
+            }
+            else
+            {
+                throw new IllegalArgumentException("out of range");
+            }
+        }
+    }
+
+    private class FloatSetting extends Setting
+    {
+        private float mValue;
+        public final float MAX;
+        public final float MIN;
+
+        public FloatSetting(int nameID, float max, float min)
+        {
+            super(nameID);
+            MAX = max;
+            MIN = min;
+        }
+
+        public float getValue()
+        {
+            return mValue;
+        }
+
+        public void setValue(float value)
+        {
+            if(value >= MIN && value <= MAX)
+            {
+                mValue = value;
+            }
+            else
+            {
+                throw new IllegalArgumentException("out of range");
+            }
+        }
+    }
 
 // CLASS CONSTANTS -----------------------------------------------------------
 
-    private static final short MAP_WIDTH_IDX  = 0;
+
     public static final int DEFAULT_MAP_WIDTH = 50;
     public static final int MIN_MAP_WIDTH = 10;
     public static final int MAX_MAP_WIDTH = 500;
 
-    private static final short MAP_HEIGHT_IDX = 1;
     public static final int DEFAULT_MAP_HEIGHT = 10;
     public static final int MIN_MAP_HEIGHT = 5;
     public static final int MAX_MAP_HEIGHT = 20;
 
-    private static final short INITIAL_MONEY_IDX = 2;
     public static final int DEFAULT_INITIAL_MONEY = 100;
     public static final int MIN_INITIAL_MONEY = 50;
     public static final int MAX_INITIAL_MONEY = 5000;
 
-    private static final short FAMILY_SIZE_IDX = 3;
     public static final int DEFAULT_FAMILY_SIZE = 4;
     public static final int MIN_FAMILY_SIZE = 1;
     public static final int MAX_FAMILY_SIZE = 10;
 
-    private static final int SHOP_SIZE_IDX = 4;
     public static final int DEFAULT_SHOP_SIZE = 6;
     public static final int MIN_SHOP_SIZE = 1;
     public static final int MAX_SHOP_SIZE = 50;
 
-    public static final short SALARY_IDX = 5;
     public static final int DEFAULT_SALARY = 10;
     public static final int MIN_SALARY = 1;
     public static final int MAX_SALARY = 1000;
 
-    public static final short TAX_RATE_IDX = 6;
     public static final float DEFAULT_TAX_RATE = 0.3f;
     public static final float MIN_TAX_RATE = 0.1f;
     public static final float MAX_TAX_RATE = 1f;
@@ -56,36 +126,55 @@ public class Settings
     public static final int MIN_ROAD_BUILDING_COST = 1;
     public static final int MAX_ROAD_BUILDING_COST = 500;
 
+    /**
+     * Positions of all the settings
+     */
+    
+    private static final short MAP_WIDTH_IDX           = 0;
+    private static final short MAP_HEIGHT_IDX          = 1;
+    private static final short INITIAL_MONEY_IDX       = 2;
+    private static final short FAMILY_SIZE_IDX         = 3;
+    private static final short SHOP_SIZE_IDX           = 4;
+    private static final short TAX_RATE_IDX            = 6;
+    private static final short SALARY_IDX              = 5;
+    private static final short SERVICE_COST_IDX        = 7;
+    private static final short HOUSE_BUILDING_COST_IDX = 8;
+    private static final short COMM_BUILDING_COST_IDX  = 9;
+    private static final short ROAD_BUILDING_COST_IDX  = 10;
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
 
+    /**
+     * Array of all the settings
+     */
     private Setting[] mSettings = new Setting[]
     {
-        new Setting<>(R.string.settings_map_width,
+        new IntSetting(R.string.settings_map_width,
                       MAX_MAP_WIDTH, MIN_MAP_WIDTH),
-        new Setting<>(R.string.settings_map_height,
+        new IntSetting(R.string.settings_map_height,
                       MAX_MAP_HEIGHT, MIN_MAP_HEIGHT),
-        new Setting<>(R.string.settings_initial_money,
+        new IntSetting(R.string.settings_initial_money,
                           MAX_INITIAL_MONEY, MIN_INITIAL_MONEY),
-        new Setting<>(R.string.settings_family_size,
+        new IntSetting(R.string.settings_family_size,
                       MAX_FAMILY_SIZE, MIN_FAMILY_SIZE),
-        new Setting<>(R.string.settings_shop_size,
-                      MAX_SHOP_SIZE, MIN_FAMILY_SIZE),
-        new Setting<>(R.string.settings_salary,
+        new IntSetting(R.string.settings_shop_size,
+                      MAX_SHOP_SIZE, MIN_SHOP_SIZE),
+        new IntSetting(R.string.settings_salary,
                       MAX_SALARY, MIN_SALARY),
-        new Setting<>(R.string.settings_tax_rate,
+        new FloatSetting(R.string.settings_tax_rate,
                       MAX_TAX_RATE, MIN_TAX_RATE),
-        new Setting<>(R.string.settings_service_cost,
+        new IntSetting(R.string.settings_service_cost,
                       MAX_SERVICE_COST, MIN_SERVICE_COST),
-        new Setting<>(R.string.settings_house_buildingCost,
+        new IntSetting(R.string.settings_house_buildingCost,
                       MAX_HOUSE_BUILDING_COST, MIN_HOUSE_BUILDING_COST),
-        new Setting<>(R.string.settings_comm_buildingCost,
+        new IntSetting(R.string.settings_comm_buildingCost,
                       MAX_COMM_BUILDING_COST, MIN_COMM_BUILDING_COST),
-        new Setting<>(R.string.settings_road_buildingCost,
+        new IntSetting(R.string.settings_road_buildingCost,
                       MAX_ROAD_BUILDING_COST, MIN_ROAD_BUILDING_COST)
 
     };
+
 
 
 // CONSTRUCTORS --------------------------------------------------------------
@@ -93,6 +182,24 @@ public class Settings
     public Settings()
     {
         setDefault();
+    }
+
+    public Settings(int mapWidth, int mapHeight, int initialMoney,
+                   int familySize, int shopSize, int salary, float taxRate,
+                   int serviceCost, int houseBuildingCost,
+                   int commBuildingCost, int roadBuildingCost)
+    {
+        setMapWidth(mapWidth);
+        setMapHeight(mapHeight);
+        setInitialMoney(initialMoney);
+        setFamilySize(familySize);
+        setShopSize(shopSize);
+        setSalary(salary);
+        setTaxRate(taxRate);
+        setServiceCost(serviceCost);
+        setHouseBuildingCost(houseBuildingCost);
+        setCommBuildingCost(commBuildingCost);
+        setRoadBuildingCost(roadBuildingCost);
     }
 
 
@@ -104,292 +211,205 @@ public class Settings
      */
     public void setDefault()
     {
-        mMapWidth = DEFAULT_MAP_WIDTH;
-        mMapHeight = DEFAULT_MAP_HEIGHT;
-        mInitialMoney = DEFAULT_INITIAL_MONEY;
-        mFamilySize = DEFAULT_FAMILY_SIZE;
-        mShopSize = DEFAULT_SHOP_SIZE;
-        mSalary = DEFAULT_SALARY;
-        mTaxRate = DEFAULT_TAX_RATE;
-        mServiceCost = DEFAULT_SERVICE_COST;
-        mHouseBuildingCost = DEFAULT_HOUSE_BUILDING_COST;
-        mCommBuildingCost = DEFAULT_COMM_BUILDING_COST;
-        mRoadBuildingCost = DEFAULT_ROAD_BUILDING_COST;
+        setMapWidth(DEFAULT_MAP_WIDTH);
+        setMapHeight(DEFAULT_MAP_HEIGHT);
+        setInitialMoney(DEFAULT_INITIAL_MONEY);
+        setFamilySize(DEFAULT_FAMILY_SIZE);
+        setShopSize(DEFAULT_SHOP_SIZE);
+        setSalary(DEFAULT_SALARY);
+        setTaxRate(DEFAULT_TAX_RATE);
+        setServiceCost(DEFAULT_SERVICE_COST);
+        setHouseBuildingCost(DEFAULT_HOUSE_BUILDING_COST);
+        setCommBuildingCost(DEFAULT_COMM_BUILDING_COST);
+        setRoadBuildingCost(DEFAULT_ROAD_BUILDING_COST);
     }
 
 // PRIVATE METHODS -----------------------------------------------------------
 
-    private Object getValue(int idx)
+    private int getIntValue(short idx)
     {
-        return mSettings[idx].getValue();
+        IntSetting setting;
+
+        if(!(mSettings[idx] instanceof IntSetting))
+        {
+            throw new IllegalArgumentException(
+                    "Idx is not of type IntSetting");
+        }
+
+        setting = (IntSetting)mSettings[idx];
+        return setting.getValue();
     }
 
+    private float getFloatValue(short idx)
+    {
+        FloatSetting setting;
+
+        if(!(mSettings[idx] instanceof FloatSetting))
+        {
+            throw new IllegalArgumentException(
+                    "Idx is not of type FloatSetting");
+        }
+
+        setting = (FloatSetting)mSettings[idx];
+        return setting.getValue();
+    }
+
+    private int getName(short idx)
+    {
+        return mSettings[idx].getNameID();
+    }
+
+
+    private void setValue(int value, short idx)
+    {
+        IntSetting setting;
+
+        if(!(mSettings[idx] instanceof IntSetting))
+        {
+            throw new IllegalArgumentException(
+                    "Idx is not of type IntSetting");
+        }
+
+        setting = (IntSetting)mSettings[idx];
+        setting.setValue(value);
+    }
+
+    private void setValue(float value, short idx)
+    {
+        FloatSetting setting;
+
+        if(!(mSettings[idx] instanceof FloatSetting))
+        {
+            throw new IllegalArgumentException(
+                    "Idx is not of type FloatSetting");
+        }
+
+        setting = (FloatSetting)mSettings[idx];
+        setting.setValue(value);
+    }
 
 // ACCESSORS -----------------------------------------------------------------
 
-    /**
-     * 
-     * @return map width
-     */
-    public int getMapWidth()
+    public final Setting getSetting(short idx)
     {
-        return (int)getValue(MAP_WIDTH_IDX);
+        return mSettings[idx];
     }
 
-    /**
-     * 
-     * @return map height
-     */
-    public int getMapHeight()
+    public int getMapWidthValue()
     {
-        return (int)getValue(MAP_HEIGHT_IDX);
+        return getIntValue(MAP_WIDTH_IDX);
     }
 
-    /**
-     * 
-     * @return initial money
-     */
-    public int getInitialMoney()
+    public int getMapHeightValue()
     {
-        return (int)getValue(INITIAL_MONEY_IDX);
+        return getIntValue(MAP_HEIGHT_IDX);
     }
 
-    /**
-     * 
-     * @return family size
-     */
-    public int getFamilySize()
+    public int getInitialMoneyValue()
     {
-        return mFamilySize;
+        return getIntValue(INITIAL_MONEY_IDX);
     }
 
-    /**
-     * 
-     * @return shop size
-     */
-    public int getShopSize()
+    public int getFamilySizeValue()
     {
-        return mShopSize;
+        return getIntValue(FAMILY_SIZE_IDX);
     }
 
-
-    /**
-     * 
-     * @return salary
-     */
-    public int getSalary()
+    public int getShopSizeValue()
     {
-        return mSalary;
+        return getIntValue(SHOP_SIZE_IDX);
     }
 
-    /**
-     * 
-     * @return tax rate
-     */
-    public float getTaxRate()
+    public int getSalaryValue()
     {
-        return mTaxRate;
+        return getIntValue(SALARY_IDX);
     }
 
-    /**
-     * 
-     * @return service cost
-     */
-    public int getServiceCost()
+    public float getTaxRateValue()
     {
-        return mServiceCost;
+        return getFloatValue(TAX_RATE_IDX);
     }
 
-    /**
-     * 
-     * @return house building cost
-     */
-    public int getHouseBuildingCost()
+    public int getServiceCostValue()
     {
-        return mHouseBuildingCost;
+        return getIntValue(SERVICE_COST_IDX);
     }
 
-    /**
-     * 
-     * @return comm building cost
-     */
-    public int getCommBuildingCost()
+    public int getHouseBuildingCostValue()
     {
-        return mCommBuildingCost;
+        return getIntValue(HOUSE_BUILDING_COST_IDX);
     }
 
-    /**
-     * 
-     * @return road building cost
-     */
-    public int getRoadBuildingCost()
+    public int getCommBuildingCostValue()
     {
-        return mRoadBuildingCost;
+        return getIntValue(COMM_BUILDING_COST_IDX);
+    }
+
+    public int getRoadBuildingCostValue()
+    {
+        return getIntValue(ROAD_BUILDING_COST_IDX);
     }
 
 // MUTATORS ------------------------------------------------------------------
 
-    /**
-     * sets the map width
-     * 
-     * @param mapWidth parameter to set the width to
-     * @throws IllegalArgumentException width is out of the max or min width
-     */
     public void setMapWidth(int mapWidth) throws IllegalArgumentException
     {
-        if (withinInclusive(mapWidth, MIN_MAP_WIDTH, MAX_MAP_WIDTH))
-        {
-            mMapWidth = mapWidth;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Width out of range");
-        }
+        setValue(mapWidth, MAP_WIDTH_IDX);
     }
 
-    /**
-     * Sets the map height
-     * 
-     * @param mapHeight Parameter to set the map hieght to
-     * @throws IllegalArgumentException Map height out of the max and min 
-     * bounds
-     */
+
     public void setMapHeight(int mapHeight) throws IllegalArgumentException
     {
-        if (withinInclusive(mapHeight, MIN_MAP_HEIGHT, MAX_MAP_HEIGHT))
-        {
-            mMapHeight = mapHeight;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Height out of range");
-        }
+        setValue(mapHeight, MAP_HEIGHT_IDX);
     }
 
-    /**
-     * Sets the InitalMoney
-     *
-     * @param initialMoney Parameter to set the inital money to
-     * @throws IllegalArgumentException if the intial money is out of range
-     */
     public void setInitialMoney(int initialMoney)
             throws IllegalArgumentException
     {
-        if (withinInclusive(initialMoney,
-                            MIN_INITIAL_MONEY, MAX_INITIAL_MONEY))
-        {
-            mInitialMoney = initialMoney;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Initial money out of range");
-        }
+        setValue(initialMoney, INITIAL_MONEY_IDX);
     }
 
     public void setFamilySize(int familySize) throws IllegalArgumentException
     {
-        if (withinInclusive(familySize, MIN_FAMILY_SIZE, MAX_FAMILY_SIZE))
-        {
-            mFamilySize = familySize;
-        }
-        else
-        {
-            throw new IllegalArgumentException("family size out of range");
-        }
-
+        setValue(familySize, FAMILY_SIZE_IDX);
     }
 
     public void setShopSize(int shopSize) throws IllegalArgumentException
     {
-        if (withinInclusive(shopSize, MIN_SHOP_SIZE, MAX_SHOP_SIZE))
-        {
-            mShopSize = shopSize;
-        }
-        else
-        {
-            throw new IllegalArgumentException("shop size out of range");
-        }
+        setValue(shopSize, SHOP_SIZE_IDX);
     }
 
     public void setSalary(int salary) throws IllegalArgumentException
     {
-        if (withinInclusive(salary, MIN_SALARY, MAX_SALARY))
-        {
-            mSalary = salary;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Salary out of range");
-        }
+        setValue(salary, SALARY_IDX);
     }
 
     public void setTaxRate(float taxRate) throws IllegalArgumentException
     {
-        if (taxRate >= MIN_TAX_RATE && taxRate <= MAX_TAX_RATE)
-        {
-            mTaxRate = taxRate;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Tax rate out of range");
-        }
+        setValue(taxRate, TAX_RATE_IDX);
     }
 
     public void setServiceCost(int serviceCost)
             throws IllegalArgumentException
     {
-        if (withinInclusive(serviceCost, MIN_SERVICE_COST, MAX_SERVICE_COST))
-        {
-            mServiceCost = serviceCost;
-        }
-        else
-        {
-            throw new IllegalArgumentException("Service cost out of range");
-        }
+        setValue(serviceCost, SERVICE_COST_IDX);
     }
 
     public void setHouseBuildingCost(int houseBuildingCost)
             throws IllegalArgumentException
     {
-        if (withinInclusive(houseBuildingCost,
-                            MIN_HOUSE_BUILDING_COST, MAX_HOUSE_BUILDING_COST))
-        {
-            mHouseBuildingCost = houseBuildingCost;
-        }
-        else
-        {
-            throw new IllegalArgumentException(
-                    "house building cost out of range");
-        }
+        setValue(houseBuildingCost, HOUSE_BUILDING_COST_IDX);
     }
 
     public void setCommBuildingCost(int commBuildingCost)
             throws IllegalArgumentException
     {
-        if (withinInclusive(commBuildingCost,
-                            MIN_COMM_BUILDING_COST, MAX_COMM_BUILDING_COST))
-        {
-            mCommBuildingCost = commBuildingCost;
-        }
-        else
-        {
-            throw new IllegalArgumentException(
-                    "comm building cost is out of range");
-        }
+        setValue(commBuildingCost, COMM_BUILDING_COST_IDX);
     }
 
     public void setRoadBuildingCost(int roadBuildingCost)
             throws IllegalArgumentException
     {
-        if (withinInclusive(roadBuildingCost,
-                            MIN_ROAD_BUILDING_COST, MAX_ROAD_BUILDING_COST))
-        {
-            mRoadBuildingCost = roadBuildingCost;
-        }
-        else
-        {
-            throw new IllegalArgumentException(
-                    "road building cost out of range");
-        }
+        setValue(roadBuildingCost, ROAD_BUILDING_COST_IDX);
     }
 }
