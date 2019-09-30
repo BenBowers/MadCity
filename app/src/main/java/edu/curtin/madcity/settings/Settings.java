@@ -1,83 +1,9 @@
-package edu.curtin.madcity;
+package edu.curtin.madcity.settings;
+
+import edu.curtin.madcity.R;
 
 public class Settings
 {
-    private abstract class Setting
-    {
-        private int mNameID;
-
-        public Setting(int nameID)
-        {
-            mNameID = nameID;
-        }
-
-        public int getNameID()
-        {
-            return mNameID;
-        }
-    }
-
-    private class IntSetting extends Setting
-    {
-        private int mValue;
-        public final int MAX;
-        public final int MIN;
-
-        public IntSetting(int nameID, int max, int min)
-        {
-            super(nameID);
-            MAX = max;
-            MIN = min;
-        }
-
-        public int getValue()
-        {
-            return mValue;
-        }
-
-        public void setValue(int value)
-        {
-            if(value >= MIN && value <= MAX)
-            {
-                mValue = value;
-            }
-            else
-            {
-                throw new IllegalArgumentException("out of range");
-            }
-        }
-    }
-
-    private class FloatSetting extends Setting
-    {
-        private float mValue;
-        public final float MAX;
-        public final float MIN;
-
-        public FloatSetting(int nameID, float max, float min)
-        {
-            super(nameID);
-            MAX = max;
-            MIN = min;
-        }
-
-        public float getValue()
-        {
-            return mValue;
-        }
-
-        public void setValue(float value)
-        {
-            if(value >= MIN && value <= MAX)
-            {
-                mValue = value;
-            }
-            else
-            {
-                throw new IllegalArgumentException("out of range");
-            }
-        }
-    }
 
 // CLASS CONSTANTS -----------------------------------------------------------
 
@@ -151,7 +77,7 @@ public class Settings
     private Setting[] mSettings = new Setting[]
     {
         new IntSetting(R.string.settings_map_width,
-                      MAX_MAP_WIDTH, MIN_MAP_WIDTH),
+                       MAX_MAP_WIDTH, MIN_MAP_WIDTH),
         new IntSetting(R.string.settings_map_height,
                       MAX_MAP_HEIGHT, MIN_MAP_HEIGHT),
         new IntSetting(R.string.settings_initial_money,
@@ -224,6 +150,11 @@ public class Settings
         setRoadBuildingCost(DEFAULT_ROAD_BUILDING_COST);
     }
 
+    public int getSize()
+    {
+        return mSettings.length;
+    }
+
 // PRIVATE METHODS -----------------------------------------------------------
 
     private int getIntValue(short idx)
@@ -290,7 +221,7 @@ public class Settings
 
 // ACCESSORS -----------------------------------------------------------------
 
-    public final Setting getSetting(short idx)
+    public final Setting getSetting(int idx)
     {
         return mSettings[idx];
     }
