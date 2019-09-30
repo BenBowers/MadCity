@@ -20,12 +20,6 @@ public class NumberPickerFragment extends DialogFragment
 {
     private static final String ARG_SETTING = "setting";
 
-    public static final String VALUE_EXTRA =
-            "edu.curtin.madcity.NumberPickerFragment.value";
-    public static final String LOC_EXTRA =
-            "edu.curtin.madcity.NumberPickerFragment.loc";
-
-
     private NumberPicker mNumberPicker;
     private IntSetting mSetting;
 
@@ -40,7 +34,7 @@ public class NumberPickerFragment extends DialogFragment
         return fragment;
     }
 
-    private NumberPickerFragment() {}
+    private NumberPickerFragment() {} // only be made with new Instance
 
     @NonNull
     @Override
@@ -48,8 +42,6 @@ public class NumberPickerFragment extends DialogFragment
     {
 
         mSetting = (IntSetting) getArguments().getSerializable(ARG_SETTING);
-
-
 
         View view = LayoutInflater.from(getActivity())
                 .inflate(R.layout.setting_dialog_picker, null);
@@ -72,6 +64,4 @@ public class NumberPickerFragment extends DialogFragment
         getTargetFragment().onActivityResult(getTargetRequestCode(),
                                              RESULT_OK, null);
     }
-
-
 }
