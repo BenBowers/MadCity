@@ -1,6 +1,8 @@
 package edu.curtin.madcity.settings;
 
-public abstract class Setting
+import java.io.Serializable;
+
+public abstract class Setting implements Serializable
 {
     private int mNameID;
 

@@ -191,7 +191,7 @@ public class Settings
     }
 
 
-    private void setValue(int value, short idx)
+    public void setValue(int value, short idx)
     {
         IntSetting setting;
 
