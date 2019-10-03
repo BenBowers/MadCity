@@ -2,7 +2,7 @@ package edu.curtin.madcity;
 
 import android.graphics.Bitmap;
 
-import edu.curtin.madcity.Structure.Structure;
+import edu.curtin.madcity.structure.Structure;
 
 public class MapElement
 {

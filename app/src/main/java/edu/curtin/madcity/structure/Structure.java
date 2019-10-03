@@ -1,4 +1,4 @@
-package edu.curtin.madcity.Structure;
+package edu.curtin.madcity.structure;
 
 public abstract class Structure
 {
