@@ -2,6 +2,12 @@
     <string name="app_name">MadCity</string>
 
 
+    <!-- Title Screen -->
+    <string name="settings_button">Settings</string>
+    <string name="new_game_button">New Game</string>
+    <string name="resume_game_button">Resume Game</string>
+
+    <!-- Status bar -->
     <string name="status_time">Time Elapsed</string>
     <string name="status_money">Money</string>
     <string name="status_population">Population</string>

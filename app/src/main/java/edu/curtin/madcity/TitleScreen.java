@@ -1,7 +1,6 @@
 package edu.curtin.madcity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,41 +15,31 @@ public class TitleScreen extends AppCompatActivity
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
-    private Button mStartButton;
+    private Button mResumeGameButton;
+    private Button mNewGameButton;
     private Button mSettingsButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
-        Log.d(TAG, "onCreate() called.");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title_screen);
-
-        // Get references of the buttons
-        mStartButton = findViewById(R.id.start_button);
+        mNewGameButton = findViewById(R.id.start_button);
         mSettingsButton = findViewById(R.id.settings_button);
 
-        // Set listeners for buttons
-
-        mStartButton.setOnClickListener((View v) -> startButtonOnClick());
-
-        mSettingsButton.setOnClickListener(
-                (View v) -> settingsButtonOnClick());
+        mNewGameButton.setOnClickListener(this::newGameOnClick);
+        mSettingsButton.setOnClickListener(this::settingsOnClick);
 
     }
 
-// PRIVATE METHODS -----------------------------------------------------------
-
-    private void startButtonOnClick()
+    private void newGameOnClick(View v)
     {
-        Log.d(TAG, "startButtonOnClick() called");
-        startActivity(Game.getIntent(TitleScreen.this));
+        startActivity(MapActivity.newIntent(TitleScreen.this));
     }
 
-    private void settingsButtonOnClick()
+    private void settingsOnClick(View v)
     {
-        Log.d(TAG, "settingsButtonOnClick() called");
-        startActivity(SettingsMenu.getIntent(TitleScreen.this));
+        startActivity(SettingsActivity.newIntent(TitleScreen.this));
     }
 
 }//TitleScreen.class
