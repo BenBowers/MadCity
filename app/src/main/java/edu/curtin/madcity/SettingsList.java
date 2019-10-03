@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -66,6 +71,16 @@ public class SettingsList extends Fragment
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.setting_menu, menu);
+
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(
+                R.string.settings_button);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  @Nullable Intent data)
     {
@@ -83,11 +98,37 @@ public class SettingsList extends Fragment
 
     }
 
-// PRIVATE METHODS -----------------------------------------------------------
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        boolean bool;
+
+        if (item.getItemId() == R.id.setting_menu_default)
+        {
+            defaultOnClick();
+            bool = true;
+        }
+        else
+        {
+            bool = super.onOptionsItemSelected(item);
+        }
+
+        return bool;
+    }
+
+    // PRIVATE METHODS -----------------------------------------------------------
 
     private void updateUI()
     {
         mAdaptor.notifyDataSetChanged();
+    }
+
+    private void defaultOnClick()
+    {
+        mSettings.setDefault();
+        Toast.makeText(getContext(), R.string.default_settings_toast,
+                       Toast.LENGTH_SHORT).show();
+        updateUI();
     }
 
 
@@ -162,10 +203,13 @@ public class SettingsList extends Fragment
             {
                 IntSetting setting = (IntSetting) mSetting;
                 FragmentManager fragmentManager = getFragmentManager();
-                NumberPickerFragment dialog =
-                        NumberPickerFragment.newInstance(setting);
-                dialog.setTargetFragment(SettingsList.this, REQUEST_INT);
-                dialog.show(fragmentManager, DIALOG_NUMBER);
+                if( fragmentManager != null)
+                {
+                    NumberPickerFragment dialog =
+                            NumberPickerFragment.newInstance(setting);
+                    dialog.setTargetFragment(SettingsList.this, REQUEST_INT);
+                    dialog.show(fragmentManager, DIALOG_NUMBER);
+                }
             }
 
         }
