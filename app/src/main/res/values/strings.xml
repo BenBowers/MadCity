@@ -7,6 +7,12 @@
     <string name="new_game_button">New Game</string>
     <string name="resume_game_button">Resume Game</string>
 
+    <!-- Selector -->
+    <string name="selector_remove">Destroy</string>
+    <string name="selector_add">Build</string>
+    <string name="selector_inspect">Details</string>
+    <string name="selector_touch">Touch</string>
+
     <!-- Status bar -->
     <string name="status_time">Time Elapsed</string>
     <string name="status_money">Money</string>
@@ -14,7 +20,6 @@
     <string name="status_employment">Employment</string>
 
     <!--  Settings menu strings -->
-
     <string name="default_settings">Default Settings</string>
     <string name="default_settings_toast">Default settings restored</string>
 
