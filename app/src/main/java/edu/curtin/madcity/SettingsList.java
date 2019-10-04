@@ -37,7 +37,7 @@ public class SettingsList extends Fragment
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
-    private Settings mSettings = new Settings(); //TODO: pass gameinstances
+    private static Settings SETTINGS = GameData.getInstance().mSettings;
     // settings
 
 // OVERRIDE METHODS ----------------------------------------------------------
@@ -126,7 +126,7 @@ public class SettingsList extends Fragment
 
     private void defaultOnClick()
     {
-        mSettings.setDefault();
+        SETTINGS.setDefault();
         Toast.makeText(getContext(), R.string.default_settings_toast,
                        Toast.LENGTH_SHORT).show();
         updateUI();
@@ -157,14 +157,14 @@ public class SettingsList extends Fragment
                                      int position)
         {
             Log.d(TAG, "onBindViewHolder() called");
-            holder.bindSetting(mSettings.getSetting(position));
+            holder.bindSetting(SETTINGS.getSetting(position));
         }// onBindViewHolder()
 
         @Override
         public int getItemCount()
         {
             Log.d(TAG, "getItemCount() called");
-            return mSettings.getSize();
+            return SETTINGS.getSize();
         }// getItemCount()
     }// SettingsAdaptor.class
 
