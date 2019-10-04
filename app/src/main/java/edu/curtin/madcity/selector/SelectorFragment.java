@@ -46,6 +46,7 @@ public class SelectorFragment extends Fragment
 
     private RecyclerView mRecyclerView;
     private SelectorAdaptor mAdapter = new SelectorAdaptor();
+    private int mSelectedPos = -1;
 
 // CONSTRUCTORS --------------------------------------------------------------
 
@@ -86,21 +87,35 @@ public class SelectorFragment extends Fragment
     private void touchClicked(View view)
     {
         Log.d(TAG, "touchClicked() called");
+        mSelectedPos = 0;
+        updateUI();
+
     }
 
     private void inspectClicked(View view)
     {
         Log.d(TAG, "inspectClicked() called");
+        mSelectedPos  = 1;
+        updateUI();
     }
 
     private void addClicked(View view)
     {
         Log.d(TAG, "addClicked() called");
+        mSelectedPos = 2;
+        updateUI();
     }
 
     private void removeClicked(View view)
     {
         Log.d(TAG, "removeClicked() called");
+        mSelectedPos = 3;
+        updateUI();
+    }
+
+    private void updateUI()
+    {
+        mAdapter.notifyDataSetChanged();
     }
 
 // PRIVATE CLASSES -----------------------------------------------------------
@@ -128,6 +143,17 @@ public class SelectorFragment extends Fragment
         {
             Log.d(TAG, "onBindViewHolder() called");
             holder.bind(ITEMS[position]);
+
+            if(position == mSelectedPos)
+            {
+                holder.itemView.setBackgroundColor(
+                        getResources().getColor(R.color.selected, null));
+            }
+            else
+            {
+                holder.itemView.setBackgroundColor(
+                        getResources().getColor(R.color.trans, null));
+            }
         }
 
         @Override

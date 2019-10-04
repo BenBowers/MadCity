@@ -6,6 +6,7 @@
 
     <color name="money_gold">#F9A825</color>
     <color name="status_bar">#353535</color>
-
+    <color name="trans">#00000000 </color>
+    <color name="selected">#804285F4</color>
     <color name="map_background">#2E7D32</color>
 </resources>
