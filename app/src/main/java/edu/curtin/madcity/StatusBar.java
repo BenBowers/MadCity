@@ -1,6 +1,7 @@
 package edu.curtin.madcity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,25 +13,38 @@ import androidx.fragment.app.Fragment;
 
 public class StatusBar extends Fragment
 {
-    final GameData mGameData = GameData.getInstance();
 
-    TextView mTimeTextView;
-    TextView mPopulationTextView;
-    TextView mEmploymentTextView;
-    TextView mMoneyTextView;
-    TextView mRateTextView;
+// CLASS CONSTANTS -----------------------------------------------------------
+
+    public static final String TAG = "StatusBar";
+    public static final GameData GAME_DATA = GameData.getInstance();
+
+// PRIVATE CLASS FIELDS ------------------------------------------------------
+
+    private TextView mTimeTextView;
+    private TextView mPopulationTextView;
+    private TextView mEmploymentTextView;
+    private TextView mMoneyTextView;
+    private TextView mRateTextView;
+
+// PUBLIC METHODS ------------------------------------------------------------
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreate() called");
         super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState)
     {
-        View v = inflater.inflate(R.layout.status_bar, container);
+        Log.d(TAG, "onCreateView() called");
+        // Inflate the layout
+        View v = inflater.inflate(R.layout.status_bar, container, false);
 
         // Assign class fields from view
         mTimeTextView = v.findViewById(R.id.status_time);
@@ -46,10 +60,13 @@ public class StatusBar extends Fragment
 
     public void update(int rate)
     {
-        mTimeTextView.setText(mGameData.getGameTime());
-        mMoneyTextView.setText(mGameData.getMoney());
+        /*
+        mTimeTextView.setText(GAME_DATA.getGameTime());
+        mMoneyTextView.setText(GAME_DATA.getMoney());
         mRateTextView.setText(rate);
-        mPopulationTextView.setText(mGameData.getPopulation());
-        mEmploymentTextView.setText(mGameData.getEmployment());
+        mPopulationTextView.setText(GAME_DATA.getPopulation());
+        mEmploymentTextView.setText(GAME_DATA.getEmployment());
+        */
     }
-}
+
+}// StatusBar

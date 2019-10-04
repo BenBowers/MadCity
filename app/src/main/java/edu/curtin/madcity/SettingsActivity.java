@@ -21,4 +21,5 @@ public class SettingsActivity extends SingleFragmentActivity
         Intent intent = new Intent(packageContext, SettingsActivity.class);
         return intent;
     }
+
 }

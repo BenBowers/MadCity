@@ -71,7 +71,8 @@ public class SettingsList extends Fragment
     }
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater)
+    public void onCreateOptionsMenu(@NonNull Menu menu,
+                                    @NonNull MenuInflater inflater)
     {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.setting_menu, menu);
@@ -149,7 +150,7 @@ public class SettingsList extends Fragment
             View view = layoutInflater.inflate(R.layout.setting,
                                                parent, false);
             return new SettingsViewHolder(view);
-        }
+        }// SettingsViewHolder()
 
         @Override
         public void onBindViewHolder(@NonNull SettingsViewHolder holder,
@@ -157,15 +158,15 @@ public class SettingsList extends Fragment
         {
             Log.d(TAG, "onBindViewHolder() called");
             holder.bindSetting(mSettings.getSetting(position));
-        }
+        }// onBindViewHolder()
 
         @Override
         public int getItemCount()
         {
             Log.d(TAG, "getItemCount() called");
             return mSettings.getSize();
-        }
-    }
+        }// getItemCount()
+    }// SettingsAdaptor.class
 
     private class SettingsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
@@ -182,15 +183,14 @@ public class SettingsList extends Fragment
             mValueTextView =
                     itemView.findViewById(R.id.setting_value);
             itemView.setOnClickListener(this);
-        }
+        }// SettingsViewHolder()
 
         public void bindSetting(Setting setting)
         {
             mSetting = setting;
             mNameTextView.setText(mSetting.getNameID());
             mValueTextView.setText(mSetting.getStringValue());
-
-        }
+        }// bindSetting()
 
         @Override
         public void onClick(View view)
@@ -211,8 +211,6 @@ public class SettingsList extends Fragment
                     dialog.show(fragmentManager, DIALOG_NUMBER);
                 }
             }
-
-        }
-    }
-
-}
+        }// onClick()
+    }// SettingsViewHolder.class
+}// SettingsList.class
