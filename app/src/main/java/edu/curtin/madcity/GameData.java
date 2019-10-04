@@ -3,11 +3,24 @@ package edu.curtin.madcity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.settings.Settings;
 
 public class GameData
 {
+    private class Task extends TimerTask
+    {
+
+        @Override
+        public void run()
+        {
+            mGameTime++;
+        }
+    }
+
     private static final GameData ourInstance = new GameData();
 
     public static GameData getInstance()
@@ -16,16 +29,22 @@ public class GameData
     }
 
     SQLiteDatabase db;
+    Timer TIMER = new Timer();
+    Task mTask = new Task();
 
-    Settings mSettings;
+    private StatusBar mStatusBar;
+
+
+    Settings SETTINGS = new Settings();
     MapElement[][] mMap;
-    int mMoney = 50;
+
+    private int mMoney = Settings.INITIAL_MONEY.getValue();
     int mGameTime = 10;
     int population = 100;
 
     private GameData()
     {
-        mSettings = new Settings();
+        TIMER.schedule(mTask, 0, 1000);
     }
 
     private void load(Context context)
@@ -54,4 +73,15 @@ public class GameData
     {
         return 0; //TODO: write employment calculation
     }
+
+    public void increaseTime()
+    {
+        mGameTime++;
+    }
+
+    public void setStatusBar(StatusBar statusBar)
+    {
+        mStatusBar = statusBar;
+    }
+
 }

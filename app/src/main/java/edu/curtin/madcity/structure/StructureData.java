@@ -2,10 +2,10 @@ package edu.curtin.madcity.structure;
 
 import edu.curtin.madcity.R;
 
-class StructureData
+public class StructureData
 {
     private static final StructureData ourInstance = new StructureData();
-    static StructureData getInstance()
+    public static StructureData getInstance()
     {
         return ourInstance;
     }

@@ -37,7 +37,7 @@ public class SettingsList extends Fragment
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
-    private static Settings SETTINGS = GameData.getInstance().mSettings;
+    private static Settings SETTINGS = GameData.getInstance().SETTINGS;
     // settings
 
 // OVERRIDE METHODS ----------------------------------------------------------
