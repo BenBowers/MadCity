@@ -41,5 +41,33 @@
 
     <!-- Structure Selector -->
     <string name="structure_selector_title">Structures</string>
+    
+    <!-- Structures -->
+    <string name="residential_title">Residential</string>
+    <string name="commercial_title">Commercial</string>
+    <string name="road_title">Road</string>
 
+     <string name="ic_building1">Farm house</string>
+     <string name="ic_building2">Cottage</string>
+     <string name="ic_building3">Barn</string>
+     <string name="ic_building4">House</string>
+     <string name="ic_building5">Factory</string>
+     <string name="ic_building6">Mechanic</string>
+     <string name="ic_building7">Church</string>
+     <string name="ic_building8">Store</string>
+     <string name="ic_road_ns">Road</string>
+     <string name="ic_road_ew">Road</string>
+     <string name="ic_road_nsew">Road</string>
+     <string name="ic_road_ne">Road</string>
+     <string name="ic_road_nw">Road</string>
+     <string name="ic_road_se">Road</string>
+     <string name="ic_road_sw">Road</string>
+     <string name="ic_road_n">Road</string>
+     <string name="ic_road_e">Road</string>
+     <string name="ic_road_s">Road</string>
+     <string name="ic_road_w">Road</string>
+     <string name="ic_road_nse">Road</string>
+     <string name="ic_road_nsw">Road</string>
+     <string name="ic_road_new">Road</string>
+     <string name="ic_road_sew">Road</string>
 </resources>

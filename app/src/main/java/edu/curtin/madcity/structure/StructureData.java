@@ -10,42 +10,45 @@ public class StructureData
         return ourInstance;
     }
 
-    private static final Residential[] RESIDENTIAL = new Residential[]
-            {
-                    new Residential(R.drawable.ic_building1, "building 1"),
-                    new Residential(R.drawable.ic_building2, "building 2"),
-                    new Residential(R.drawable.ic_building3, "building 3"),
-                    new Residential(R.drawable.ic_building4, "building 4")
-            };
+    public static final Residential[] RESIDENTIAL = new Residential[] {
+            new Residential(R.drawable.ic_building1, R.string.ic_building1),
+            new Residential(R.drawable.ic_building2, R.string.ic_building2),
+            new Residential(R.drawable.ic_building3, R.string.ic_building3),
+            new Residential(R.drawable.ic_building4, R.string.ic_building4)
+    };
 
-    private static final Commercial[] COMMERCIAL = new Commercial[]
-            {
-                    new Commercial(R.drawable.ic_building5, "building 5"),
-                    new Commercial(R.drawable.ic_building6, "building 6"),
-                    new Commercial(R.drawable.ic_building7, "building 7"),
-                    new Commercial(R.drawable.ic_building8, "building 8")
+    public static final Commercial[] COMMERCIAL = new Commercial[] {
+            new Commercial(R.drawable.ic_building5, R.string.ic_building5),
+            new Commercial(R.drawable.ic_building6, R.string.ic_building6),
+            new Commercial(R.drawable.ic_building7, R.string.ic_building7),
+            new Commercial(R.drawable.ic_building8, R.string.ic_building8)
+    };
 
-            };
+    public static final Road[] ROADS = new Road[] {
+            new Road(R.drawable.ic_road_ns, R.string.ic_road_ns),
+            new Road(R.drawable.ic_road_ew, R.string.ic_road_ew),
+            new Road(R.drawable.ic_road_nsew, R.string.ic_road_nsew),
+            new Road(R.drawable.ic_road_ne, R.string.ic_road_ne),
+            new Road(R.drawable.ic_road_nw, R.string.ic_road_nw),
+            new Road(R.drawable.ic_road_se, R.string.ic_road_se),
+            new Road(R.drawable.ic_road_sw, R.string.ic_road_sw),
+            new Road(R.drawable.ic_road_n, R.string.ic_road_n),
+            new Road(R.drawable.ic_road_e, R.string.ic_road_e),
+            new Road(R.drawable.ic_road_s, R.string.ic_road_s),
+            new Road(R.drawable.ic_road_w, R.string.ic_road_w),
+            new Road(R.drawable.ic_road_nse, R.string.ic_road_nse),
+            new Road(R.drawable.ic_road_nsw, R.string.ic_road_nsw),
+            new Road(R.drawable.ic_road_new, R.string.ic_road_new),
+            new Road(R.drawable.ic_road_sew, R.string.ic_road_sew)
+    };
 
-    private static final Road[] ROADS = new Road[]
-            {
-                    new Road(R.drawable.ic_road_ns, "Straight"),
-                    new Road(R.drawable.ic_road_ew, "Straight"),
-                    new Road(R.drawable.ic_road_nsew, "Cross"),
-                    new Road(R.drawable.ic_road_ne, "Corner"),
-                    new Road(R.drawable.ic_road_nw, "Corner"),
-                    new Road(R.drawable.ic_road_se, "Corner"),
-                    new Road(R.drawable.ic_road_sw, "Corner"),
-                    new Road(R.drawable.ic_road_n, "Turn"),
-                    new Road(R.drawable.ic_road_e, "Turn"),
-                    new Road(R.drawable.ic_road_s, "Turn"),
-                    new Road(R.drawable.ic_road_w, "Turn"),
-                    new Road(R.drawable.ic_road_nse, "T junction"),
-                    new Road(R.drawable.ic_road_nsw, "T junction"),
-                    new Road(R.drawable.ic_road_new, "T junction"),
-                    new Road(R.drawable.ic_road_sew, "T junction")
-            };
-
+    public static final Structure[] TYPES = new Structure[] {
+            new Residential(R.drawable.ic_building1,
+                            R.string.residential_title),
+            new Commercial(R.drawable.ic_building5,
+                           R.string.commercial_title),
+            new Road(R.drawable.ic_road_ew, R.string.road_title)
+    };
 
     private StructureData()
     {

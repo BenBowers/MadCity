@@ -1,8 +1,8 @@
 package edu.curtin.madcity.structure;
 
-public final class Residential extends Structure
+public class Residential extends Structure
 {
-    public Residential(int drawableId, String name)
+    public Residential(int drawableId, int name)
     {
         super(drawableId, name);
     }

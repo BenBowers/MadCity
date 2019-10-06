@@ -3,9 +3,9 @@ package edu.curtin.madcity.structure;
 public abstract class Structure
 {
     private final int mDrawableId;
-    private String mName;
+    private int mName;
 
-    public Structure(int drawableId, String name)
+    public Structure(int drawableId, int name)
     {
         mDrawableId = drawableId;
         mName = name;
@@ -16,7 +16,7 @@ public abstract class Structure
         return mDrawableId;
     }
 
-    public String getName()
+    public int getName()
     {
         return mName;
     }
