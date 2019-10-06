@@ -1,4 +1,4 @@
-package edu.curtin.madcity.selector;
+package edu.curtin.madcity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import edu.curtin.madcity.R;
 
 public class SelectorFragment extends Fragment
 {
