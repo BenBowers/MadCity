@@ -24,16 +24,19 @@ import static android.app.Activity.RESULT_OK;
 
 public class StructureSelector extends DialogFragment
 {
+// CLASS CONSTANTS -----------------------------------------------------------
+
     private static final String TAG = "StructureSelector";
     public static final String STRUCTURE_EXTRA = "edu.curtin.madcity" +
             ".StructureSelector.structure";
 
+// CLASS FIELDS --------------------------------------------------------------
+
     private final Structure[] ARR;
 
-    private RecyclerView mRecyclerView;
     private StructureAdaptor mStructureAdaptor = new StructureAdaptor();
-    private Structure mSelected;
-    private View mView;
+
+// CONSTRUCTORS --------------------------------------------------------------
 
     public StructureSelector()
     {
@@ -45,6 +48,8 @@ public class StructureSelector extends DialogFragment
         ARR = arr;
     }
 
+// OVERRIDE METHODS ----------------------------------------------------------
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,17 +60,19 @@ public class StructureSelector extends DialogFragment
 
         View v = getLayoutInflater().inflate(R.layout.structure_selector,
                                              container);
-        mRecyclerView = v.findViewById(R.id.structure_selector_recycler_view);
-        mRecyclerView.setLayoutManager
+        RecyclerView recyclerView =
+                v.findViewById(R.id.structure_selector_recycler_view);
+        recyclerView.setLayoutManager
                 (new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mStructureAdaptor);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(mRecyclerView.getContext(),
+        recyclerView.setAdapter(mStructureAdaptor);
+        recyclerView.addItemDecoration(
+                new DividerItemDecoration(recyclerView.getContext(),
                                           DividerItemDecoration.HORIZONTAL));
 
         return v;
     }
 
+// PRIVATE CLASSES -----------------------------------------------------------
 
     private class StructureAdaptor
             extends RecyclerView.Adapter<StructureHolder>
@@ -96,15 +103,18 @@ public class StructureSelector extends DialogFragment
         {
             return ARR.length;
         }
-    }
+    }// StructureAdaptor.class
 
     private class StructureHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener
     {
-        private Structure mStructure;
+    // PRIVATE CLASS FIELDS --------------------------------------------------
+
         private int mPos;
         private ImageView mImageView;
         private TextView mTextView;
+
+     // CONSTRUCTOR ----------------------------------------------------------
 
         public StructureHolder(@NonNull View itemView)
         {
@@ -115,12 +125,14 @@ public class StructureSelector extends DialogFragment
             itemView.setClickable(false);
         }
 
+     // PUBLIC METHODS -------------------------------------------------------
+
         public void bind(int pos)
         {
             mPos = pos;
-            mStructure = ARR[pos];
-            mImageView.setImageResource(mStructure.getDrawableId());
-            mTextView.setText(mStructure.getName());
+            Structure structure = ARR[pos];
+            mImageView.setImageResource(structure.getDrawableId());
+            mTextView.setText(structure.getName());
 
             itemView.setOnClickListener(this);
             itemView.setClickable(true);
@@ -132,7 +144,7 @@ public class StructureSelector extends DialogFragment
             Log.d(TAG, "Structure Selected");
             Fragment target = getTargetFragment();
 
-            if(target != null)
+            if (target != null)
             {
                 Intent intent = new Intent();
                 intent.putExtra(STRUCTURE_EXTRA, mPos);
@@ -141,5 +153,5 @@ public class StructureSelector extends DialogFragment
                 getDialog().dismiss();
             }
         }
-    }
-}
+    }//StructureHolder.class
+} //StructureSelector.class
