@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,24 +15,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.curtin.madcity.settings.Settings;
 
+
 public class MapGrid extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------
 
     private static final String TAG = "MapGrid";
 
-    /**
-     * Default setting for testing... TODO: Implement with user settings.
-     */
     public final GameData GAME_DATA = GameData.getInstance();
-    public final Settings SETTINGS = GAME_DATA.mSettings;
 
 // CLASS FIELDS --------------------------------------------------------------
 
-    //private  MapElement[][] mMapElements = GAME_DATA.mMap;
+
 
     private RecyclerView mRecyclerView;
     private MapAdaptor mAdaptor;
+    private SelectorFragment mSelector;
+
+
+    public MapGrid(SelectorFragment selectorFragment)
+    {
+        mSelector = selectorFragment;
+    }
 
 // OVERRIDE METHODS ----------------------------------------------------------
 
@@ -67,6 +72,11 @@ public class MapGrid extends Fragment
         mRecyclerView.setAdapter(mAdaptor);
 
         return view;
+    }
+
+    private void updateUI(int pos)
+    {
+        mAdaptor.notifyItemChanged(pos);
     }
 
 
@@ -115,6 +125,8 @@ public class MapGrid extends Fragment
             implements View.OnClickListener
     {
         int pos;
+        MapElement mMapElement;
+        ImageView mImageView;
 
         public MapViewHolder(@NonNull View itemView, ViewGroup parent)
         {
@@ -128,21 +140,50 @@ public class MapGrid extends Fragment
             ViewGroup.LayoutParams lp = itemView.getLayoutParams();
             lp.width = size;
             lp.height = size;
+            /////////////////////////////////////////////////////////////////
+
+            mImageView = itemView.findViewById(R.id.map_cell_structure);
+
 
             itemView.setOnClickListener(this);
-
-
         }
 
         public void bind(int pos)
         {
             this.pos = pos;
+
+            mMapElement = GAME_DATA.mMap[getX()][getY()];
+
+            if(mMapElement != null)
+            {
+                mImageView.setImageResource(
+                        mMapElement.getStructure().getDrawableId());
+            }
+            else
+            {
+                mImageView.setImageResource(R.color.trans);
+            }
         }
 
         @Override
         public void onClick(View view)
         {
             Log.d(TAG, "onClick() called for pos : " + pos);
+
+            if(mSelector.itemClicked(getX(), getY()))
+            {
+                mAdaptor.notifyDataSetChanged();
+            }
+        }
+
+        private int getX()
+        {
+            return pos / Settings.MAP_HEIGHT.getValue();
+        }
+
+        private int getY()
+        {
+            return pos % Settings.MAP_HEIGHT.getValue();
         }
     }
 }

@@ -10,12 +10,16 @@ public class MapElement
     private Bitmap mImage;
     private String mOwnerName;
 
-    public MapElement(Structure structure, Bitmap image, String ownerName)
+    public MapElement(Structure structure)
     {
         mStructure = structure;
-        mImage = image;
-        mOwnerName = ownerName;
     }
+
+    public MapElement()
+    {
+
+    }
+
 
     public Structure getStructure()
     {

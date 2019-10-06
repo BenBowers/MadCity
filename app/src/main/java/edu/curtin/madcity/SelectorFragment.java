@@ -38,11 +38,6 @@ public class SelectorFragment extends Fragment
     private final GameData GAME_DATA = GameData.getInstance();
 
 
-    private static final Structure[][] TYPE_ARR = new Structure[][]{
-            StructureData.RESIDENTIAL,
-            StructureData.COMMERCIAL,
-            StructureData.ROADS
-    };
 
     private static final int RESIDENTIAL_IDX = 0;
     private static final int COMMERCIAL_IDX  = 1;
@@ -68,10 +63,10 @@ public class SelectorFragment extends Fragment
             REMOVE,
     };
 
-    private static final int TOUCH_POS = 0;
-    private static final int INSPECT_POS = 1;
-    private static final int ADD_POS = 2;
-    private static final int REMOVE_POS = 3;
+    public  static final int TOUCH_POS = 0;
+    public static final int INSPECT_POS = 1;
+    public static final int ADD_POS = 2;
+    public static final int REMOVE_POS = 3;
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
@@ -121,7 +116,7 @@ public class SelectorFragment extends Fragment
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK)
+        if(resultCode == RESULT_OK && data != null)
         {
             switch (requestCode)
             {
@@ -155,7 +150,7 @@ public class SelectorFragment extends Fragment
         int resultType;
         StructureSelector selector =
                 new StructureSelector(
-                        TYPE_ARR[type]);
+                        getType(type));
 
         switch (type)
         {
@@ -180,7 +175,63 @@ public class SelectorFragment extends Fragment
     private void structureReceived(int type, Intent data)
     {
         int loc = data.getIntExtra(STRUCTURE_EXTRA, 0);
-        mStructure = TYPE_ARR[type][loc];
+        mStructure = getType(type)[loc];
+    }
+
+    private Structure[] getType(int type)
+    {
+        Structure[] arr;
+        switch (type)
+        {
+            case 0 : arr = StructureData.RESIDENTIAL; break;
+            case 1 : arr = StructureData.COMMERCIAL; break;
+            case 2 : arr = StructureData.ROADS; break;
+            default: throw new IllegalArgumentException("Invalid type");
+        }
+
+        return arr;
+    }
+
+    public boolean itemClicked(int x, int y)
+    {
+        boolean dataChanged = true;
+
+        switch (mSelectedPos)
+        {
+            case TOUCH_POS : dataChanged = false;  break;
+            case INSPECT_POS :
+                dataChanged = false;
+                break;
+            case ADD_POS :
+                if(mStructure != null)
+                {
+                    addStructure(x, y);
+                }
+                break ;
+
+            case REMOVE_POS :
+                removeStructure(x, y); break;
+            default:
+                dataChanged = false;
+                break;
+        }
+
+        return dataChanged;
+    }
+
+    public void addStructure(int x, int y)
+    {
+        if(GAME_DATA.mMap[x][y] == null)
+        {
+            GAME_DATA.mMap[x][y] = new MapElement();
+        }
+
+        GAME_DATA.mMap[x][y].setStructure(mStructure);
+    }
+
+    public void removeStructure(int x, int y)
+    {
+        GAME_DATA.mMap[x][y] = null;
     }
 
     private void touchClicked(View view)

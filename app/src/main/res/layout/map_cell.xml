@@ -5,6 +5,7 @@
     android:background="@drawable/ic_grass3"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <ImageView
         android:id="@+id/map_cell_element"
         android:layout_width="match_parent"
@@ -14,4 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         andorid:srcCompat="@drawable/grid_border" />
+
+    <ImageView
+        android:id="@+id/map_cell_structure"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>
