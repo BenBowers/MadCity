@@ -39,4 +39,7 @@
     <!-- Map -->
     <string name="update_button">Earn cash!</string>
 
+    <!-- Structure Selector -->
+    <string name="structure_selector_title">Structures</string>
+
 </resources>
