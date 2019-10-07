@@ -94,35 +94,35 @@ public class MapGrid extends Fragment
          */
         int a = 0b0000;
 
-        if(x - 1 >= 0) // IF A STRUCTURE IS NORTH OF IT
+        if (x - 1 >= 0) // IF A STRUCTURE IS NORTH OF IT
         {
-            if(structureExists(x - 1, y))
+            if (structureExists(x - 1, y))
             {
-                a = a|0b1000;
+                a = a | 0b1000;
             }
         }
 
-        if(y + 1 < GAME_DATA.mMap[0].length) // IF A STRUCTURE IS EAST
+        if (y + 1 < GAME_DATA.mMap[0].length) // IF A STRUCTURE IS EAST
         {
-            if(structureExists(x, y+1))
+            if (structureExists(x, y+1))
             {
-                a = a|0b0100;
+                a = a | 0b0100;
             }
         }
 
-        if(x + 1 < GAME_DATA.mMap.length) // IF A STRUCTURE IS SOUTH
+        if (x + 1 < GAME_DATA.mMap.length) // IF A STRUCTURE IS SOUTH
         {
-            if(structureExists(x + 1, y))
+            if (structureExists(x + 1, y))
             {
-                a = a|0b0010;
+                a = a | 0b0010;
             }
         }
 
-        if(y - 1 >= 0) // IF A STRUCTURE IS WEST
+        if (y - 1 >= 0) // IF A STRUCTURE IS WEST
         {
-            if(structureExists(x, y - 1))
+            if (structureExists(x, y - 1))
             {
-                a = a|0b0001;
+                a = a | 0b0001;
             }
         }
 
