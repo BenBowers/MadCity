@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.curtin.madcity.settings.Settings;
+import edu.curtin.madcity.structure.Road;
+import edu.curtin.madcity.structure.Structure;
+import edu.curtin.madcity.structure.StructureData;
 
 
 public class MapGrid extends Fragment
@@ -77,6 +80,58 @@ public class MapGrid extends Fragment
     private void updateUI(int pos)
     {
         mAdaptor.notifyItemChanged(pos);
+    }
+
+    private int getRoadDrawable(int x, int y)
+    {
+        /**
+         * This uses a binary or to index the different road drawables
+         * eg .
+         * 0001 = w
+         * 1001 = nw
+         * 1101 = new
+         * ...
+         */
+        int a = 0b0000;
+
+        if(x - 1 >= 0) // IF A STRUCTURE IS NORTH OF IT
+        {
+            if(structureExists(x - 1, y))
+            {
+                a = a|0b1000;
+            }
+        }
+
+        if(y + 1 < GAME_DATA.mMap[0].length) // IF A STRUCTURE IS EAST
+        {
+            if(structureExists(x, y+1))
+            {
+                a = a|0b0100;
+            }
+        }
+
+        if(x + 1 < GAME_DATA.mMap.length) // IF A STRUCTURE IS SOUTH
+        {
+            if(structureExists(x + 1, y))
+            {
+                a = a|0b0010;
+            }
+        }
+
+        if(y - 1 >= 0) // IF A STRUCTURE IS WEST
+        {
+            if(structureExists(x, y - 1))
+            {
+                a = a|0b0001;
+            }
+        }
+
+        return StructureData.ROADS[a - 1].getDrawableId();
+    }
+
+    private boolean structureExists(int x, int y)
+    {
+        return GAME_DATA.mMap[x][y] != null;
     }
 
 
@@ -156,8 +211,16 @@ public class MapGrid extends Fragment
 
             if(mMapElement != null)
             {
-                mImageView.setImageResource(
-                        mMapElement.getStructure().getDrawableId());
+                Structure structure = mMapElement.getStructure();
+                if(structure instanceof Road)
+                {
+                    mImageView.setImageResource(
+                            getRoadDrawable(getX(), getY()));
+                }
+                else
+                {
+                    mImageView.setImageResource(structure.getDrawableId());
+                }
             }
             else
             {
