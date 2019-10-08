@@ -126,13 +126,16 @@ public class MapGrid extends Fragment
             }
         }
 
-        return StructureData.ROADS[a - 1].getDrawableId();
+        return StructureData.ROADS[a];
     }
+
 
     private boolean structureExists(int x, int y)
     {
         return GAME_DATA.mMap[x][y] != null;
     }
+
+
 
 
 // PRIVATE CLASSES -----------------------------------------------------------

@@ -24,22 +24,25 @@ public class StructureData
             new Commercial(R.drawable.ic_building8, R.string.ic_building8)
     };
 
-    public static final Road[] ROADS = new Road[] {
-            new Road(R.drawable.ic_road_n, R.string.ic_road_n), // 1000
-            new Road(R.drawable.ic_road_e, R.string.ic_road_e),   // 0100
-            new Road(R.drawable.ic_road_ne, R.string.ic_road_ne), // 1100
-            new Road(R.drawable.ic_road_s, R.string.ic_road_s),   // 0010
-            new Road(R.drawable.ic_road_ns, R.string.ic_road_ns), // 1010
-            new Road(R.drawable.ic_road_se, R.string.ic_road_se),// 0110
-            new Road(R.drawable.ic_road_nse, R.string.ic_road_nse), // 1110
-            new Road(R.drawable.ic_road_w, R.string.ic_road_w), // 0001
-            new Road(R.drawable.ic_road_nw, R.string.ic_road_nw), // 1001
-            new Road(R.drawable.ic_road_ew, R.string.ic_road_ew), // 0101
-            new Road(R.drawable.ic_road_new, R.string.ic_road_new), // 1101
-            new Road(R.drawable.ic_road_sw, R.string.ic_road_sw), // 0011
-            new Road(R.drawable.ic_road_nsw, R.string.ic_road_nsw), // 1011
-            new Road(R.drawable.ic_road_sew, R.string.ic_road_sew), // 0111
-            new Road(R.drawable.ic_road_nsew, R.string.ic_road_nsew) // 1111
+    public static final Road ROAD = new Road(0, R.string.road_title);
+
+    public static final int[] ROADS = new int[] {
+            R.drawable.ic_road,
+            R.drawable.ic_road_n,   // 1000
+            R.drawable.ic_road_e,   // 0100
+            R.drawable.ic_road_ne,  // 1100
+            R.drawable.ic_road_s,   // 0010
+            R.drawable.ic_road_ns,  // 1010
+            R.drawable.ic_road_se,  // 0110
+            R.drawable.ic_road_nse, // 1110
+            R.drawable.ic_road_w,   // 0001
+            R.drawable.ic_road_nw,  // 1001
+            R.drawable.ic_road_ew,  // 0101
+            R.drawable.ic_road_new, // 1101
+            R.drawable.ic_road_sw,  // 0011
+            R.drawable.ic_road_nsw, // 1011
+            R.drawable.ic_road_sew, // 0111
+            R.drawable.ic_road_nsew // 1111
     };
 
     public static final Structure[] TYPES = new Structure[] {

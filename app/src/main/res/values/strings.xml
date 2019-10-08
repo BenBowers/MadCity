@@ -38,6 +38,7 @@
 
     <!-- Map -->
     <string name="update_button">Earn cash!</string>
+    <string name="structure_warning">Structures can only be placed next to roads</string>
 
     <!-- Structure Selector -->
     <string name="structure_selector_title">Structures</string>

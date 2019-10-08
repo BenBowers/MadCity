@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
 
@@ -33,15 +35,9 @@ public class SelectorFragment extends Fragment
     private static final int REQUEST_STRUCTURE_TYPE = 0;
     private static final int REQUEST_RESIDENTIAL = 1;
     private static final int REQUEST_COMMERCIAL = 2;
-    private static final int REQUEST_ROAD = 3;
 
     private final GameData GAME_DATA = GameData.getInstance();
 
-
-
-    private static final int RESIDENTIAL_IDX = 0;
-    private static final int COMMERCIAL_IDX  = 1;
-    private static final int ROADS_IDX = 2;
 
     private static final SelectorItem TOUCH = new SelectorItem(
             R.string.selector_inspect, R.drawable.selector_inspect);
@@ -63,10 +59,10 @@ public class SelectorFragment extends Fragment
             REMOVE,
     };
 
-    public  static final int TOUCH_POS = 0;
-    public static final int INSPECT_POS = 1;
-    public static final int ADD_POS = 2;
-    public static final int REMOVE_POS = 3;
+    private static final int TOUCH_POS = 0;
+    private static final int INSPECT_POS = 1;
+    private static final int ADD_POS = 2;
+    private static final int REMOVE_POS = 3;
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
@@ -116,26 +112,23 @@ public class SelectorFragment extends Fragment
     {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && data != null)
+        if (resultCode == RESULT_OK && data != null)
         {
             switch (requestCode)
             {
-                case REQUEST_STRUCTURE_TYPE :
+                case REQUEST_STRUCTURE_TYPE:
                     Log.d(TAG, "Structure Type Received");
                     selectStructure(
                             data.getIntExtra(STRUCTURE_EXTRA, 0));
                     break;
-                case REQUEST_RESIDENTIAL :
-                    Log.d(TAG,"Residential received");
-                    structureReceived(RESIDENTIAL_IDX, data);
+                case REQUEST_RESIDENTIAL:
+                    Log.d(TAG, "Residential received");
+                    structureReceived(REQUEST_RESIDENTIAL, data);
                     break;
-                case REQUEST_COMMERCIAL :
+                case REQUEST_COMMERCIAL:
                     Log.d(TAG, "Commercial received");
-                    structureReceived(COMMERCIAL_IDX, data);
+                    structureReceived(REQUEST_COMMERCIAL, data);
                     break;
-                case REQUEST_ROAD :
-                    Log.d(TAG, "Road received");
-                    structureReceived(ROADS_IDX, data);
             }
         }
     }
@@ -147,28 +140,32 @@ public class SelectorFragment extends Fragment
 
     private void selectStructure(int type)
     {
-        int resultType;
-        StructureSelector selector =
-                new StructureSelector(
-                        getType(type));
-
         switch (type)
         {
-            case 0 :
-                resultType = REQUEST_RESIDENTIAL;
+            case 0:
+
+                showList(REQUEST_RESIDENTIAL);
                 break;
-            case 1 :
-                resultType = REQUEST_COMMERCIAL;
+            case 1:
+                showList(REQUEST_COMMERCIAL);
+
                 break;
             case 2:
-                resultType = REQUEST_ROAD;
+                mStructure = StructureData.ROAD;
                 break;
             default:
                 throw new IllegalArgumentException("invalid type");
         }
+    }
+
+    private void showList(int code)
+    {
+        StructureSelector selector =
+                new StructureSelector(
+                        getType(code));
 
         selector.setTargetFragment(SelectorFragment.this,
-                                   resultType);
+                                   code);
         selector.show(getFragmentManager(), DIALOG_NUMBER);
     }
 
@@ -183,10 +180,14 @@ public class SelectorFragment extends Fragment
         Structure[] arr;
         switch (type)
         {
-            case 0 : arr = StructureData.RESIDENTIAL; break;
-            case 1 : arr = StructureData.COMMERCIAL; break;
-            case 2 : arr = StructureData.ROADS; break;
-            default: throw new IllegalArgumentException("Invalid type");
+            case REQUEST_RESIDENTIAL:
+                arr = StructureData.RESIDENTIAL;
+                break;
+            case REQUEST_COMMERCIAL:
+                arr = StructureData.COMMERCIAL;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid type");
         }
 
         return arr;
@@ -198,19 +199,22 @@ public class SelectorFragment extends Fragment
 
         switch (mSelectedPos)
         {
-            case TOUCH_POS : dataChanged = false;  break;
-            case INSPECT_POS :
+            case TOUCH_POS:
                 dataChanged = false;
                 break;
-            case ADD_POS :
-                if(mStructure != null)
+            case INSPECT_POS:
+                dataChanged = false;
+                break;
+            case ADD_POS:
+                if (mStructure != null)
                 {
                     addStructure(x, y);
                 }
-                break ;
+                break;
 
-            case REMOVE_POS :
-                removeStructure(x, y); break;
+            case REMOVE_POS:
+                removeStructure(x, y);
+                break;
             default:
                 dataChanged = false;
                 break;
@@ -221,12 +225,40 @@ public class SelectorFragment extends Fragment
 
     public void addStructure(int x, int y)
     {
-        if(GAME_DATA.mMap[x][y] == null)
+        if(( mStructure instanceof  Road) || hasSurroundingRoad(x, y))
         {
-            GAME_DATA.mMap[x][y] = new MapElement();
+
+            if (GAME_DATA.mMap[x][y] == null)
+            {
+                GAME_DATA.mMap[x][y] = new MapElement();
+            }
+
+            GAME_DATA.mMap[x][y].setStructure(mStructure);
+        }
+        else
+        {
+            Toast.makeText(getContext(), R.string.structure_warning,
+                           Toast.LENGTH_LONG).show();
         }
 
-        GAME_DATA.mMap[x][y].setStructure(mStructure);
+    }
+
+    private boolean hasSurroundingRoad(int x, int y)
+    {
+        return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
+                ((y + 1 < GAME_DATA.mMap[0].length) &&
+                        roadExists(x, y + 1)) ||
+                ((x + 1 < GAME_DATA.mMap.length) &&
+                        roadExists(x + 1, y)) ||
+                ((y - 1 >= 0) && roadExists(x, y - 1));
+    }
+
+
+    private boolean roadExists(int x, int y)
+    {
+        return (GAME_DATA.mMap[x][y] != null) &&
+                (GAME_DATA.mMap[x][y].getStructure() != null) &&
+                (GAME_DATA.mMap[x][y].getStructure() instanceof Road);
     }
 
     public void removeStructure(int x, int y)
