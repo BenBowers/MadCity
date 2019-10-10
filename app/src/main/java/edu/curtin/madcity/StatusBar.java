@@ -91,12 +91,14 @@ public class StatusBar extends Fragment
 
 
         mRateTextView.setText(rate);
-        mPopulationTextView.setText(GAME_DATA.getPopulation());
-        mEmploymentTextView.setText(GAME_DATA.getEmployment());
+
+
         */
         mMoneyTextView.setText(String.format(Locale.UK,"$%d",
                                              GAME_DATA.getMoney()));
         mTimeTextView.setText(GAME_DATA.getFormattedTime());
+        mPopulationTextView.setText(Integer.toString(GAME_DATA.getPopulation()));
+        mEmploymentTextView.setText(GAME_DATA.getEmployment() * 100 + "%");
     }
 
 }// StatusBar

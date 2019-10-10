@@ -123,15 +123,15 @@ public class GameData
      * Gets the current employment of the town
      * @return
      */
-    public int getEmployment()
+    public float getEmployment()
     {
-        int val = 0;
+        float val = 0;
         int population = getPopulation();
 
         if(population != 0) // Prevent division by 0
         {
-            val = Math.min(1, mNumCommercial * SETTINGS.SHOP_SIZE.getValue()
-                    / population);
+            val = Math.min(1, mNumCommercial *
+                    (float)SETTINGS.SHOP_SIZE.getValue() / (float)population);
         }
 
         return val;
@@ -143,6 +143,9 @@ public class GameData
     private void increaseTime()
     {
         mGameTime++;
+        mMoney += getPopulation() * (getEmployment() *
+                SETTINGS.SALARY.getValue() * SETTINGS.TAX_RATE.getValue()
+                - SETTINGS.SERVICE_COST.getValue());
     }
 
 
