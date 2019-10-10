@@ -26,6 +26,7 @@ public class MapGrid extends Fragment
     private static final String TAG = "MapGrid";
 
     public final GameData GAME_DATA = GameData.getInstance();
+    public final Settings SETTINGS = GAME_DATA.SETTINGS;
 
 // CLASS FIELDS --------------------------------------------------------------
 
@@ -69,7 +70,7 @@ public class MapGrid extends Fragment
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(
                 getActivity(),
-                Settings.MAP_HEIGHT.getValue(),
+                SETTINGS.MAP_HEIGHT.getValue(),
                 GridLayoutManager.HORIZONTAL, false));
 
         mRecyclerView.setAdapter(mAdaptor);
@@ -175,7 +176,7 @@ public class MapGrid extends Fragment
         {
             Log.d(TAG, "getItemCount() called");
 
-            return Settings.MAP_WIDTH.getValue() * Settings.MAP_HEIGHT.getValue();
+            return SETTINGS.MAP_WIDTH.getValue() * SETTINGS.MAP_HEIGHT.getValue();
         }
     }
 
@@ -194,7 +195,7 @@ public class MapGrid extends Fragment
             // equal size.
 
             int size = parent.getMeasuredHeight() /
-                            Settings.MAP_HEIGHT.getValue() + 1;
+                            SETTINGS.MAP_HEIGHT.getValue() + 1;
             ViewGroup.LayoutParams lp = itemView.getLayoutParams();
             lp.width = size;
             lp.height = size;
@@ -244,12 +245,12 @@ public class MapGrid extends Fragment
 
         private int getX()
         {
-            return pos / Settings.MAP_HEIGHT.getValue();
+            return pos / SETTINGS.MAP_HEIGHT.getValue();
         }
 
         private int getY()
         {
-            return pos % Settings.MAP_HEIGHT.getValue();
+            return pos % SETTINGS.MAP_HEIGHT.getValue();
         }
     }
 }

@@ -11,85 +11,143 @@ import edu.curtin.madcity.settings.Settings;
 
 public class GameData
 {
-    private class Task extends TimerTask
-    {
+    /**
+     * Number of milliseconds for the game to increment by.
+     */
+    public static final int GAME_INCREMENT = 1000;
 
-        @Override
-        public void run()
-        {
-            mGameTime++;
-        }
-    }
+    public final Settings SETTINGS = new Settings();
 
+    /**
+     * Singleton instance
+     */
     private static final GameData ourInstance = new GameData();
 
+    /**
+     * Singleton accessor
+     * @return GameData instance
+     */
     public static GameData getInstance()
     {
         return ourInstance;
     }
 
-    SQLiteDatabase db;
-    Timer TIMER = new Timer();
-    Task mTask = new Task();
-
-    private StatusBar mStatusBar;
+    private SQLiteDatabase db;
+    private final Timer TIMER = new Timer();
 
 
-    Settings SETTINGS = new Settings();
-    MapElement[][] mMap;
 
-    private int mMoney = Settings.INITIAL_MONEY.getValue();
-    int mGameTime = 10;
-    int population = 100;
+
+// PRIVATE CLASS FIELDS ------------------------------------------------------
+
+    /**
+     * 2D array of map elements representing the game map
+     */
+    public MapElement[][] mMap;
+
+    /**
+     * Number of residential buildings in the town.
+     */
+    private int mNumResidential;
+
+    /**
+     * Number of commercial buildings in the town.
+     */
+    private int mNumCommercial;
+
+    /**
+     * Players money
+     */
+    private int mMoney;
+
+    /**
+     * Games time
+     */
+    private int mGameTime;
+
 
     private GameData()
     {
-        TIMER.schedule(mTask, 0, 1000);
+        initTimer();
     }
 
-    private void load(Context context)
-    {
-        this.db =
-                new DbHelper(context.getApplicationContext()).getWritableDatabase();
-
-    }
-
+    /**
+     * Creates a new game
+     */
     public void newGame()
     {
+        // Set these class fields to zero.
+        mGameTime = 0;
+        mNumResidential = 0;
+        mNumCommercial = 0;
+
+        mMoney = SETTINGS.INITIAL_MONEY.getValue();
+
+        // Generate a new map.
         mMap =
-                new MapElement[Settings.MAP_WIDTH.getValue()][Settings.MAP_HEIGHT.getValue()];
+                new MapElement[SETTINGS.MAP_WIDTH.getValue()]
+                        [SETTINGS.MAP_HEIGHT.getValue()];
     }
 
+    /**
+     * Accessor for the players money.
+     * @return Money of the player.
+     */
     public int getMoney()
     {
         return mMoney;
     }
 
+    /**
+     * Accessor for the integer value of the games time.
+     * @return time of the game
+     */
     public int getGameTime()
     {
         return mGameTime;
     }
 
+    /**
+     * Calculates the population of a town.
+     * @return population of town
+     */
     public int getPopulation()
     {
-        return population;
+        return SETTINGS.FAMILY_SIZE.getValue() * mNumResidential;
     }
 
+    /**
+     * Gets the current employment of the town
+     * @return
+     */
     public int getEmployment()
     {
-        return 0; //TODO: write employment calculation
+        int val = 0;
+        int population = getPopulation();
+
+        if(population != 0) // Prevent division by 0
+        {
+            val = Math.min(1, mNumCommercial * SETTINGS.SHOP_SIZE.getValue()
+                    / population);
+        }
+
+        return val;
     }
 
-    public void increaseTime()
+    /**
+     * Function called by the games timer to increment the games time.
+     */
+    private void increaseTime()
     {
         mGameTime++;
     }
 
-    public void setStatusBar(StatusBar statusBar)
-    {
-        mStatusBar = statusBar;
-    }
 
+    /**
+     * Gets the game time and returns it in a formatted string to be used
+     * in a ui.
+     * @return String representing the time.
+     */
     public String getFormattedTime()
     {
         String out;
@@ -115,4 +173,33 @@ public class GameData
         return out;
     }
 
+// PRIVATE METHODS -----------------------------------------------------------
+
+    /**
+     * Initialises the game timer.
+     */
+    private void initTimer()
+    {
+        TimerTask t = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                GameData.this.increaseTime();
+            }
+        };
+
+        TIMER.scheduleAtFixedRate(t, 0, GAME_INCREMENT);
+    }
+
+    /**
+     * Loads the games database.
+     * @param context context that is loading it
+     */
+    private void load(Context context)
+    {
+        this.db =
+                new DbHelper(context.getApplicationContext())
+                        .getWritableDatabase();
+    }
 }

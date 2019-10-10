@@ -9,53 +9,53 @@ public class Settings
 
 
     public static final int DEFAULT_MAP_WIDTH = 10;
-    public static final  IntSetting MAP_WIDTH  =
+    public final  IntSetting MAP_WIDTH  =
             new IntSetting(R.string.settings_map_width, 500, 10);
 
     public static final int DEFAULT_MAP_HEIGHT = 10;
-    public static final IntSetting MAP_HEIGHT =
+    public final IntSetting MAP_HEIGHT =
             new IntSetting(R.string.settings_map_height, 20, 5);
 
     public static final int DEFAULT_INITIAL_MONEY = 100;
-    public static final IntSetting INITIAL_MONEY =
+    public final IntSetting INITIAL_MONEY =
             new IntSetting(R.string.settings_initial_money, 5000, 50);
 
     public static final int DEFAULT_FAMILY_SIZE = 4;
-    public static final IntSetting FAMILY_SIZE =
+    public final IntSetting FAMILY_SIZE =
             new IntSetting(R.string.settings_family_size, 10, 1);
 
     public static final int DEFAULT_SHOP_SIZE = 6;
-    public static final IntSetting SHOP_SIZE =
+    public final IntSetting SHOP_SIZE =
             new IntSetting(R.string.settings_shop_size, 50, 1);
 
     public static final int DEFAULT_SALARY = 10;
-    public static final IntSetting SALARY =
+    public final IntSetting SALARY =
             new IntSetting(R.string.settings_salary, 1000, 1);
 
     public static final float DEFAULT_TAX_RATE = 0.3f;
-    public static FloatSetting TAX_RATE =
+    public final FloatSetting TAX_RATE =
             new FloatSetting(R.string.settings_salary, 1f, 0.1f);
 
     public static final int DEFAULT_SERVICE_COST = 2;
-    public static final IntSetting SERVICE_COST =
+    public final IntSetting SERVICE_COST =
             new IntSetting(R.string.settings_service_cost, 10, 1);
 
     public static final int DEFAULT_HOUSE_BUILDING_COST = 100;
-    public static final IntSetting HOUSE_BUILDING_COST =
+    public final IntSetting HOUSE_BUILDING_COST =
             new IntSetting(R.string.settings_house_buildingCost, 1000, 1);
 
     public static final int DEFAULT_COMM_BUILDING_COST = 500;
-    public static final IntSetting COMM_BUILDING_COST = 
+    public final IntSetting COMM_BUILDING_COST =
             new IntSetting(R.string.settings_comm_buildingCost, 5000, 1);
 
     public static final int DEFAULT_ROAD_BUILDING_COST = 20;
-    public static final IntSetting ROAD_BUILDING_COST =
+    public final IntSetting ROAD_BUILDING_COST =
             new IntSetting(R.string.settings_road_buildingCost, 500, 1);
 
     /**
      * Array of all the settings
      */
-    private static final Setting[] SETTINGS = new Setting[]
+    private final Setting[] SETTINGS = new Setting[]
     {
             MAP_WIDTH,
             MAP_HEIGHT,

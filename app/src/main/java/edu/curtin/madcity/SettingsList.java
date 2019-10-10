@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.curtin.madcity.settings.IntSetting;
+import edu.curtin.madcity.settings.NumberPickerFragment;
 import edu.curtin.madcity.settings.Setting;
 import edu.curtin.madcity.settings.Settings;
 
@@ -34,10 +35,10 @@ public class SettingsList extends Fragment
     private static final String TAG  = "SettingsList";
     private static final String DIALOG_NUMBER = "DialogNumber";
     private static final int REQUEST_INT = 0;
+    private final Settings SETTINGS = GameData.getInstance().SETTINGS;
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
-    private static Settings SETTINGS = GameData.getInstance().SETTINGS;
     // settings
 
 // OVERRIDE METHODS ----------------------------------------------------------
