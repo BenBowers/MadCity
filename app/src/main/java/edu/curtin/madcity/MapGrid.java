@@ -23,20 +23,42 @@ public class MapGrid extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------
 
+    /**
+     * Tag for debugging
+     */
     private static final String TAG = "MapGrid";
 
+    /**
+     * Reference to game data
+     */
     public final GameData GAME_DATA = GameData.getInstance();
+
+    /**
+     * Reference of the settings to use
+     */
     public final Settings SETTINGS = GAME_DATA.SETTINGS;
 
 // CLASS FIELDS --------------------------------------------------------------
 
 
 
-    private RecyclerView mRecyclerView;
+
+
+    /**
+     * Adaptor for the recycler view
+     */
     private MapAdaptor mAdaptor;
+
+    /**
+     * Selector to send the onClick data to.
+     */
     private SelectorFragment mSelector;
 
 
+    /**
+     * Constructor for the map grid
+     * @param selectorFragment The selector to send the on click data to.
+     */
     public MapGrid(SelectorFragment selectorFragment)
     {
         mSelector = selectorFragment;
@@ -59,21 +81,22 @@ public class MapGrid extends Fragment
                              @Nullable Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreateView() called");
+        RecyclerView recyclerView;
 
         View view = inflater.inflate(R.layout.map_grid, container, false);
 
         // SET UP RECYCLER VIEW
 
-        mRecyclerView =
+        recyclerView =
                 view.findViewById(R.id.map_recycler_view);
         mAdaptor = new MapAdaptor();
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(
+        recyclerView.setLayoutManager(new GridLayoutManager(
                 getActivity(),
                 SETTINGS.MAP_HEIGHT.getValue(),
                 GridLayoutManager.HORIZONTAL, false));
 
-        mRecyclerView.setAdapter(mAdaptor);
+        recyclerView.setAdapter(mAdaptor);
 
         return view;
     }
@@ -83,6 +106,13 @@ public class MapGrid extends Fragment
         mAdaptor.notifyItemChanged(pos);
     }
 
+    /**
+     * Gets the appropriate road drawable depending on the surrounding
+     * structures.
+     * @param x x-coordinate of the structure
+     * @param y y-coordinate of the structure
+     * @return drawable of the road
+     */
     private int getRoadDrawable(int x, int y)
     {
         /**
@@ -131,6 +161,13 @@ public class MapGrid extends Fragment
     }
 
 
+    /**
+     * Returns true if there is a structure located at the specified
+     * coordinates
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return true if structure is located there false otherwise
+     */
     private boolean structureExists(int x, int y)
     {
         return GAME_DATA.mMap[x][y] != null;
@@ -199,13 +236,18 @@ public class MapGrid extends Fragment
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * Binds a position to the Map view holder this will set the
+         * drawable structure of the view holder
+         * @param pos position of the view holder
+         */
         public void bind(int pos)
         {
             this.pos = pos;
 
             mMapElement = GAME_DATA.mMap[getX()][getY()];
 
-            if(mMapElement != null)
+            if(mMapElement != null) // Avoid null pointer exception
             {
                 Structure structure = mMapElement.getStructure();
                 if(structure instanceof Road)
@@ -218,7 +260,7 @@ public class MapGrid extends Fragment
                     mImageView.setImageResource(structure.getDrawableId());
                 }
             }
-            else
+            else // If there is no structure there set the drawable to trans.
             {
                 mImageView.setImageResource(R.color.trans);
             }
@@ -250,11 +292,19 @@ public class MapGrid extends Fragment
             lp.height = size;
         }
 
+        /**
+         *
+         * @return x coordinate of the view holder
+         */
         private int getX()
         {
             return pos / SETTINGS.MAP_HEIGHT.getValue();
         }
 
+        /**
+         *
+         * @return y-coordinate of the view holder
+         */
         private int getY()
         {
             return pos % SETTINGS.MAP_HEIGHT.getValue();
