@@ -90,4 +90,29 @@ public class GameData
         mStatusBar = statusBar;
     }
 
+    public String getFormattedTime()
+    {
+        String out;
+        int seconds = mGameTime % 60;
+        int minutes = mGameTime / 60;
+        int hours = minutes / 60;
+
+        if(hours == 0)
+        {
+            if(minutes == 0)
+            {
+                out = String.format("%02d", seconds);
+            }
+            else
+            {
+                out = String.format("%02d:%02d", minutes, seconds);
+            }
+        }
+        else
+        {
+            out = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        }
+        return out;
+    }
+
 }

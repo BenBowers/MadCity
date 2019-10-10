@@ -96,8 +96,7 @@ public class StatusBar extends Fragment
         */
         mMoneyTextView.setText(String.format(Locale.UK,"$%d",
                                              GAME_DATA.getMoney()));
-        mTimeTextView.setText(String.format(Locale.UK,"%d",
-                                            GAME_DATA.getGameTime()));
+        mTimeTextView.setText(GAME_DATA.getFormattedTime());
     }
 
 }// StatusBar
