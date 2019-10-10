@@ -176,7 +176,8 @@ public class MapGrid extends Fragment
         {
             Log.d(TAG, "getItemCount() called");
 
-            return SETTINGS.MAP_WIDTH.getValue() * SETTINGS.MAP_HEIGHT.getValue();
+            return SETTINGS.MAP_WIDTH.getValue() *
+                    SETTINGS.MAP_HEIGHT.getValue();
         }
     }
 
@@ -190,16 +191,7 @@ public class MapGrid extends Fragment
         public MapViewHolder(@NonNull View itemView, ViewGroup parent)
         {
             super(itemView);
-
-            // This was taken from worksheet 3 to make all the grid cells
-            // equal size.
-
-            int size = parent.getMeasuredHeight() /
-                            SETTINGS.MAP_HEIGHT.getValue() + 1;
-            ViewGroup.LayoutParams lp = itemView.getLayoutParams();
-            lp.width = size;
-            lp.height = size;
-            /////////////////////////////////////////////////////////////////
+            makeSquare(itemView, parent);
 
             mImageView = itemView.findViewById(R.id.map_cell_structure);
 
@@ -241,6 +233,21 @@ public class MapGrid extends Fragment
             {
                 mAdaptor.notifyDataSetChanged();
             }
+        }
+
+        /**
+         * This was taken from worksheet 3 to make all the grid cells
+         * equal size
+         * @param itemView
+         * @param parent
+         */
+        private void makeSquare(@NonNull View itemView, ViewGroup parent)
+        {
+            int size = parent.getMeasuredHeight() /
+                    SETTINGS.MAP_HEIGHT.getValue() + 1;
+            ViewGroup.LayoutParams lp = itemView.getLayoutParams();
+            lp.width = size;
+            lp.height = size;
         }
 
         private int getX()
