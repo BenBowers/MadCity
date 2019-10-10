@@ -75,6 +75,14 @@ public class MapActivity extends AppCompatActivity
     private void update(View v)
     {
         Log.d(TAG, "updating");
-        mStatusBar.update(0);
+        mStatusBar.update();
     }
+
+    private void update()
+    {
+        Log.d(TAG, "updating");
+        mStatusBar.update();
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package edu.curtin.madcity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +12,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 public class StatusBar extends Fragment
 {
 
 // CLASS CONSTANTS -----------------------------------------------------------
-
     public static final String TAG = "StatusBar";
     public static final GameData GAME_DATA = GameData.getInstance();
+
+
+    private final Timer mTimer = new Timer();
+    private final TimerTask mTimerTask = new TimerTask()
+    {
+        @Override
+        public void run()
+        {
+            Activity activity = getActivity();
+            if (activity != null)
+            {
+                activity.runOnUiThread(StatusBar.this::update);
+            }
+        }
+    };
+
+
+
+
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
@@ -53,20 +77,27 @@ public class StatusBar extends Fragment
         mPopulationTextView = v.findViewById(R.id.status_population);
         mEmploymentTextView = v.findViewById(R.id.status_employment);
 
-        update(0); // Set values to the text views
+
+
+        mTimer.scheduleAtFixedRate(mTimerTask, 0, 1000);
 
         return v;
     }
 
-    public void update(int rate)
+
+    public void update()
     {
         /*
-        mTimeTextView.setText(GAME_DATA.getGameTime());
-        mMoneyTextView.setText(GAME_DATA.getMoney());
+
+
         mRateTextView.setText(rate);
         mPopulationTextView.setText(GAME_DATA.getPopulation());
         mEmploymentTextView.setText(GAME_DATA.getEmployment());
         */
+        mMoneyTextView.setText(String.format(Locale.UK,"$%d",
+                                             GAME_DATA.getMoney()));
+        mTimeTextView.setText(String.format(Locale.UK,"%d",
+                                            GAME_DATA.getGameTime()));
     }
 
 }// StatusBar

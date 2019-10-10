@@ -54,6 +54,12 @@ public class GameData
 
     }
 
+    public void newGame()
+    {
+        mMap =
+                new MapElement[Settings.MAP_WIDTH.getValue()][Settings.MAP_HEIGHT.getValue()];
+    }
+
     public int getMoney()
     {
         return mMoney;
