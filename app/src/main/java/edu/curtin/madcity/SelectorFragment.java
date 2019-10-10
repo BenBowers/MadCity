@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
 
@@ -225,40 +224,15 @@ public class SelectorFragment extends Fragment
 
     public void addStructure(int x, int y)
     {
-        if(( mStructure instanceof  Road) || hasSurroundingRoad(x, y))
+        try
         {
-
-            if (GAME_DATA.mMap[x][y] == null)
-            {
-                GAME_DATA.mMap[x][y] = new MapElement();
-            }
-
-            GAME_DATA.mMap[x][y].setStructure(mStructure);
+            GAME_DATA.addStructure(mStructure, x, y);
         }
-        else
+        catch (IllegalStateException e)
         {
             Toast.makeText(getContext(), R.string.structure_warning,
                            Toast.LENGTH_LONG).show();
         }
-
-    }
-
-    private boolean hasSurroundingRoad(int x, int y)
-    {
-        return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
-                ((y + 1 < GAME_DATA.mMap[0].length) &&
-                        roadExists(x, y + 1)) ||
-                ((x + 1 < GAME_DATA.mMap.length) &&
-                        roadExists(x + 1, y)) ||
-                ((y - 1 >= 0) && roadExists(x, y - 1));
-    }
-
-
-    private boolean roadExists(int x, int y)
-    {
-        return (GAME_DATA.mMap[x][y] != null) &&
-                (GAME_DATA.mMap[x][y].getStructure() != null) &&
-                (GAME_DATA.mMap[x][y].getStructure() instanceof Road);
     }
 
     public void removeStructure(int x, int y)

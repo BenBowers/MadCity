@@ -8,6 +8,9 @@ import java.util.TimerTask;
 
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.settings.Settings;
+import edu.curtin.madcity.structure.Residential;
+import edu.curtin.madcity.structure.Road;
+import edu.curtin.madcity.structure.Structure;
 
 public class GameData
 {
@@ -173,6 +176,54 @@ public class GameData
         return out;
     }
 
+    public void addStructure(Structure structure, int x, int y)
+            throws IllegalStateException
+    {
+        if ( structure instanceof Road)
+        {
+            setStructure(structure, x, y);
+        }
+        else if (hasSurroundingRoad(x, y))
+        {
+            setStructure(structure, x, y);
+
+            if(structure instanceof Residential)
+            {
+                mNumResidential++;
+            }
+            else
+            {
+                mNumCommercial++;
+            }
+        }
+        else
+        {
+            throw new IllegalStateException("No surrounding road");
+        }
+
+
+
+    }
+
+    private boolean hasSurroundingRoad(int x, int y)
+    {
+        return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
+                ((y + 1 < mMap[0].length) &&
+                        roadExists(x, y + 1)) ||
+                ((x + 1 < mMap.length) &&
+                        roadExists(x + 1, y)) ||
+                ((y - 1 >= 0) && roadExists(x, y - 1));
+    }
+
+
+    private boolean roadExists(int x, int y)
+    {
+        return (mMap[x][y] != null) &&
+                (mMap[x][y].getStructure() != null) &&
+                (mMap[x][y].getStructure() instanceof Road);
+    }
+
+
 // PRIVATE METHODS -----------------------------------------------------------
 
     /**
@@ -201,5 +252,15 @@ public class GameData
         this.db =
                 new DbHelper(context.getApplicationContext())
                         .getWritableDatabase();
+    }
+
+    private void setStructure(Structure structure, int x, int y)
+    {
+        if (mMap[x][y] == null)
+        {
+            mMap[x][y] = new MapElement();
+        }
+
+        mMap[x][y].setStructure(structure);
     }
 }
