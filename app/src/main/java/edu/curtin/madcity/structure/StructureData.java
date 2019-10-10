@@ -2,6 +2,10 @@ package edu.curtin.madcity.structure;
 
 import edu.curtin.madcity.R;
 
+/**
+ * This class is designed to hold all the information for any existing
+ * structures
+ */
 public class StructureData
 {
     private static final StructureData ourInstance = new StructureData();
@@ -10,6 +14,9 @@ public class StructureData
         return ourInstance;
     }
 
+    /**
+     * Array of all the resdential structures
+     */
     public static final Residential[] RESIDENTIAL = new Residential[] {
             new Residential(R.drawable.ic_building1, R.string.ic_building1),
             new Residential(R.drawable.ic_building2, R.string.ic_building2),
@@ -17,6 +24,9 @@ public class StructureData
             new Residential(R.drawable.ic_building4, R.string.ic_building4)
     };
 
+    /**
+     * Array of all the commercial structures
+     */
     public static final Commercial[] COMMERCIAL = new Commercial[] {
             new Commercial(R.drawable.ic_building5, R.string.ic_building5),
             new Commercial(R.drawable.ic_building6, R.string.ic_building6),
@@ -24,8 +34,14 @@ public class StructureData
             new Commercial(R.drawable.ic_building8, R.string.ic_building8)
     };
 
+    /**
+     * Individual road structure for displaying in menu
+     */
     public static final Road ROAD = new Road(0, R.string.road_title);
 
+    /**
+     * Array of drawables for roads
+     */
     public static final int[] ROADS = new int[] {
             R.drawable.ic_road,
             R.drawable.ic_road_n,   // 1000
@@ -45,6 +61,9 @@ public class StructureData
             R.drawable.ic_road_nsew // 1111
     };
 
+    /**
+     * Array of the different structure types for use in the selector menu.
+     */
     public static final Structure[] TYPES = new Structure[] {
             new Residential(R.drawable.ic_building1,
                             R.string.residential_title),
