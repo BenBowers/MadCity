@@ -38,6 +38,8 @@ public class SelectorFragment extends Fragment
 
     private static final String DIALOG_NUMBER = "DialogNumber";
 
+    private static final String KEY_SELECTED = "selected";
+
     private static final int REQUEST_STRUCTURE_TYPE = 0;
     private static final int REQUEST_RESIDENTIAL = 1;
     private static final int REQUEST_COMMERCIAL = 2;
@@ -45,7 +47,8 @@ public class SelectorFragment extends Fragment
     private final GameData GAME_DATA = GameData.getInstance();
 
     private Structure mStructure;
-    private SelectedItem mSelectedItem = SelectedItem.TOUCH;
+    private SelectedItem mSelectedItem = SelectedItem.TOUCH; // This is
+    // done to avoid null pointer exception!
 
     private Button mInspectButton;
     private Button mTouchButton;
@@ -58,6 +61,12 @@ public class SelectorFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            mSelectedItem = (SelectedItem) savedInstanceState
+                            .getSerializable(KEY_SELECTED);
+        }
+
     }
 
     @Nullable
@@ -82,6 +91,7 @@ public class SelectorFragment extends Fragment
         mAddButton.setOnClickListener(this::addClicked);
         mRemoveButton.setOnClickListener(this::removeClicked);
 
+        setSelectedItem(mSelectedItem);
 
         return view;
     }
@@ -113,6 +123,12 @@ public class SelectorFragment extends Fragment
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_SELECTED, mSelectedItem);
+    }
 
     private void structureReceived(int type, Intent data)
     {
@@ -268,16 +284,15 @@ public class SelectorFragment extends Fragment
         mSelectedItem = x;
     }
 
-    private Button getButton(SelectedItem x) throws IllegalStateException
+    private Button getButton(@NonNull  SelectedItem x)
     {
-        Button button;
+        Button button = null;
         switch (x)
         {
             case INSPECT: button = mInspectButton; break;
             case TOUCH: button = mTouchButton; break;
             case ADD: button = mAddButton; break;
             case REMOVE: button = mRemoveButton; break;
-            default: throw new IllegalStateException();
         }
         return button;
     }
