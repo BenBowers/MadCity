@@ -1,12 +1,17 @@
 package edu.curtin.madcity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +31,8 @@ public class MapDetailsActivity extends AppCompatActivity
     private static final String TAG = "MapDetailsActivity";
     private static final String X_EXTRA = "X_EXTRA";
     private static final String Y_EXTRA = "Y_EXTRA";
+
+    private static final int REQUEST_THUMBNAIL = 1;
 
     /**
      * Listener for the edit text of the name of the structure.
@@ -63,6 +70,7 @@ public class MapDetailsActivity extends AppCompatActivity
     private TextView mStructureTextView;
     private ImageView mImageView;
     private EditText mNameEditText;
+    private ImageButton mCameraButton;
 
 
 // OVERRIDE METHODS ----------------------------------------------------------
@@ -96,6 +104,7 @@ public class MapDetailsActivity extends AppCompatActivity
         mStructureTextView = findViewById(R.id.structure_text_view);
         mImageView = findViewById(R.id.details_image_view);
         mNameEditText = findViewById(R.id.details_name_edit_text);
+        mCameraButton = findViewById(R.id.camera_button);
 
         // Set the details of the ui elements.
 
@@ -121,6 +130,34 @@ public class MapDetailsActivity extends AppCompatActivity
 
         // On Click Listeners
         mNameEditText.addTextChangedListener(TEXT_LISTENER);
+        mCameraButton.setOnClickListener(this::cameraOnClick);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    @Nullable Intent data)
+    {
+        Log.d(TAG, "onActivityResult() called");
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK )
+        {
+            if( requestCode == REQUEST_THUMBNAIL)
+            {
+                Log.d(TAG, "retrieving thumbnail");
+
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                mMapElement.setImage(thumbnail);
+                mImageView.setImageBitmap(thumbnail);
+            }
+        }
+    }
+
+    private void cameraOnClick(View v)
+    {
+        Log.d(TAG, "cameraOnClick() called");
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_THUMBNAIL);
     }
 
 
