@@ -40,6 +40,12 @@
     <string name="update_button">Earn cash!</string>
     <string name="structure_warning">Structures can only be placed next to roads</string>
 
+    <!-- Map Details -->
+    <string name="xloc_title">x:</string>
+    <string name="yloc_title">y:</string>
+    <string name="structure_type">Type:</string>
+    <string name="image_desc">Structure image</string>
+
     <!-- Structure Selector -->
     <string name="structure_selector_title">Structures</string>
     
