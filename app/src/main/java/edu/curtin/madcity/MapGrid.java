@@ -40,10 +40,6 @@ public class MapGrid extends Fragment
 
 // CLASS FIELDS --------------------------------------------------------------
 
-
-
-
-
     /**
      * Adaptor for the recycler view
      */
@@ -62,6 +58,11 @@ public class MapGrid extends Fragment
     public MapGrid(SelectorFragment selectorFragment)
     {
         mSelector = selectorFragment;
+    }
+
+    public MapGrid()
+    {
+
     }
 
 // OVERRIDE METHODS ----------------------------------------------------------
@@ -243,21 +244,30 @@ public class MapGrid extends Fragment
          */
         public void bind(int pos)
         {
+            Structure structure;
+
             this.pos = pos;
 
             mMapElement = GAME_DATA.mMap[getX()][getY()];
 
             if(mMapElement != null) // Avoid null pointer exception
             {
-                Structure structure = mMapElement.getStructure();
-                if(structure instanceof Road)
+                if(mMapElement.getImage() == null) // If it's a drawable
                 {
-                    mImageView.setImageResource(
-                            getRoadDrawable(getX(), getY()));
+                    structure = mMapElement.getStructure();
+                    if (structure instanceof Road)
+                    {
+                        mImageView.setImageResource(
+                                getRoadDrawable(getX(), getY()));
+                    }
+                    else
+                    {
+                        mImageView.setImageResource(structure.getDrawableId());
+                    }
                 }
-                else
+                else // if it's a bitmap
                 {
-                    mImageView.setImageResource(structure.getDrawableId());
+                    mImageView.setImageBitmap(mMapElement.getImage());
                 }
             }
             else // If there is no structure there set the drawable to trans.
