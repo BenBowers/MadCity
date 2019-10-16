@@ -3,6 +3,7 @@ package edu.curtin.madcity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -60,6 +61,9 @@ public class MapDetailsActivity extends AppCompatActivity
             mMapElement.setOwnerName(editable.toString());
         }
     };
+
+    private final Intent CAMERA_INTENT = new Intent(
+            MediaStore.ACTION_IMAGE_CAPTURE);
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
@@ -128,7 +132,19 @@ public class MapDetailsActivity extends AppCompatActivity
 
         // On Click Listeners
         nameEditText.addTextChangedListener(TEXT_LISTENER);
-        cameraButton.setOnClickListener(this::cameraOnClick);
+
+        //Check if the phone has a camera.
+
+        PackageManager pm = getPackageManager();
+        if (pm.resolveActivity(CAMERA_INTENT,
+                               PackageManager.MATCH_DEFAULT_ONLY) != null)
+        {
+            cameraButton.setOnClickListener(this::cameraOnClick);
+        }
+        else
+        {
+            cameraButton.setEnabled(false);
+        }
     }
 
     @Override
@@ -154,8 +170,8 @@ public class MapDetailsActivity extends AppCompatActivity
     {
         Log.d(TAG, "cameraOnClick() called");
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_THUMBNAIL);
+
+        startActivityForResult(CAMERA_INTENT, REQUEST_THUMBNAIL);
     }
 
 
