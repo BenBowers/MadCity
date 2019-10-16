@@ -25,6 +25,9 @@ import edu.curtin.madcity.structure.Residential;
 import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 
+/**
+ * Activity displays all the details of a map element
+ */
 public class MapDetailsActivity extends AppCompatActivity
 {
 // CLASS CONSTANTS -----------------------------------------------------------
@@ -62,6 +65,9 @@ public class MapDetailsActivity extends AppCompatActivity
         }
     };
 
+    /**
+     * Intent to launch the camera app.
+     */
     private final Intent CAMERA_INTENT = new Intent(
             MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -69,6 +75,12 @@ public class MapDetailsActivity extends AppCompatActivity
 
     private MapElement mMapElement;
     private ImageView mImageView;
+
+    /**
+     * Boolean representing whether the parent activity needs to update
+     * it's view.
+     */
+    private boolean mUpdateView = false;
 
 // OVERRIDE METHODS ----------------------------------------------------------
 
@@ -162,10 +174,15 @@ public class MapDetailsActivity extends AppCompatActivity
                 Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
                 mMapElement.setImage(thumbnail);
                 mImageView.setImageBitmap(thumbnail);
+                mUpdateView = true;
             }
         }
     }
 
+    /**
+     * Methods to be called when the camera is clicked.
+     * @param v View of the activity.
+     */
     private void cameraOnClick(View v)
     {
         Log.d(TAG, "cameraOnClick() called");
@@ -237,4 +254,4 @@ public class MapDetailsActivity extends AppCompatActivity
 
         return stringId;
     }
-}
+}//MapDetailsActivity.class
