@@ -76,6 +76,7 @@ public class SelectorFragment extends Fragment
     public SelectorFragment()
     {
         // These have to be set at runtime because they're not static
+
         INSPECT.setOnClickListener(this::touchClicked);
         TOUCH.setOnClickListener(this::inspectClicked);
         ADD.setOnClickListener(this::addClicked);
@@ -203,6 +204,7 @@ public class SelectorFragment extends Fragment
                 break;
             case INSPECT_POS:
                 dataChanged = false;
+                inspectItem(x, y);
                 break;
             case ADD_POS:
                 if (mStructure != null)
@@ -233,6 +235,13 @@ public class SelectorFragment extends Fragment
             Toast.makeText(getContext(), R.string.structure_warning,
                            Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void inspectItem(int x, int y)
+    {
+        Intent intent = MapDetailsActivity.newIntent(getContext(), x, y);
+        startActivity(intent); //TODO: write it to return data has
+        // changed
     }
 
     public void removeStructure(int x, int y)

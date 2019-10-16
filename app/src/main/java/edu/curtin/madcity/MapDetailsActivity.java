@@ -76,22 +76,16 @@ public class MapDetailsActivity extends AppCompatActivity
         int xLoc;
         int yLoc;
         Structure structure;
+        Intent intent = getIntent();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_details);
 
 
-        // Throw an exception if something try's to start and this activity
-        // with a null intent
-        if(savedInstanceState == null)
-        {
-            throw new IllegalStateException("Empty Intent");
-        }
-
         // Process the intent extras
 
-        xLoc = savedInstanceState.getInt(X_EXTRA);
-        yLoc = savedInstanceState.getInt(Y_EXTRA);
+        xLoc = intent.getIntExtra(X_EXTRA, -1);
+        yLoc = intent.getIntExtra(Y_EXTRA, -1);
         mMapElement = GameData.getInstance().mMap[xLoc][yLoc];
         structure = mMapElement.getStructure();
 
