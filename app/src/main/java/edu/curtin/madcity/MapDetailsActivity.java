@@ -33,8 +33,10 @@ public class MapDetailsActivity extends AppCompatActivity
 // CLASS CONSTANTS -----------------------------------------------------------
 
     private static final String TAG = "MapDetailsActivity";
-    private static final String X_EXTRA = "X_EXTRA";
-    private static final String Y_EXTRA = "Y_EXTRA";
+    private static final String X_EXTRA =
+            "edu.au.curtin.madcity.mapdetails.x";
+    private static final String Y_EXTRA =
+            "edu.curtin.madcity.mapdetails.y";
 
     private static final int REQUEST_THUMBNAIL = 1;
 
