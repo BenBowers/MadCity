@@ -1,21 +1,18 @@
 package edu.curtin.madcity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
@@ -27,7 +24,17 @@ public class SelectorFragment extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------
 
-    private static final String TAG = "SelectorFragment";
+    /**
+     * Enum to identify the current button that's selected
+     */
+    private enum SelectedItem{
+        INSPECT,
+        TOUCH,
+        ADD,
+        REMOVE
+    }
+
+    private static final String TAG = "Selector";
 
     private static final String DIALOG_NUMBER = "DialogNumber";
 
@@ -37,54 +44,21 @@ public class SelectorFragment extends Fragment
 
     private final GameData GAME_DATA = GameData.getInstance();
 
-
-    private static final SelectorItem TOUCH = new SelectorItem(
-            R.string.selector_inspect, R.drawable.selector_inspect);
-
-    private static final SelectorItem INSPECT = new SelectorItem(
-            R.string.selector_touch, R.drawable.selector_touch);
-
-
-    private static final SelectorItem ADD = new SelectorItem(
-            R.string.selector_add, R.drawable.selector_add);
-
-    private static final SelectorItem REMOVE = new SelectorItem(
-            R.string.selector_remove, R.drawable.selector_remove);
-
-    private static final SelectorItem[] ITEMS = {
-            TOUCH,
-            INSPECT,
-            ADD,
-            REMOVE,
-    };
-
-    private static final int TOUCH_POS = 0;
-    private static final int INSPECT_POS = 1;
-    private static final int ADD_POS = 2;
-    private static final int REMOVE_POS = 3;
-
-// PRIVATE CLASS FIELDS ------------------------------------------------------
-
-    private RecyclerView mRecyclerView;
-    private SelectorAdaptor mAdapter = new SelectorAdaptor();
-    private int mSelectedPos = -1;
-
     private Structure mStructure;
+    private SelectedItem mSelectedItem = SelectedItem.TOUCH;
 
-// CONSTRUCTORS --------------------------------------------------------------
+    private Button mInspectButton;
+    private Button mTouchButton;
+    private Button mAddButton;
+    private Button mRemoveButton;
 
-    public SelectorFragment()
+    public SelectorFragment(){}
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
     {
-        // These have to be set at runtime because they're not static
-
-        INSPECT.setOnClickListener(this::touchClicked);
-        TOUCH.setOnClickListener(this::inspectClicked);
-        ADD.setOnClickListener(this::addClicked);
-        REMOVE.setOnClickListener(this::removeClicked);
+        super.onCreate(savedInstanceState);
     }
-
-
-// OVERRIDE METHODS ----------------------------------------------------------
 
     @Nullable
     @Override
@@ -93,16 +67,22 @@ public class SelectorFragment extends Fragment
                              @Nullable Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreateView() called");
+        View view  = inflater.inflate(R.layout.selector_fragment,
+                                      container, false);
 
-        View view = inflater.inflate(R.layout.selector, container, false);
-        mRecyclerView = view.findViewById(R.id.selector_recycler_view);
-        mRecyclerView.setLayoutManager(
-                new LinearLayoutManager(getActivity(),
-                                        RecyclerView.HORIZONTAL, false));
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(
-                new DividerItemDecoration(mRecyclerView.getContext(),
-                                          DividerItemDecoration.HORIZONTAL));
+        // Get references to UI elements
+        mInspectButton = view.findViewById(R.id.inspect_button);
+        mTouchButton = view.findViewById(R.id.touch_button);
+        mAddButton = view.findViewById(R.id.add_button);
+        mRemoveButton = view.findViewById(R.id.remove_button);
+
+        // Add listeners to the buttons
+        mInspectButton.setOnClickListener(this::inspectClicked);
+        mTouchButton.setOnClickListener(this::touchClicked);
+        mAddButton.setOnClickListener(this::addClicked);
+        mRemoveButton.setOnClickListener(this::removeClicked);
+
+
         return view;
     }
 
@@ -133,41 +113,6 @@ public class SelectorFragment extends Fragment
         }
     }
 
-// PUBLIC METHODS ------------------------------------------------------------
-
-
-    // PRIVATE METHODS -----------------------------------------------------------
-
-    private void selectStructure(int type)
-    {
-        switch (type)
-        {
-            case 0:
-
-                showList(REQUEST_RESIDENTIAL);
-                break;
-            case 1:
-                showList(REQUEST_COMMERCIAL);
-
-                break;
-            case 2:
-                mStructure = StructureData.ROAD;
-                break;
-            default:
-                throw new IllegalArgumentException("invalid type");
-        }
-    }
-
-    private void showList(int code)
-    {
-        StructureSelector selector =
-                new StructureSelector(
-                        getType(code));
-
-        selector.setTargetFragment(SelectorFragment.this,
-                                   code);
-        selector.show(getFragmentManager(), DIALOG_NUMBER);
-    }
 
     private void structureReceived(int type, Intent data)
     {
@@ -193,35 +138,67 @@ public class SelectorFragment extends Fragment
         return arr;
     }
 
-    public boolean itemClicked(int x, int y)
+    private void showList(int code)
     {
-        boolean dataChanged = true;
+        StructureSelector selector =
+                new StructureSelector(
+                        getType(code));
 
-        switch (mSelectedPos)
+        selector.setTargetFragment(SelectorFragment.this,
+                                   code);
+
+        selector.show(getFragmentManager(), DIALOG_NUMBER);
+    }
+
+    private void touchClicked(View view)
+    {
+        Log.d(TAG, "touchClicked() called");
+        setSelectedItem(SelectedItem.TOUCH);
+    }
+
+    private void inspectClicked(View view)
+    {
+        Log.d(TAG, "inspectClicked() called");
+        setSelectedItem(SelectedItem.INSPECT);
+
+    }
+
+    private void addClicked(View view)
+    {
+        Log.d(TAG, "addClicked() called");
+        setSelectedItem(SelectedItem.ADD);
+
+
+        StructureSelector selector = new StructureSelector();
+        selector.setTargetFragment(SelectorFragment.this,
+                                   REQUEST_STRUCTURE_TYPE);
+        selector.show(getFragmentManager(), DIALOG_NUMBER);
+    }
+
+    private void removeClicked(View view)
+    {
+        Log.d(TAG, "removeClicked() called");
+        setSelectedItem(SelectedItem.REMOVE);
+    }
+
+    private void selectStructure(int type)
+    {
+        switch (type)
         {
-            case TOUCH_POS:
-                dataChanged = false;
-                break;
-            case INSPECT_POS:
-                dataChanged = false;
-                inspectItem(x, y);
-                break;
-            case ADD_POS:
-                if (mStructure != null)
-                {
-                    addStructure(x, y);
-                }
-                break;
+            case 0:
 
-            case REMOVE_POS:
-                removeStructure(x, y);
+                showList(REQUEST_RESIDENTIAL);
+                break;
+            case 1:
+                showList(REQUEST_COMMERCIAL);
+
+                break;
+            case 2:
+                mStructure = StructureData.ROAD;
                 break;
             default:
-                dataChanged = false;
-                break;
+                throw new IllegalArgumentException("invalid type");
         }
-
-        return dataChanged;
     }
 
     public void addStructure(int x, int y)
@@ -249,142 +226,59 @@ public class SelectorFragment extends Fragment
         GAME_DATA.mMap[x][y] = null;
     }
 
-    private void touchClicked(View view)
+    public boolean itemClicked(int x, int y)
     {
-        Log.d(TAG, "touchClicked() called");
-        mSelectedPos = 0;
-        updateUI();
+        boolean dataChanged = true;
 
+        switch (mSelectedItem)
+        {
+            case TOUCH:
+                dataChanged = false;
+                break;
+            case INSPECT:
+                dataChanged = false;
+                inspectItem(x, y);
+                break;
+            case ADD:
+                if (mStructure != null)
+                {
+                    addStructure(x, y);
+                }
+                break;
+
+            case REMOVE:
+                removeStructure(x, y);
+                break;
+            default:
+                dataChanged = false;
+                break;
+        }
+
+        return dataChanged;
     }
 
-    private void inspectClicked(View view)
+    private void setSelectedItem(SelectedItem x)
     {
-        Log.d(TAG, "inspectClicked() called");
-        mSelectedPos  = 1;
-        updateUI();
+
+        getButton(mSelectedItem).setBackgroundTintList(ColorStateList.valueOf(
+                getResources().getColor(R.color.not_selected, null)));
+
+        getButton(x).setBackgroundTintList(ColorStateList.valueOf(
+            getResources().getColor(R.color.selected, null)));
+        mSelectedItem = x;
     }
 
-    private void addClicked(View view)
+    private Button getButton(SelectedItem x) throws IllegalStateException
     {
-        Log.d(TAG, "addClicked() called");
-        mSelectedPos = 2;
-        updateUI();
-
-        StructureSelector selector = new StructureSelector();
-        selector.setTargetFragment(SelectorFragment.this,
-                                   REQUEST_STRUCTURE_TYPE);
-        selector.show(getFragmentManager(), DIALOG_NUMBER);
-    }
-
-    private void removeClicked(View view)
-    {
-        Log.d(TAG, "removeClicked() called");
-        mSelectedPos = 3;
-        updateUI();
-    }
-
-    private void updateUI()
-    {
-        mAdapter.notifyDataSetChanged();
-    }
-
-// PRIVATE CLASSES -----------------------------------------------------------
-
-    private class SelectorAdaptor
-            extends RecyclerView.Adapter<SelectorViewHolder>
-    {
-        @NonNull
-        @Override
-        public SelectorViewHolder onCreateViewHolder(
-                @NonNull ViewGroup parent, int viewType)
+        Button button;
+        switch (x)
         {
-            Log.d(TAG, "onCreateViewHolder() called");
-
-            LayoutInflater layoutInflater =
-                    LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(
-                    R.layout.selector_cell, parent,false);
-            return new SelectorViewHolder(view);
+            case INSPECT: button = mInspectButton; break;
+            case TOUCH: button = mTouchButton; break;
+            case ADD: button = mAddButton; break;
+            case REMOVE: button = mRemoveButton; break;
+            default: throw new IllegalStateException();
         }
-
-        @Override
-        public void onBindViewHolder(@NonNull SelectorViewHolder holder,
-                                     int position)
-        {
-            Log.d(TAG, "onBindViewHolder() called");
-            holder.bind(ITEMS[position]);
-
-            if(position == mSelectedPos)
-            {
-                holder.itemView.setBackgroundColor(
-                        getResources().getColor(R.color.selected, null));
-            }
-            else
-            {
-                holder.itemView.setBackgroundColor(
-                        getResources().getColor(R.color.trans, null));
-            }
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            Log.d(TAG, "getItemCount() called");
-            return ITEMS.length;
-        }
-    }
-
-    private class SelectorViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener
-    {
-        private ImageView mImageView;
-        private TextView mTextView;
-
-        private SelectorItem mSelectorItem;
-
-        public SelectorViewHolder(@NonNull View itemView)
-        {
-            super(itemView);
-            mImageView = itemView.findViewById(R.id.selector_image_view);
-            mTextView = itemView.findViewById(R.id.selector_text_view);
-            itemView.setOnClickListener(this);
-        }
-
-        public void bind(SelectorItem selectorItem)
-        {
-            mSelectorItem = selectorItem;
-            mTextView.setText(mSelectorItem.NAME);
-            mImageView.setImageResource(mSelectorItem.DRAWABLE);
-        }
-
-        @Override
-        public void onClick(View view)
-        {
-            mSelectorItem.onClick(view);
-        }
-    }
-
-    private static class SelectorItem implements View.OnClickListener
-    {
-        public final int NAME;
-        public final int DRAWABLE;
-        private View.OnClickListener ON_CLICK;
-
-        public SelectorItem(int name, int drawable)
-        {
-            NAME = name;
-            DRAWABLE = drawable;
-        }
-
-        public void setOnClickListener(View.OnClickListener v)
-        {
-            ON_CLICK = v;
-        }
-
-        @Override
-        public void onClick(View view)
-        {
-            ON_CLICK.onClick(view);
-        }
+        return button;
     }
 }

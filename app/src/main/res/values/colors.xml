@@ -8,5 +8,7 @@
     <color name="status_bar">#353535</color>
     <color name="trans">#00000000 </color>
     <color name="selected">#804285F4</color>
+
+    <color name="not_selected">#31FFFFFF</color>
     <color name="map_background">#2E7D32</color>
 </resources>

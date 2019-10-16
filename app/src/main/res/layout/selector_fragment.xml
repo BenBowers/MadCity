@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/inspect_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:drawableTop="@drawable/selector_inspect"
+        android:text="@string/selector_inspect"
+        android:backgroundTint="@color/not_selected"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/touch_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:drawableTop="@drawable/selector_touch"
+        android:text="@string/selector_touch"
+        android:backgroundTint="@color/not_selected"
+        android:textColor="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:backgroundTint="@color/not_selected"
+        android:drawableTop="@drawable/selector_add"
+        android:text="@string/selector_add"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/remove_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.25"
+        android:drawableTop="@drawable/selector_remove"
+        android:text="@string/selector_remove"
+        android:backgroundTint="@color/not_selected"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

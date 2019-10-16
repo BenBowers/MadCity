@@ -26,6 +26,8 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".TitleScreen" />
+        <activity android:name=".MapDetailsActivity"
+            android:parentActivityName=".MapActivity"/>
     </application>
 
 </manifest>
