@@ -51,6 +51,7 @@ public class StatusBar extends Fragment
     private TextView mMoneyTextView;
     private TextView mRateTextView;
 
+    public StatusBar(){}
 // PUBLIC METHODS ------------------------------------------------------------
 
     @Override
