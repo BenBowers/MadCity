@@ -179,16 +179,17 @@ public class GameData
         return out;
     }
 
-    public void addStructure(Structure structure, int x, int y)
+    public void addStructure(Context context, Structure structure, int x,
+                             int y)
             throws IllegalStateException
     {
         if ( structure instanceof Road)
         {
-            setStructure(structure, x, y);
+            setStructure(context, structure, x, y);
         }
         else if (hasSurroundingRoad(x, y))
         {
-            setStructure(structure, x, y);
+            setStructure(context, structure, x, y);
 
             if(structure instanceof Residential)
             {
@@ -257,11 +258,14 @@ public class GameData
                         .getWritableDatabase();
     }
 
-    private void setStructure(Structure structure, int x, int y)
+    private void setStructure(Context context, Structure structure, int x,
+                              int y)
     {
         if (mMap[x][y] == null)
         {
-            mMap[x][y] = new MapElement();
+            mMap[x][y] =
+                    new MapElement(context.getResources().getString(
+                            structure.getName()));
         }
 
         mMap[x][y].setStructure(structure);

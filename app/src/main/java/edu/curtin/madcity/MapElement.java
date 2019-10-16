@@ -15,11 +15,10 @@ public class MapElement
         mStructure = structure;
     }
 
-    public MapElement()
+    public MapElement(String ownerName)
     {
-
+        mOwnerName = ownerName;
     }
-
 
     public Structure getStructure()
     {

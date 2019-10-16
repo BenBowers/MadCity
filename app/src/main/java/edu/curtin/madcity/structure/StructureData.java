@@ -37,7 +37,8 @@ public class StructureData
     /**
      * Individual road structure for displaying in menu
      */
-    public static final Road ROAD = new Road(0, R.string.road_title);
+    public static final Road ROAD = new Road(R.drawable.ic_road_nsew,
+                                             R.string.road_title);
 
     /**
      * Array of drawables for roads

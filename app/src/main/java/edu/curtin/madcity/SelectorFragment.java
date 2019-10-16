@@ -221,7 +221,7 @@ public class SelectorFragment extends Fragment
     {
         try
         {
-            GAME_DATA.addStructure(mStructure, x, y);
+            GAME_DATA.addStructure(getContext(), mStructure, x, y);
         }
         catch (IllegalStateException e)
         {
