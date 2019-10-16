@@ -64,14 +64,7 @@ public class MapDetailsActivity extends AppCompatActivity
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
     private MapElement mMapElement;
-
-    private TextView mXTextView;
-    private TextView mYTextView;
-    private TextView mStructureTextView;
     private ImageView mImageView;
-    private EditText mNameEditText;
-    private ImageButton mCameraButton;
-
 
 // OVERRIDE METHODS ----------------------------------------------------------
 
@@ -81,6 +74,11 @@ public class MapDetailsActivity extends AppCompatActivity
     {
         Log.d(TAG, "onCreate() called");
 
+        TextView xTextView;
+        TextView yTextView;
+        TextView structureTextView;
+        EditText nameEditText;
+        ImageButton cameraButton;
         int xLoc;
         int yLoc;
         Structure structure;
@@ -99,18 +97,18 @@ public class MapDetailsActivity extends AppCompatActivity
 
         //Get references to UI elements
 
-        mXTextView = findViewById(R.id.x_text_view);
-        mYTextView = findViewById(R.id.y_text_view);
-        mStructureTextView = findViewById(R.id.structure_text_view);
+        xTextView = findViewById(R.id.x_text_view);
+        yTextView = findViewById(R.id.y_text_view);
+        structureTextView = findViewById(R.id.structure_text_view);
         mImageView = findViewById(R.id.details_image_view);
-        mNameEditText = findViewById(R.id.details_name_edit_text);
-        mCameraButton = findViewById(R.id.camera_button);
+        nameEditText = findViewById(R.id.details_name_edit_text);
+        cameraButton = findViewById(R.id.camera_button);
 
         // Set the details of the ui elements.
 
-        mXTextView.setText(Integer.toString(xLoc));
-        mYTextView.setText(Integer.toString(yLoc));
-        mStructureTextView.setText(getStructureType(structure));
+        xTextView.setText(Integer.toString(xLoc));
+        yTextView.setText(Integer.toString(yLoc));
+        structureTextView.setText(getStructureType(structure));
 
 
             //Check if the map element has a bit map set it to that
@@ -125,12 +123,12 @@ public class MapDetailsActivity extends AppCompatActivity
 
         if( mMapElement.getOwnerName() != null)
         {
-            mNameEditText.setText(mMapElement.getOwnerName());
+            nameEditText.setText(mMapElement.getOwnerName());
         }
 
         // On Click Listeners
-        mNameEditText.addTextChangedListener(TEXT_LISTENER);
-        mCameraButton.setOnClickListener(this::cameraOnClick);
+        nameEditText.addTextChangedListener(TEXT_LISTENER);
+        cameraButton.setOnClickListener(this::cameraOnClick);
     }
 
     @Override
