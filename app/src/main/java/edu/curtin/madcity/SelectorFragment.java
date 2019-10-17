@@ -228,6 +228,11 @@ public class SelectorFragment extends Fragment
             Toast.makeText(getContext(), R.string.structure_warning,
                            Toast.LENGTH_LONG).show();
         }
+        catch (InsufficientFundsException e)
+        {
+            Toast.makeText(getContext(), R.string.insufficient_funds,
+                           Toast.LENGTH_LONG).show();
+        }
     }
 
     private void inspectItem(int x, int y)

@@ -39,6 +39,7 @@
     <!-- Map -->
     <string name="update_button">Earn cash!</string>
     <string name="structure_warning">Structures can only be placed next to roads</string>
+    <string name="insufficient_funds">Insufficient funds!</string>
 
     <!-- Map Details -->
     <string name="xloc_title">x:</string>

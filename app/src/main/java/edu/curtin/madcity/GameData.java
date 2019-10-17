@@ -182,27 +182,27 @@ public class GameData
 
     public void addStructure(Context context, Structure structure, int x,
                              int y)
-            throws IllegalStateException
+            throws IllegalStateException, InsufficientFundsException
     {
         if ( structure instanceof Road)
         {
+            widthdrawFunds(SETTINGS.ROAD_BUILDING_COST.getValue());
             setStructure(context, structure, x, y);
-            mMoney -= SETTINGS.ROAD_BUILDING_COST.getValue();
         }
         else if (hasSurroundingRoad(x, y))
         {
-            setStructure(context, structure, x, y);
 
             if(structure instanceof Residential)
             {
+                widthdrawFunds(SETTINGS.HOUSE_BUILDING_COST.getValue());
                 mNumResidential++;
-                mMoney -= SETTINGS.HOUSE_BUILDING_COST.getValue();
             }
             else
             {
+                widthdrawFunds(SETTINGS.COMM_BUILDING_COST.getValue());
                 mNumCommercial++;
-                mMoney -= SETTINGS.HOUSE_BUILDING_COST.getValue();
             }
+            setStructure(context, structure, x, y);
         }
         else
         {
@@ -290,4 +290,17 @@ public class GameData
                 (mMap[x][y].getStructure() != null) &&
                 (mMap[x][y].getStructure() instanceof Road);
     }
+
+    private void widthdrawFunds(int amount) throws InsufficientFundsException
+    {
+        if(mMoney - amount >= 0 )
+        {
+            mMoney -= amount;
+        }
+        else
+        {
+            throw new InsufficientFundsException();
+        }
+    }
+
 }
