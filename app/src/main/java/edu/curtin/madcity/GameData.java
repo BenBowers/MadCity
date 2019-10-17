@@ -69,6 +69,7 @@ public class GameData
      */
     private int mGameTime;
 
+    private float mEarning;
 
     private GameData()
     {
@@ -138,15 +139,21 @@ public class GameData
         return val;
     }
 
+    public float getEarning()
+    {
+        return mEarning;
+    }
+
     /**
      * Function called by the games timer to increment the games time.
      */
     private void increaseTime()
     {
         mGameTime++;
-        mMoney += getPopulation() * (getEmployment() *
+        mEarning = getPopulation() * (getEmployment() *
                 SETTINGS.SALARY.getValue() * SETTINGS.TAX_RATE.getValue()
                 - SETTINGS.SERVICE_COST.getValue());
+        mMoney += mEarning;
     }
 
 
@@ -186,7 +193,7 @@ public class GameData
     {
         if ( structure instanceof Road)
         {
-            widthdrawFunds(SETTINGS.ROAD_BUILDING_COST.getValue());
+            withdrawFunds(SETTINGS.ROAD_BUILDING_COST.getValue());
             setStructure(context, structure, x, y);
         }
         else if (hasSurroundingRoad(x, y))
@@ -194,12 +201,12 @@ public class GameData
 
             if(structure instanceof Residential)
             {
-                widthdrawFunds(SETTINGS.HOUSE_BUILDING_COST.getValue());
+                withdrawFunds(SETTINGS.HOUSE_BUILDING_COST.getValue());
                 mNumResidential++;
             }
             else
             {
-                widthdrawFunds(SETTINGS.COMM_BUILDING_COST.getValue());
+                withdrawFunds(SETTINGS.COMM_BUILDING_COST.getValue());
                 mNumCommercial++;
             }
             setStructure(context, structure, x, y);
@@ -291,7 +298,7 @@ public class GameData
                 (mMap[x][y].getStructure() instanceof Road);
     }
 
-    private void widthdrawFunds(int amount) throws InsufficientFundsException
+    private void withdrawFunds(int amount) throws InsufficientFundsException
     {
         if(mMoney - amount >= 0 )
         {

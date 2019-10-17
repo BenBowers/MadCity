@@ -88,13 +88,21 @@ public class StatusBar extends Fragment
 
     public void update()
     {
-        /*
+        float earning =  GAME_DATA.getEarning();
+        if(earning > 0)
+        {
+            mRateTextView.setText("$ +" + earning);
+            mRateTextView.setTextColor(
+                    getResources().getColor(R.color.plus_income, null));
+        }
+        else
+        {
+            mRateTextView.setText("$ " + earning);
+            mRateTextView.setTextColor(
+                    getResources().getColor(R.color.minus_income, null));
 
+        }
 
-        mRateTextView.setText(rate);
-
-
-        */
         mMoneyTextView.setText(String.format(Locale.UK,"$%d",
                                              GAME_DATA.getMoney()));
         mTimeTextView.setText(GAME_DATA.getFormattedTime());

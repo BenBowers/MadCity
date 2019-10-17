@@ -11,4 +11,7 @@
 
     <color name="not_selected">#31FFFFFF</color>
     <color name="map_background">#2E7D32</color>
+
+    <color name="plus_income">#85DA02</color>
+    <color name="minus_income">#F80202</color>
 </resources>
