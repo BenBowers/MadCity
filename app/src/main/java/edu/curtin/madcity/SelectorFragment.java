@@ -239,7 +239,7 @@ public class SelectorFragment extends Fragment
 
     public void removeStructure(int x, int y)
     {
-        GAME_DATA.mMap[x][y] = null;
+        GAME_DATA.removeStructure(x, y);
     }
 
     public boolean itemClicked(int x, int y)

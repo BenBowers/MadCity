@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.settings.Settings;
+import edu.curtin.madcity.structure.Commercial;
 import edu.curtin.madcity.structure.Residential;
 import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
@@ -209,23 +210,21 @@ public class GameData
 
     }
 
-    private boolean hasSurroundingRoad(int x, int y)
+    public void removeStructure(int x, int y)
     {
-        return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
-                ((y + 1 < mMap[0].length) &&
-                        roadExists(x, y + 1)) ||
-                ((x + 1 < mMap.length) &&
-                        roadExists(x + 1, y)) ||
-                ((y - 1 >= 0) && roadExists(x, y - 1));
+        Structure structure = mMap[x][y].getStructure();
+        if (structure instanceof Commercial)
+        {
+            mNumCommercial--;
+        }
+        else if (structure instanceof  Residential)
+        {
+            mNumResidential--;
+        }
+        mMap[x][y] = null;
     }
 
 
-    private boolean roadExists(int x, int y)
-    {
-        return (mMap[x][y] != null) &&
-                (mMap[x][y].getStructure() != null) &&
-                (mMap[x][y].getStructure() instanceof Road);
-    }
 
 
 // PRIVATE METHODS -----------------------------------------------------------
@@ -269,5 +268,23 @@ public class GameData
         }
 
         mMap[x][y].setStructure(structure);
+    }
+
+    private boolean hasSurroundingRoad(int x, int y)
+    {
+        return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
+                ((y + 1 < mMap[0].length) &&
+                        roadExists(x, y + 1)) ||
+                ((x + 1 < mMap.length) &&
+                        roadExists(x + 1, y)) ||
+                ((y - 1 >= 0) && roadExists(x, y - 1));
+    }
+
+
+    private boolean roadExists(int x, int y)
+    {
+        return (mMap[x][y] != null) &&
+                (mMap[x][y].getStructure() != null) &&
+                (mMap[x][y].getStructure() instanceof Road);
     }
 }
