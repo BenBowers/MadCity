@@ -34,6 +34,7 @@ public class TitleScreen extends AppCompatActivity
 
     private void newGameOnClick(View v)
     {
+        GameData.getInstance().newGame();
         startActivity(MapActivity.newIntent(TitleScreen.this));
     }
 

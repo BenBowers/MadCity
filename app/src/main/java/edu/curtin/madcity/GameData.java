@@ -187,6 +187,7 @@ public class GameData
         if ( structure instanceof Road)
         {
             setStructure(context, structure, x, y);
+            mMoney -= SETTINGS.ROAD_BUILDING_COST.getValue();
         }
         else if (hasSurroundingRoad(x, y))
         {
@@ -195,10 +196,12 @@ public class GameData
             if(structure instanceof Residential)
             {
                 mNumResidential++;
+                mMoney -= SETTINGS.HOUSE_BUILDING_COST.getValue();
             }
             else
             {
                 mNumCommercial++;
+                mMoney -= SETTINGS.HOUSE_BUILDING_COST.getValue();
             }
         }
         else
