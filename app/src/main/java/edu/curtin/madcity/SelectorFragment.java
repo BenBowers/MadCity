@@ -233,6 +233,11 @@ public class SelectorFragment extends Fragment
             Toast.makeText(getContext(), R.string.insufficient_funds,
                            Toast.LENGTH_LONG).show();
         }
+        catch (IllegalArgumentException e)
+        {
+            Toast.makeText(getContext(), R.string.structure_exists,
+                           Toast.LENGTH_LONG).show();
+        }
     }
 
     private void inspectItem(int x, int y)

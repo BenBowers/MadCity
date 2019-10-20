@@ -189,8 +189,13 @@ public class GameData
 
     public void addStructure(Context context, Structure structure, int x,
                              int y)
-            throws IllegalStateException, InsufficientFundsException
+            throws IllegalStateException, InsufficientFundsException,
+            IllegalArgumentException
     {
+        if( mMap[x][y] != null)
+        {
+            throw new IllegalArgumentException("Structure exists");
+        }
         if ( structure instanceof Road)
         {
             withdrawFunds(SETTINGS.ROAD_BUILDING_COST.getValue());
