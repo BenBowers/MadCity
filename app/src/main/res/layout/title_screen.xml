@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,8 +13,16 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="#FFF"
+        android:textColor="@color/white"
         android:textSize="80sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/author_name"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:paddingBottom="10dp"/>
     <Button
         android:id="@+id/start_button"
         android:layout_width="match_parent"
@@ -26,28 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_button"/>
-    <LinearLayout
+    <include layout="@layout/title_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="100dp" />
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:srcCompat="@drawable/ic_building2" />
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:srcCompat="@drawable/title_arrow"/>
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:srcCompat="@drawable/ic_building5" />
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:srcCompat="@drawable/title_arrow"/>
-
-    </LinearLayout>
 
 </LinearLayout>
