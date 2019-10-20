@@ -25,7 +25,7 @@ public class StatusBar extends Fragment
     public static final GameData GAME_DATA = GameData.getInstance();
 
 
-    private final Timer mTimer = new Timer();
+    private final Timer TIMER = new Timer();
     private final TimerTask mTimerTask = new TimerTask()
     {
         @Override
@@ -80,11 +80,17 @@ public class StatusBar extends Fragment
 
 
 
-        mTimer.scheduleAtFixedRate(mTimerTask, 0, 1000);
+        TIMER.scheduleAtFixedRate(mTimerTask, 0, 1000);
 
         return v;
     }
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        TIMER.cancel();
+    }
 
     public void update()
     {
