@@ -35,7 +35,7 @@ public class SettingsList extends Fragment
     private static final String TAG  = "SettingsList";
     private static final String DIALOG_NUMBER = "DialogNumber";
     private static final int REQUEST_INT = 0;
-    private final Settings SETTINGS = GameData.getInstance().settings;
+    private final Settings SETTINGS = GameData.getInstance(getContext()).settings;
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
@@ -131,6 +131,7 @@ public class SettingsList extends Fragment
         Toast.makeText(getContext(), R.string.default_settings_toast,
                        Toast.LENGTH_SHORT).show();
         updateUI();
+        SETTINGS.updateDb(getContext());
     }
 
 

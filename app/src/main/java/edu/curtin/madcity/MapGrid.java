@@ -31,7 +31,7 @@ public class MapGrid extends Fragment
     /**
      * Reference to game data
      */
-    public final GameData GAME_DATA = GameData.getInstance();
+    public final GameData GAME_DATA = GameData.getInstance(getContext());
 
     /**
      * Reference of the settings to use

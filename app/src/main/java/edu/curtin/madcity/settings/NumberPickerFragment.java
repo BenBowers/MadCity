@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import edu.curtin.madcity.GameData;
 import edu.curtin.madcity.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -87,5 +88,6 @@ public class NumberPickerFragment extends DialogFragment
             target.onActivityResult(getTargetRequestCode(),
                                     RESULT_OK, null);
         }
+        GameData.getInstance(getContext()).settings.updateDb(getContext());
     }
 }

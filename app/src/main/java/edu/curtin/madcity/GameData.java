@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import edu.curtin.madcity.database.DbHelper;
+import edu.curtin.madcity.database.DbSchema;
+import edu.curtin.madcity.database.SettingsCursor;
 import edu.curtin.madcity.settings.Settings;
 import edu.curtin.madcity.structure.Commercial;
 import edu.curtin.madcity.structure.Residential;
@@ -22,19 +24,27 @@ public class GameData
     /**
      * Singleton instance
      */
-    private static final GameData ourInstance = new GameData();
+    private static GameData ourInstance;
 
     /**
      * Singleton accessor
      * @return GameData instance
      */
+    public static GameData getInstance(Context context)
+    {
+        if(ourInstance == null)
+        {
+            ourInstance = new GameData(context);
+        }
+        return ourInstance;
+    }
+
     public static GameData getInstance()
     {
         return ourInstance;
     }
 
     private SQLiteDatabase db;
-    private final Timer TIMER = new Timer();
 
 
 
@@ -68,9 +78,9 @@ public class GameData
 
     private float mEarning;
 
-    private GameData()
+    private GameData(Context context)
     {
-        initTimer();
+        load(context);
     }
 
     /**
@@ -242,23 +252,6 @@ public class GameData
 // PRIVATE METHODS -----------------------------------------------------------
 
     /**
-     * Initialises the game timer.
-     */
-    private void initTimer()
-    {
-        TimerTask t = new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                GameData.this.increaseTime();
-            }
-        };
-
-        TIMER.scheduleAtFixedRate(t, 0, GAME_INCREMENT);
-    }
-
-    /**
      * Loads the games database.
      * @param context context that is loading it
      */
@@ -267,6 +260,33 @@ public class GameData
         this.db =
                 new DbHelper(context.getApplicationContext())
                         .getWritableDatabase();
+
+        // Java 7 automatic resource control no need for cursor.close()
+        try (SettingsCursor cursor = new SettingsCursor(
+                db.query(DbSchema.SettingsTable.NAME,
+                        null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null)
+        ))
+        {
+            if(cursor.getCount() == 0) // There is no column set default
+                // and insert
+            {
+                settings = new Settings();
+                db.insert(DbSchema.SettingsTable.NAME, null,
+                          DbSchema.SettingsTable.settingsCV(settings));
+            }
+            else
+            {
+                cursor.moveToFirst();
+                settings = cursor.get();
+            }
+        }
+
     }
 
     private void setStructure(Context context, Structure structure, int x,
@@ -312,4 +332,8 @@ public class GameData
         }
     }
 
+    public SQLiteDatabase getDb()
+    {
+        return db;
+    }
 }

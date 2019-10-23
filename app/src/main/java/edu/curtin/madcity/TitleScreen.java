@@ -23,6 +23,7 @@ public class TitleScreen extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        GameData.getInstance(getApplicationContext());
         setContentView(R.layout.title_screen);
         mNewGameButton = findViewById(R.id.start_button);
         mSettingsButton = findViewById(R.id.settings_button);
@@ -34,7 +35,7 @@ public class TitleScreen extends AppCompatActivity
 
     private void newGameOnClick(View v)
     {
-        GameData.getInstance().newGame();
+        GameData.getInstance(getApplicationContext()).newGame();
         startActivity(MapActivity.newIntent(TitleScreen.this));
     }
 

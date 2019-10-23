@@ -30,7 +30,7 @@ public class StatusBar extends Fragment
 // CLASS CONSTANTS -----------------------------------------------------------
 
     public static final String TAG = "StatusBar";
-    private static final GameData GAME_DATA = GameData.getInstance();
+    private final GameData GAME_DATA = GameData.getInstance(getContext());
     private static final int GAME_OVER = 1;
 
 
@@ -48,6 +48,7 @@ public class StatusBar extends Fragment
             if (activity != null)
             {
                 activity.runOnUiThread(StatusBar.this::update);
+                GAME_DATA.increaseTime();
             }
         }
     };
@@ -87,7 +88,7 @@ public class StatusBar extends Fragment
         mEmploymentTextView = v.findViewById(R.id.status_employment);
 
         // Set the timer to update the UI every second.
-        TIMER.scheduleAtFixedRate(TIMER_UI_UPDATE, 0, 1000);
+        TIMER.scheduleAtFixedRate(TIMER_UI_UPDATE, 0, GameData.GAME_INCREMENT);
 
         return v;
     }

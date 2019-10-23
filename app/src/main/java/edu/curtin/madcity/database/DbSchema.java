@@ -1,5 +1,9 @@
 package edu.curtin.madcity.database;
 
+import android.content.ContentValues;
+
+import edu.curtin.madcity.settings.Settings;
+
 public class DbSchema
 {
     public static class SettingsTable
@@ -28,6 +32,7 @@ public class DbSchema
         {
             return
                     "CREATE TABLE " + SettingsTable.NAME + "(" +
+                            "ID INTEGER PRIMARY KEY AUTOINCREMENT, "+
                             Cols.MAP_WIDTH + " INTEGER, " +
                             Cols.MAP_HEIGHT + " INTEGER, " +
                             Cols.INITIAL_MONEY + " INTEGER, " +
@@ -39,6 +44,27 @@ public class DbSchema
                             Cols.HOUSE_BUILDING_COST + " INTEGER, " +
                             Cols.COMM_BUILDING_COST + " INTEGER, " +
                             Cols.ROAD_BUILDING_COST + " INTEGER)";
+        }
+
+        public static ContentValues settingsCV(Settings settings)
+        {
+            ContentValues cv = new ContentValues();
+
+            cv.put(Cols.MAP_WIDTH, settings.MAP_WIDTH.getValue());
+            cv.put(Cols.MAP_HEIGHT, settings.MAP_HEIGHT.getValue());
+            cv.put(Cols.INITIAL_MONEY, settings.INITIAL_MONEY.getValue());
+            cv.put(Cols.FAMILY_SIZE, settings.FAMILY_SIZE.getValue());
+            cv.put(Cols.SHOP_SIZE, settings.SHOP_SIZE.getValue());
+            cv.put(Cols.SALARY, settings.SALARY.getValue());
+            cv.put(Cols.TAX_RATE, settings.TAX_RATE.getValue());
+            cv.put(Cols.SERVICE_COST, settings.SERVICE_COST.getValue());
+            cv.put(Cols.HOUSE_BUILDING_COST, settings.HOUSE_BUILDING_COST
+                    .getValue());
+            cv.put(Cols.COMM_BUILDING_COST, settings.COMM_BUILDING_COST
+                    .getValue());
+            cv.put(Cols.ROAD_BUILDING_COST, settings.ROAD_BUILDING_COST
+                    .getValue());
+            return cv;
         }
     }
 

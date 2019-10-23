@@ -1,6 +1,11 @@
 package edu.curtin.madcity.settings;
 
+import android.content.Context;
+import android.util.Log;
+
+import edu.curtin.madcity.GameData;
 import edu.curtin.madcity.R;
+import edu.curtin.madcity.database.DbSchema.SettingsTable;
 
 public class Settings
 {
@@ -124,4 +129,15 @@ public class Settings
     {
         return SETTINGS.length;
     }
+
+    public void updateDb(Context context)
+    {
+        Log.d("UPDATE_SETTING", "!!!!!");
+        GameData.getInstance(context).getDb().update(
+                SettingsTable.NAME,
+                SettingsTable.settingsCV(this),
+                "ID = ?",
+                new String[] {"1"});
+    }
+
 }

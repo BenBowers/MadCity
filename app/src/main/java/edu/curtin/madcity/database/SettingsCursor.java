@@ -3,8 +3,8 @@ package edu.curtin.madcity.database;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import edu.curtin.madcity.Settings;
 import edu.curtin.madcity.database.DbSchema.SettingsTable.Cols;
+import edu.curtin.madcity.settings.Settings;
 
 public class SettingsCursor extends CursorWrapper implements DbCursor<Settings>
 {
@@ -29,5 +29,5 @@ public class SettingsCursor extends CursorWrapper implements DbCursor<Settings>
                 getInt(getColumnIndex(Cols.ROAD_BUILDING_COST))
         );
     }
-
 }
+

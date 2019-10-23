@@ -110,7 +110,7 @@ public class MapDetailsActivity extends AppCompatActivity
 
         xLoc = intent.getIntExtra(X_EXTRA, -1);
         yLoc = intent.getIntExtra(Y_EXTRA, -1);
-        mMapElement = GameData.getInstance().mMap[xLoc][yLoc];
+        mMapElement = GameData.getInstance(getApplicationContext()).mMap[xLoc][yLoc];
         structure = mMapElement.getStructure();
 
         //Get references to UI elements
@@ -211,7 +211,7 @@ public class MapDetailsActivity extends AppCompatActivity
         Intent intent;
 
         // Throw exception if the map element doesn't exist
-        if (GameData.getInstance().mMap[x][y] == null)
+        if (GameData.getInstance(packageContext).mMap[x][y] == null)
         {
             throw new IllegalArgumentException("Invalid location");
         }

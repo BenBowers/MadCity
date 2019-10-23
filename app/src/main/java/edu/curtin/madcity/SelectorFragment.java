@@ -44,7 +44,7 @@ public class SelectorFragment extends Fragment
     private static final int REQUEST_RESIDENTIAL = 1;
     private static final int REQUEST_COMMERCIAL = 2;
 
-    private final GameData GAME_DATA = GameData.getInstance();
+    private final GameData GAME_DATA = GameData.getInstance(getContext());
 
     private Structure mStructure;
     private SelectedItem mSelectedItem = SelectedItem.TOUCH; // This is
