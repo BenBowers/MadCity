@@ -19,6 +19,10 @@
     <string name="status_money">Money</string>
     <string name="status_population">Population</string>
     <string name="status_employment">Employment</string>
+    <string name="money_format">$%d</string>
+    <string name="pop_format">%d</string>
+    <string name="status_rate">%+.02f</string>
+    <string name="emp_format">%.01f%%</string>
 
     <!--  Settings menu strings -->
     <string name="default_settings">Default Settings</string>
@@ -42,6 +46,10 @@
     <string name="structure_warning">Structures can only be placed next to roads</string>
     <string name="insufficient_funds">Insufficient funds!</string>
     <string name="structure_exists">Structure must be deleted first</string>
+
+    <!-- Game Over Dialog -->
+    <string name="game_over_prompt">Game Over!</string>
+    <string name="return_title_screen">Return to title screen</string>
 
     <!-- Map Details -->
     <string name="xloc_title">x:</string>

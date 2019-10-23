@@ -1,6 +1,8 @@
 package edu.curtin.madcity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,21 +14,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.app.Activity.RESULT_OK;
 
+/**
+ * Class for the status bar UI displaying the current statistics of the game.
+ * This is also responsible for detecting whether the game is over (i've
+ * done this to avoid complexities with android's activities
+ */
 public class StatusBar extends Fragment
 {
 
 // CLASS CONSTANTS -----------------------------------------------------------
+
     public static final String TAG = "StatusBar";
-    public static final GameData GAME_DATA = GameData.getInstance();
+    private static final GameData GAME_DATA = GameData.getInstance();
+    private static final int GAME_OVER = 1;
 
 
+    /**
+     * Timer to update the UI on this (running a seperate timer makes it
+     * easy to update rather than adding it to the game data timer task.
+     */
     private final Timer TIMER = new Timer();
-    private final TimerTask mTimerTask = new TimerTask()
+    private final TimerTask TIMER_UI_UPDATE = new TimerTask()
     {
         @Override
         public void run()
@@ -40,9 +53,6 @@ public class StatusBar extends Fragment
     };
 
 
-
-
-
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
     private TextView mTimeTextView;
@@ -51,15 +61,12 @@ public class StatusBar extends Fragment
     private TextView mMoneyTextView;
     private TextView mRateTextView;
 
-    public StatusBar(){}
-// PUBLIC METHODS ------------------------------------------------------------
+// CONSTRUCTOR ---------------------------------------------------------------
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        Log.d(TAG, "onCreate() called");
-        super.onCreate(savedInstanceState);
-    }
+    public StatusBar(){} // Empty constructor because android
+    // Yes the app would actually crash if i don't have this
+
+// OVERRIDE METHODS ----------------------------------------------------------
 
     @Nullable
     @Override
@@ -68,6 +75,7 @@ public class StatusBar extends Fragment
                              @Nullable Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreateView() called");
+
         // Inflate the layout
         View v = inflater.inflate(R.layout.status_bar, container, false);
 
@@ -78,42 +86,100 @@ public class StatusBar extends Fragment
         mPopulationTextView = v.findViewById(R.id.status_population);
         mEmploymentTextView = v.findViewById(R.id.status_employment);
 
-
-
-        TIMER.scheduleAtFixedRate(mTimerTask, 0, 1000);
+        // Set the timer to update the UI every second.
+        TIMER.scheduleAtFixedRate(TIMER_UI_UPDATE, 0, 1000);
 
         return v;
     }
 
     @Override
-    public void onDestroy()
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
-        super.onDestroy();
-        TIMER.cancel();
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == GAME_OVER)
+            {
+                Log.d(TAG, "GAME OVER");
+                getActivity().finish();
+            }
+        }
     }
 
-    public void update()
+    @Override
+    public void onDestroyView()
     {
-        float earning =  GAME_DATA.getEarning();
+        super.onDestroyView();
+        TIMER.cancel(); // Stop the UI update call when there is no UI to
+        // update
+    }
+
+// PRIVATE METHODS -----------------------------------------------------------
+
+    /**
+     * Updates all the UI elements with the current data (also checks if
+     * the game is over.
+     */
+    private void update()
+    {
+        int money = GAME_DATA.getMoney();
+        final float earning =  GAME_DATA.getEarning();
+        int colour;
+
+        if (money < 0) // Game over condition
+        {
+            TIMER.cancel();
+            GameOverDialog dialog = new GameOverDialog();
+                    dialog.setTargetFragment(StatusBar.this, GAME_OVER);
+                    dialog.setCancelable(false);
+                    dialog.show(getFragmentManager(), "dialogNumber");
+        }
+
+        // Set the rate text and colour
+        mRateTextView.setText(getString(R.string.status_rate, earning));
+        colour = getEarningColour(earning);
+        mRateTextView.setTextColor(colour);
+
+        // Set money text
+        mMoneyTextView.setText(getString(R.string.money_format,
+                               GAME_DATA.getMoney()));
+
+        // Set time text
+        mTimeTextView.setText(GAME_DATA.getFormattedTime());
+
+        // Set population text
+        mPopulationTextView.setText(getString(R.string.pop_format,
+                                              GAME_DATA.getPopulation()));
+        //Set employment text
+        mEmploymentTextView.setText(
+                getString(R.string.emp_format,
+                          GAME_DATA.getEmployment() * 100));
+    }
+
+    /**
+     * Gets a colour based on the current earning
+     * @param earning current earning
+     * @return colour int
+     */
+    private int getEarningColour(final float earning)
+    {
+        int colour;
+        final Resources res = getResources();
+
         if(earning > 0)
         {
-            mRateTextView.setText("$ +" + earning);
-            mRateTextView.setTextColor(
-                    getResources().getColor(R.color.plus_income, null));
+            colour =  res.getColor(R.color.plus_income, null);
+        }
+        else if (earning < 0)
+        {
+            colour = res.getColor(R.color.minus_income, null);
         }
         else
         {
-            mRateTextView.setText("$ " + earning);
-            mRateTextView.setTextColor(
-                    getResources().getColor(R.color.minus_income, null));
-
+            colour = res.getColor(R.color.zero_income, null);
         }
 
-        mMoneyTextView.setText(String.format(Locale.UK,"$%d",
-                                             GAME_DATA.getMoney()));
-        mTimeTextView.setText(GAME_DATA.getFormattedTime());
-        mPopulationTextView.setText(Integer.toString(GAME_DATA.getPopulation()));
-        mEmploymentTextView.setText(GAME_DATA.getEmployment() * 100 + "%");
+        return colour;
     }
 
 }// StatusBar

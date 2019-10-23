@@ -15,4 +15,5 @@
 
     <color name="plus_income">#85DA02</color>
     <color name="minus_income">#F80202</color>
+    <color name="zero_income">#FF8F00</color>
 </resources>
