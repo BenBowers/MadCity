@@ -21,7 +21,8 @@
         </activity>
 
         <activity android:name=".MapActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".SettingsActivity"

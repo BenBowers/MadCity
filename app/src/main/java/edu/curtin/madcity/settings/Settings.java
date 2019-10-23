@@ -14,7 +14,7 @@ public class Settings
 
     public static final int DEFAULT_MAP_HEIGHT = 10;
     public final IntSetting MAP_HEIGHT =
-            new IntSetting(R.string.settings_map_height, 20, 5);
+            new IntSetting(R.string.settings_map_height, 15, 5);
 
     public static final int DEFAULT_INITIAL_MONEY = 1000;
     public final IntSetting INITIAL_MONEY =
