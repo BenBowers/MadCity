@@ -3,9 +3,6 @@ package edu.curtin.madcity;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.settings.Settings;
 import edu.curtin.madcity.structure.Commercial;
@@ -20,7 +17,7 @@ public class GameData
      */
     public static final int GAME_INCREMENT = 1000;
 
-    public final Settings SETTINGS = new Settings();
+    public Settings settings;
 
     /**
      * Singleton instance
@@ -86,12 +83,12 @@ public class GameData
         mNumResidential = 0;
         mNumCommercial = 0;
 
-        mMoney = SETTINGS.INITIAL_MONEY.getValue();
+        mMoney = settings.INITIAL_MONEY.getValue();
 
         // Generate a new map.
         mMap =
-                new MapElement[SETTINGS.MAP_WIDTH.getValue()]
-                        [SETTINGS.MAP_HEIGHT.getValue()];
+                new MapElement[settings.MAP_WIDTH.getValue()]
+                        [settings.MAP_HEIGHT.getValue()];
     }
 
     /**
@@ -118,7 +115,7 @@ public class GameData
      */
     public int getPopulation()
     {
-        return SETTINGS.FAMILY_SIZE.getValue() * mNumResidential;
+        return settings.FAMILY_SIZE.getValue() * mNumResidential;
     }
 
     /**
@@ -133,7 +130,7 @@ public class GameData
         if(population != 0) // Prevent division by 0
         {
             val = Math.min(1, mNumCommercial *
-                    (float)SETTINGS.SHOP_SIZE.getValue() / (float)population);
+                    (float) settings.SHOP_SIZE.getValue() / (float)population);
         }
 
         return val;
@@ -147,12 +144,12 @@ public class GameData
     /**
      * Function called by the games timer to increment the games time.
      */
-    private void increaseTime()
+    public void increaseTime()
     {
         mGameTime++;
         mEarning = getPopulation() * (getEmployment() *
-                SETTINGS.SALARY.getValue() * SETTINGS.TAX_RATE.getValue()
-                - SETTINGS.SERVICE_COST.getValue());
+                settings.SALARY.getValue() * settings.TAX_RATE.getValue()
+                - settings.SERVICE_COST.getValue());
         mMoney += mEarning;
     }
 
@@ -198,7 +195,7 @@ public class GameData
         }
         if ( structure instanceof Road)
         {
-            withdrawFunds(SETTINGS.ROAD_BUILDING_COST.getValue());
+            withdrawFunds(settings.ROAD_BUILDING_COST.getValue());
             setStructure(context, structure, x, y);
         }
         else if (hasSurroundingRoad(x, y))
@@ -206,12 +203,12 @@ public class GameData
 
             if(structure instanceof Residential)
             {
-                withdrawFunds(SETTINGS.HOUSE_BUILDING_COST.getValue());
+                withdrawFunds(settings.HOUSE_BUILDING_COST.getValue());
                 mNumResidential++;
             }
             else
             {
-                withdrawFunds(SETTINGS.COMM_BUILDING_COST.getValue());
+                withdrawFunds(settings.COMM_BUILDING_COST.getValue());
                 mNumCommercial++;
             }
             setStructure(context, structure, x, y);

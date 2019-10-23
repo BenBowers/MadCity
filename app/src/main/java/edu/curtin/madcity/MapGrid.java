@@ -36,7 +36,7 @@ public class MapGrid extends Fragment
     /**
      * Reference of the settings to use
      */
-    public final Settings SETTINGS = GAME_DATA.SETTINGS;
+    public final Settings SETTINGS = GAME_DATA.settings;
 
 // CLASS FIELDS --------------------------------------------------------------
 

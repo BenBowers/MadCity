@@ -35,7 +35,7 @@ public class SettingsList extends Fragment
     private static final String TAG  = "SettingsList";
     private static final String DIALOG_NUMBER = "DialogNumber";
     private static final int REQUEST_INT = 0;
-    private final Settings SETTINGS = GameData.getInstance().SETTINGS;
+    private final Settings SETTINGS = GameData.getInstance().settings;
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
