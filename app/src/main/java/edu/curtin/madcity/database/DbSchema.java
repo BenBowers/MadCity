@@ -2,8 +2,29 @@ package edu.curtin.madcity.database;
 
 import android.content.ContentValues;
 
+import edu.curtin.madcity.GameData;
 import edu.curtin.madcity.settings.Settings;
 
+/**
+ * Class storing all the schemas for the database.
+ * Table class
+ * {
+ *     Cols class
+ *     {
+ *         // all the columns
+ *     }
+ *
+ *     String createTable()
+ *     {
+ *         return string to create table
+ *     }
+ *
+ *     ContentValues CV(...)
+ *     {
+ *         return the content values of the class
+ *     }
+ * }
+ */
 public class DbSchema
 {
     public static class SettingsTable
@@ -76,16 +97,32 @@ public class DbSchema
         {
             public static final String MONEY = "money";
             public static final String TIME = "time";
+            public static final String RES_NUM = "resnum";
+            public static final String COMM_NUM = "commnum";
         }
 
         public static String createTable()
         {
             return
                     "CREATE TABLE " + GameDataTable.NAME + "(" +
-                            GameDataTable.Cols.MONEY + " INTEGER, " +
-                            GameDataTable.Cols.TIME + " INTEGER)";
+                            "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            Cols.MONEY + " INTEGER, " +
+                            Cols.TIME + " INTEGER, " +
+                            Cols.RES_NUM + " INTEGER, " +
+                            Cols.COMM_NUM + " INTEGER )";
         }
 
+        public static ContentValues CV(GameData gameData)
+        {
+            ContentValues cv = new ContentValues();
+
+            cv.put(Cols.MONEY, gameData.getMoney());
+            cv.put(Cols.TIME, gameData.getMoney());
+            cv.put(Cols.RES_NUM, gameData.getNumResidential());
+            cv.put(Cols.COMM_NUM, gameData.getNumCommercial());
+
+            return cv;
+        }
     }
 
     public static class MapElementTable

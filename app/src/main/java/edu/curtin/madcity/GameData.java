@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.database.DbSchema;
+import edu.curtin.madcity.database.DbSchema.GameDataTable;
+import edu.curtin.madcity.database.GameDataCursor;
 import edu.curtin.madcity.database.SettingsCursor;
 import edu.curtin.madcity.settings.Settings;
 import edu.curtin.madcity.structure.Commercial;
@@ -119,6 +121,26 @@ public class GameData
         return mGameTime;
     }
 
+    public void setGameTime(int gameTime)
+    {
+        mGameTime = gameTime;
+    }
+
+    public void setMoney(int money)
+    {
+        mMoney = money;
+    }
+
+    public void setNumCommercial(int numCommercial)
+    {
+        mNumCommercial = numCommercial;
+    }
+
+    public void setNumResidential(int numResidential)
+    {
+        mNumResidential = numResidential;
+    }
+
     /**
      * Calculates the population of a town.
      * @return population of town
@@ -161,8 +183,31 @@ public class GameData
                 settings.SALARY.getValue() * settings.TAX_RATE.getValue()
                 - settings.SERVICE_COST.getValue());
         mMoney += mEarning;
+        updateDb();
+
     }
 
+    /**
+     * Updates the game data database called when the a structure is
+     * inserted or deleted or the game time is increased.
+     */
+    private void updateDb()
+    {
+        // Update the database whenever time is increased
+        db.update(GameDataTable.NAME,
+                  GameDataTable.CV(this),
+                  "ID = ?", new String[] {"1"});
+    }
+
+    public int getNumResidential()
+    {
+        return mNumResidential;
+    }
+
+    public int getNumCommercial()
+    {
+        return mNumCommercial;
+    }
 
     /**
      * Gets the game time and returns it in a formatted string to be used
@@ -228,7 +273,7 @@ public class GameData
             throw new IllegalStateException("No surrounding road");
         }
 
-
+        updateDb();
 
     }
 
@@ -244,6 +289,8 @@ public class GameData
             mNumResidential--;
         }
         mMap[x][y] = null;
+
+        updateDb();
     }
 
 
@@ -262,6 +309,8 @@ public class GameData
                         .getWritableDatabase();
 
         // Java 7 automatic resource control no need for cursor.close()
+
+        // Load the settings
         try (SettingsCursor cursor = new SettingsCursor(
                 db.query(DbSchema.SettingsTable.NAME,
                         null,
@@ -284,6 +333,30 @@ public class GameData
             {
                 cursor.moveToFirst();
                 settings = cursor.get();
+            }
+        }
+
+        // Load the game data
+        try (GameDataCursor cursor = new GameDataCursor(
+                db.query(DbSchema.GameDataTable.NAME,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null)
+        ))
+        {
+            if( cursor.getCount() <= 0)
+            {
+                db.insert(GameDataTable.NAME, null,
+                          GameDataTable.CV(this));
+            }
+            else
+            {
+                cursor.moveToFirst();
+                cursor.get(this);
             }
         }
 
@@ -336,4 +409,7 @@ public class GameData
     {
         return db;
     }
+
+
+
 }
