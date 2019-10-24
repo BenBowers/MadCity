@@ -86,13 +86,13 @@ public class StructureData
         {
             structure = ROAD;
         }
-        else if(structureId >= 1 && structureId < 4)
+        else if(structureId >= 1 && structureId <= 4)
         {
             structure = RESIDENTIAL[structureId - 1];
         }
-        else if (structureId < 8)
+        else if (structureId <= 8)
         {
-            structure = COMMERCIAL[structureId - 4];
+            structure = COMMERCIAL[structureId - 5];
         }
         else
         {

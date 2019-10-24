@@ -6,7 +6,7 @@ import android.database.CursorWrapper;
 import edu.curtin.madcity.database.DbSchema.SettingsTable.Cols;
 import edu.curtin.madcity.settings.Settings;
 
-public class SettingsCursor extends CursorWrapper implements DbCursor<Settings>
+public class SettingsCursor extends CursorWrapper
 {
     public SettingsCursor(Cursor cursor)
     {

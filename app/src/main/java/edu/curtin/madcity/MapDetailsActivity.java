@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.curtin.madcity.database.DbSchema.MapElementTable;
 import edu.curtin.madcity.structure.Commercial;
 import edu.curtin.madcity.structure.Residential;
 import edu.curtin.madcity.structure.Road;
@@ -77,6 +78,8 @@ public class MapDetailsActivity extends AppCompatActivity
 
     private MapElement mMapElement;
     private ImageView mImageView;
+    private int xLoc;
+    private int yLoc;
 
     /**
      * Boolean representing whether the parent activity needs to update
@@ -97,8 +100,7 @@ public class MapDetailsActivity extends AppCompatActivity
         TextView structureTextView;
         EditText nameEditText;
         ImageButton cameraButton;
-        int xLoc;
-        int yLoc;
+
         Structure structure;
         Intent intent = getIntent();
 
@@ -179,6 +181,20 @@ public class MapDetailsActivity extends AppCompatActivity
                 mUpdateView = true;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        // Save to db when destroyed
+        GameData.getInstance(getApplicationContext()).getDb().update(
+                MapElementTable.NAME,
+                MapElementTable.CV(mMapElement, xLoc, yLoc),
+                MapElementTable.Cols.X_LOC + " = ? AND " +
+                MapElementTable.Cols.Y_LOC + " = ?",
+                new String[] {Integer.toString(xLoc),
+                        Integer.toString(yLoc)});
     }
 
     /**

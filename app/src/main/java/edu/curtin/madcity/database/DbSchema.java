@@ -3,6 +3,7 @@ package edu.curtin.madcity.database;
 import android.content.ContentValues;
 
 import edu.curtin.madcity.GameData;
+import edu.curtin.madcity.MapElement;
 import edu.curtin.madcity.settings.Settings;
 
 /**
@@ -27,6 +28,9 @@ import edu.curtin.madcity.settings.Settings;
  */
 public class DbSchema
 {
+    /**
+     * Class containing the schema for the settings of the game
+     */
     public static class SettingsTable
     {
         public static final String NAME = "settings";
@@ -52,7 +56,7 @@ public class DbSchema
         public static String createTable()
         {
             return
-                    "CREATE TABLE " + SettingsTable.NAME + "(" +
+                    "CREATE TABLE " + NAME + "(" +
                             "ID INTEGER PRIMARY KEY AUTOINCREMENT, "+
                             Cols.MAP_WIDTH + " INTEGER, " +
                             Cols.MAP_HEIGHT + " INTEGER, " +
@@ -89,6 +93,9 @@ public class DbSchema
         }
     }
 
+    /**
+     * Class containing the schemea for the game data table
+     */
     public static class GameDataTable
     {
         public static final String NAME = "game_data";
@@ -104,7 +111,7 @@ public class DbSchema
         public static String createTable()
         {
             return
-                    "CREATE TABLE " + GameDataTable.NAME + "(" +
+                    "CREATE TABLE " + NAME + "(" +
                             "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             Cols.MONEY + " INTEGER, " +
                             Cols.TIME + " INTEGER, " +
@@ -117,7 +124,7 @@ public class DbSchema
             ContentValues cv = new ContentValues();
 
             cv.put(Cols.MONEY, gameData.getMoney());
-            cv.put(Cols.TIME, gameData.getMoney());
+            cv.put(Cols.TIME, gameData.getGameTime());
             cv.put(Cols.RES_NUM, gameData.getNumResidential());
             cv.put(Cols.COMM_NUM, gameData.getNumCommercial());
 
@@ -125,6 +132,9 @@ public class DbSchema
         }
     }
 
+    /**
+     * Class containing the schema for an individual map element
+     */
     public static class MapElementTable
     {
         public static final String NAME = "map_elements";
@@ -141,15 +151,30 @@ public class DbSchema
         public static String createTable()
         {
             return
-                    " CREATE TABLE " + MapElementTable.NAME + "(" +
-                            MapElementTable.Cols.X_LOC + " INTEGER, " +
-                            MapElementTable.Cols.Y_LOC + " INTEGER, " +
-                            MapElementTable.Cols.STRUCTURE + " INTEGER, " +
-                            MapElementTable.Cols.IMAGE + " BLOB, " +
-                            MapElementTable.Cols.OWNER_NAME + " TEXT, " +
-                            "PRIMARY KEY(" + MapElementTable.Cols.X_LOC + ", " + MapElementTable.Cols.Y_LOC + ")" +
+                    " CREATE TABLE " + NAME + "(" +
+                            Cols.X_LOC + " INTEGER, " +
+                            Cols.Y_LOC + " INTEGER, " +
+                            Cols.STRUCTURE + " INTEGER, " +
+                            Cols.IMAGE + " BLOB, " +
+                            Cols.OWNER_NAME + " TEXT, " +
+                            "PRIMARY KEY(" + Cols.X_LOC + ", "
+                            + Cols.Y_LOC + ")" +
                             ")";
         }
+
+        public static ContentValues CV(MapElement mapElement, int x, int y)
+        {
+            ContentValues cv = new ContentValues();
+
+            cv.put(Cols.X_LOC, x);
+            cv.put(Cols.Y_LOC, y);
+            cv.put(Cols.STRUCTURE, mapElement.getStructureID());
+            cv.put(Cols.IMAGE, mapElement.getImageBytes());
+            cv.put(Cols.OWNER_NAME, mapElement.getOwnerName());
+
+            return cv;
+        }
+
     }
 
 

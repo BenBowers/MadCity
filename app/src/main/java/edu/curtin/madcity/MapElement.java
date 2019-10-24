@@ -2,6 +2,9 @@ package edu.curtin.madcity;
 
 import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import edu.curtin.madcity.structure.Residential;
 import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
@@ -79,5 +82,36 @@ public class MapElement
     public void setOwnerName(String ownerName)
     {
         mOwnerName = ownerName;
+    }
+
+    public int getStructureID()
+    {
+        return mStructure;
+    }
+
+    public byte[] getImageBytes()
+    {
+        byte[] arr;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        if(mImage != null)
+        {
+            mImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            arr = stream.toByteArray();
+            try
+            {
+                stream.close();
+            }
+            catch (IOException e)
+            {
+                // TODO: handle
+            }
+        }
+        else
+        {
+            arr = null;
+        }
+
+        return arr;
     }
 }

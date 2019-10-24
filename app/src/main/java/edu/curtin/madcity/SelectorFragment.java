@@ -140,7 +140,7 @@ public class SelectorFragment extends Fragment
                 mStructure = loc + 1;
                 break;
             case REQUEST_COMMERCIAL:
-                mStructure = loc + 4;
+                mStructure = loc + 5;
                 break;
         }
 

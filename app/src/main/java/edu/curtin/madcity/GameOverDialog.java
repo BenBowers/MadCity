@@ -50,6 +50,7 @@ public class GameOverDialog extends DialogFragment
 
         if (target != null)
         {
+            GameData.getInstance(getContext()).newGame();
             Intent intent = new Intent();
             target.onActivityResult(getTargetRequestCode(), RESULT_OK,
                                     intent);

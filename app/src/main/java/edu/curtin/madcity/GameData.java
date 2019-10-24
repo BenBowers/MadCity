@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.database.DbSchema;
 import edu.curtin.madcity.database.DbSchema.GameDataTable;
+import edu.curtin.madcity.database.DbSchema.MapElementTable;
 import edu.curtin.madcity.database.GameDataCursor;
 import edu.curtin.madcity.database.MapElementCursor;
 import edu.curtin.madcity.database.SettingsCursor;
@@ -52,11 +53,6 @@ public class GameData
         return ourInstance;
     }
 
-    private SQLiteDatabase db;
-    private boolean mGameLoaded = false;
-
-
-
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
@@ -65,6 +61,7 @@ public class GameData
      */
     public MapElement[][] mMap;
 
+    private SQLiteDatabase db;
     /**
      * Number of residential buildings in the town.
      */
@@ -105,6 +102,8 @@ public class GameData
         mMoney = settings.INITIAL_MONEY.getValue();
         initMap();
 
+        // Delete all the old game data
+        db.delete(MapElementTable.NAME, null,null);
     }
 
 
@@ -281,7 +280,8 @@ public class GameData
             throw new IllegalStateException("No surrounding road");
         }
 
-        // TODO: add the structure to the database
+        db.insert(DbSchema.MapElementTable.NAME, null,
+                  MapElementTable.CV(mMap[x][y], x, y));
         updateDb();
 
     }
@@ -303,7 +303,10 @@ public class GameData
             mNumResidential--;
         }
         mMap[x][y] = null;
-        // TODO: remove structure from the database!
+        db.delete(MapElementTable.NAME,
+                  MapElementTable.Cols.X_LOC + " = ? AND " +
+                    MapElementTable.Cols.Y_LOC + " = ?",
+                  new String[] {Integer.toString(x), Integer.toString(y)});
 
         updateDb(); // Update the database
     }
@@ -335,11 +338,8 @@ public class GameData
         // Java 7 automatic resource control no need for cursor.close()
         loadSettings();
         loadGameData();
-        if(mGameLoaded)
-        {
             initMap(); // Initialize the array from the settings
             loadMap(); // Load the map from the database
-        }
     }
 
     /**
@@ -497,6 +497,7 @@ public class GameData
         {
             throw new InsufficientFundsException();
         }
+        updateDb();
     }
 
     /**

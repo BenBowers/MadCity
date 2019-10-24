@@ -15,7 +15,6 @@ public class TitleScreen extends AppCompatActivity
 
 // PRIVATE CLASS FIELDS ------------------------------------------------------
 
-    private Button mResumeGameButton;
     private Button mNewGameButton;
     private Button mSettingsButton;
 
@@ -23,13 +22,19 @@ public class TitleScreen extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        GameData.getInstance(getApplicationContext());
+        GameData gameData = GameData.getInstance(getApplicationContext());
+
         setContentView(R.layout.title_screen);
         mNewGameButton = findViewById(R.id.start_button);
         mSettingsButton = findViewById(R.id.settings_button);
 
         mNewGameButton.setOnClickListener(this::newGameOnClick);
         mSettingsButton.setOnClickListener(this::settingsOnClick);
+
+        if(gameData.mMap != null)
+        {
+            startActivity(MapActivity.newIntent(TitleScreen.this));
+        }
 
     }
 
@@ -41,6 +46,7 @@ public class TitleScreen extends AppCompatActivity
 
     private void settingsOnClick(View v)
     {
+        GameData.getInstance(getApplicationContext()).newGame();
         startActivity(SettingsActivity.newIntent(TitleScreen.this));
     }
 
