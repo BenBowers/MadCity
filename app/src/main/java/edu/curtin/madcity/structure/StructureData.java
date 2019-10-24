@@ -44,7 +44,7 @@ public class StructureData
      * Array of drawables for roads
      */
     public static final int[] ROADS = new int[] {
-            R.drawable.ic_road,
+            R.drawable.ic_road, // Really really good road texture!
             R.drawable.ic_road_n,   // 1000
             R.drawable.ic_road_e,   // 0100
             R.drawable.ic_road_ne,  // 1100
@@ -76,5 +76,29 @@ public class StructureData
     private StructureData()
     {
 
+    }
+
+    public static Structure getStructure(int structureId)
+            throws IllegalArgumentException
+    {
+        Structure structure;
+        if (structureId == 0)
+        {
+            structure = ROAD;
+        }
+        else if(structureId >= 1 && structureId < 4)
+        {
+            structure = RESIDENTIAL[structureId - 1];
+        }
+        else if (structureId < 8)
+        {
+            structure = COMMERCIAL[structureId - 4];
+        }
+        else
+        {
+            throw new IllegalArgumentException("InvalidId");
+        }
+
+        return structure;
     }
 }

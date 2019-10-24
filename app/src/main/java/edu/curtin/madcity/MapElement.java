@@ -2,30 +2,61 @@ package edu.curtin.madcity;
 
 import android.graphics.Bitmap;
 
+import edu.curtin.madcity.structure.Residential;
+import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
+import edu.curtin.madcity.structure.StructureData;
 
 public class MapElement
 {
-    private Structure mStructure;
+    private int mStructure;
     private Bitmap mImage;
     private String mOwnerName;
 
-    public MapElement(Structure structure)
+    public MapElement(int structure)
     {
         mStructure = structure;
+        defaultName();
     }
 
-    public MapElement(String ownerName)
+    private void defaultName()
     {
-        mOwnerName = ownerName;
+        Structure s = getStructure();
+        if(s instanceof Road)
+        {
+            mOwnerName = "Road";
+        }
+        else if (s instanceof Residential)
+        {
+            mOwnerName = "Residential";
+        }
+        else
+        {
+            mOwnerName = "Commercial";
+        }
     }
+
+    public MapElement(int structure, Bitmap image, String ownerName)
+    {
+        mStructure = structure;
+        mImage = image;
+        if(ownerName != null)
+        {
+            mOwnerName = ownerName;
+        }
+        else
+        {
+            defaultName();
+        }
+    }
+
 
     public Structure getStructure()
     {
-        return mStructure;
+        return StructureData.getStructure(mStructure);
     }
 
-    public void setStructure(Structure structure)
+    public void setStructure(int structure)
     {
         mStructure = structure;
     }

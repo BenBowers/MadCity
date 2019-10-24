@@ -7,12 +7,14 @@ import edu.curtin.madcity.database.DbHelper;
 import edu.curtin.madcity.database.DbSchema;
 import edu.curtin.madcity.database.DbSchema.GameDataTable;
 import edu.curtin.madcity.database.GameDataCursor;
+import edu.curtin.madcity.database.MapElementCursor;
 import edu.curtin.madcity.database.SettingsCursor;
 import edu.curtin.madcity.settings.Settings;
 import edu.curtin.madcity.structure.Commercial;
 import edu.curtin.madcity.structure.Residential;
 import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
+import edu.curtin.madcity.structure.StructureData;
 
 public class GameData
 {
@@ -239,11 +241,13 @@ public class GameData
         return out;
     }
 
-    public void addStructure(Structure structure, int x,
+    public void addStructure(int structureId, int x,
                              int y)
             throws IllegalStateException, InsufficientFundsException,
             IllegalArgumentException
     {
+        Structure structure = StructureData.getStructure(structureId);
+
         if( mMap[x][y] != null)
         {
             throw new IllegalArgumentException("Structure exists");
@@ -251,7 +255,7 @@ public class GameData
         if ( structure instanceof Road)
         {
             withdrawFunds(settings.ROAD_BUILDING_COST.getValue());
-            setStructure(structure, x, y);
+            setStructure(structureId, x, y);
         }
         else if (hasSurroundingRoad(x, y))
         {
@@ -266,7 +270,7 @@ public class GameData
                 withdrawFunds(settings.COMM_BUILDING_COST.getValue());
                 mNumCommercial++;
             }
-            setStructure(structure, x, y);
+            setStructure(structureId, x, y);
         }
         else
         {
@@ -360,9 +364,22 @@ public class GameData
             }
         }
 
+        try(MapElementCursor cursor = new MapElementCursor(
+                db.query(DbSchema.MapElementTable.NAME,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null)
+        ))
+        {
+
+        }
     }
 
-    private void setStructure(Structure structure, int x, int y)
+    private void setStructure(int structure, int x, int y)
     {
             mMap[x][y] = new MapElement(structure);
     }

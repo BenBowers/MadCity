@@ -46,7 +46,7 @@ public class SelectorFragment extends Fragment
 
     private final GameData GAME_DATA = GameData.getInstance(getContext());
 
-    private Structure mStructure;
+    private int mStructure = -1;
     private SelectedItem mSelectedItem = SelectedItem.TOUCH; // This is
     // done to avoid null pointer exception!
 
@@ -133,7 +133,17 @@ public class SelectorFragment extends Fragment
     private void structureReceived(int type, Intent data)
     {
         int loc = data.getIntExtra(STRUCTURE_EXTRA, 0);
-        mStructure = getType(type)[loc];
+
+        switch (type)
+        {
+            case REQUEST_RESIDENTIAL:
+                mStructure = loc + 1;
+                break;
+            case REQUEST_COMMERCIAL:
+                mStructure = loc + 4;
+                break;
+        }
+
     }
 
     private Structure[] getType(int type)
@@ -210,7 +220,7 @@ public class SelectorFragment extends Fragment
 
                 break;
             case 2:
-                mStructure = StructureData.ROAD;
+                mStructure = 0;
                 break;
             default:
                 throw new IllegalArgumentException("invalid type");
@@ -266,7 +276,7 @@ public class SelectorFragment extends Fragment
                 inspectItem(x, y);
                 break;
             case ADD:
-                if (mStructure != null)
+                if (mStructure != -1)
                 {
                     addStructure(x, y);
                 }
