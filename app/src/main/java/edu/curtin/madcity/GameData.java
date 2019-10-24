@@ -16,6 +16,10 @@ import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
 
+/**
+ * Singleton class holding all the game data shared across activities should
+ * be initialized before a game is started
+ */
 public class GameData
 {
     /**
@@ -49,6 +53,7 @@ public class GameData
     }
 
     private SQLiteDatabase db;
+    private boolean mGameLoaded = false;
 
 
 
@@ -98,12 +103,11 @@ public class GameData
         mNumCommercial = 0;
 
         mMoney = settings.INITIAL_MONEY.getValue();
+        initMap();
 
-        // Generate a new map.
-        mMap =
-                new MapElement[settings.MAP_WIDTH.getValue()]
-                        [settings.MAP_HEIGHT.getValue()];
     }
+
+
 
     /**
      * Accessor for the players money.
@@ -189,17 +193,7 @@ public class GameData
 
     }
 
-    /**
-     * Updates the game data database called when the a structure is
-     * inserted or deleted or the game time is increased.
-     */
-    private void updateDb()
-    {
-        // Update the database whenever time is increased
-        db.update(GameDataTable.NAME,
-                  GameDataTable.CV(this),
-                  "ID = ?", new String[] {"1"});
-    }
+
 
     public int getNumResidential()
     {
@@ -241,6 +235,16 @@ public class GameData
         return out;
     }
 
+    /**
+     * Adds a structure to the map and database
+     * @param structureId id of the structure to add
+     * @param x x coordinate to add to
+     * @param y y coordinate to add to
+     * @throws IllegalStateException no road is surrounding the structure
+     * @throws InsufficientFundsException not enough funds to buy the
+     * structure
+     * @throws IllegalArgumentException Structure already exists on cell
+     */
     public void addStructure(int structureId, int x,
                              int y)
             throws IllegalStateException, InsufficientFundsException,
@@ -277,10 +281,16 @@ public class GameData
             throw new IllegalStateException("No surrounding road");
         }
 
+        // TODO: add the structure to the database
         updateDb();
 
     }
 
+    /**
+     * Removes a structure from the game map
+     * @param x x coordinate of the structure
+     * @param y y  coordinate of the structure
+     */
     public void removeStructure(int x, int y)
     {
         Structure structure = mMap[x][y].getStructure();
@@ -293,8 +303,18 @@ public class GameData
             mNumResidential--;
         }
         mMap[x][y] = null;
+        // TODO: remove structure from the database!
 
-        updateDb();
+        updateDb(); // Update the database
+    }
+
+    /**
+     *
+     * @return Database of the game
+     */
+    public SQLiteDatabase getDb()
+    {
+        return db;
     }
 
 
@@ -313,11 +333,79 @@ public class GameData
                         .getWritableDatabase();
 
         // Java 7 automatic resource control no need for cursor.close()
+        loadSettings();
+        loadGameData();
+        if(mGameLoaded)
+        {
+            initMap(); // Initialize the array from the settings
+            loadMap(); // Load the map from the database
+        }
+    }
 
+    /**
+     * Loads the game map elements into mMap from database
+     */
+    private void loadMap()
+    {
+        try(MapElementCursor cursor = new MapElementCursor(
+                db.query(DbSchema.MapElementTable.NAME,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null)
+        ))
+        {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast())
+            {
+                mMap[cursor.getX()][cursor.getY()] = cursor.get();
+                cursor.moveToNext();
+            }
+        }
+    }
+
+    /**
+     * Loads the gameData fields from the database into memory
+     */
+    private void loadGameData()
+    {
+        // Load the game data
+        try (GameDataCursor cursor = new GameDataCursor(
+                db.query(GameDataTable.NAME,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null,
+                         null)
+        ))
+        {
+            if( cursor.getCount() <= 0)
+            {
+                db.insert(GameDataTable.NAME, null,
+                          GameDataTable.CV(this));
+            }
+            else
+            {
+                cursor.moveToFirst();
+                cursor.get(this);
+            }
+        }
+    }
+
+    /**
+     * Loads the settings from the database into memory
+     */
+    private void loadSettings()
+    {
         // Load the settings
         try (SettingsCursor cursor = new SettingsCursor(
                 db.query(DbSchema.SettingsTable.NAME,
-                        null,
+                         null,
                          null,
                          null,
                          null,
@@ -339,51 +427,37 @@ public class GameData
                 settings = cursor.get();
             }
         }
-
-        // Load the game data
-        try (GameDataCursor cursor = new GameDataCursor(
-                db.query(DbSchema.GameDataTable.NAME,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null)
-        ))
-        {
-            if( cursor.getCount() <= 0)
-            {
-                db.insert(GameDataTable.NAME, null,
-                          GameDataTable.CV(this));
-            }
-            else
-            {
-                cursor.moveToFirst();
-                cursor.get(this);
-            }
-        }
-
-        try(MapElementCursor cursor = new MapElementCursor(
-                db.query(DbSchema.MapElementTable.NAME,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null,
-                         null)
-        ))
-        {
-
-        }
     }
 
+    /**
+     * Updates the game data database called when the a structure is
+     * inserted or deleted or the game time is increased.
+     */
+    private void updateDb()
+    {
+        // Update the database whenever time is increased
+        db.update(GameDataTable.NAME,
+                  GameDataTable.CV(this),
+                  "ID = ?", new String[] {"1"});
+    }
+
+    /**
+     * Sets a structure at the x y coordinates
+     * @param structure structure id to store there
+     * @param x x coordinate
+     * @param y y coordinate
+     */
     private void setStructure(int structure, int x, int y)
     {
             mMap[x][y] = new MapElement(structure);
     }
 
+    /**
+     * Returns true if the map element has a surrounding road
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return true if the structure has a surrounding road
+     */
     private boolean hasSurroundingRoad(int x, int y)
     {
         return ((x - 1 >= 0) && roadExists(x - 1, y)) ||
@@ -395,6 +469,12 @@ public class GameData
     }
 
 
+    /**
+     * Returns true if the cell contains a road
+     * @param x x coordinate of the cell
+     * @param y y coordinate of the cell
+     * @return true if the cell contains a road
+     */
     private boolean roadExists(int x, int y)
     {
         return (mMap[x][y] != null) &&
@@ -402,6 +482,11 @@ public class GameData
                 (mMap[x][y].getStructure() instanceof Road);
     }
 
+    /**
+     * Withdraws funds from the players account
+     * @param amount amount to withdraw
+     * @throws InsufficientFundsException player doesn't have enough money
+     */
     private void withdrawFunds(int amount) throws InsufficientFundsException
     {
         if(mMoney - amount >= 0 )
@@ -414,11 +499,16 @@ public class GameData
         }
     }
 
-    public SQLiteDatabase getDb()
+    /**
+     * Initializes the map based on the current settings
+     */
+    private void initMap()
     {
-        return db;
+        // Generate a new map.
+        mMap =
+                new MapElement[settings.MAP_WIDTH.getValue()]
+                        [settings.MAP_HEIGHT.getValue()];
     }
-
 
 
 }
