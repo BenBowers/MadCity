@@ -239,7 +239,7 @@ public class GameData
         return out;
     }
 
-    public void addStructure(Context context, Structure structure, int x,
+    public void addStructure(Structure structure, int x,
                              int y)
             throws IllegalStateException, InsufficientFundsException,
             IllegalArgumentException
@@ -251,7 +251,7 @@ public class GameData
         if ( structure instanceof Road)
         {
             withdrawFunds(settings.ROAD_BUILDING_COST.getValue());
-            setStructure(context, structure, x, y);
+            setStructure(structure, x, y);
         }
         else if (hasSurroundingRoad(x, y))
         {
@@ -266,7 +266,7 @@ public class GameData
                 withdrawFunds(settings.COMM_BUILDING_COST.getValue());
                 mNumCommercial++;
             }
-            setStructure(context, structure, x, y);
+            setStructure(structure, x, y);
         }
         else
         {
@@ -362,17 +362,9 @@ public class GameData
 
     }
 
-    private void setStructure(Context context, Structure structure, int x,
-                              int y)
+    private void setStructure(Structure structure, int x, int y)
     {
-        if (mMap[x][y] == null)
-        {
-            mMap[x][y] =
-                    new MapElement(context.getResources().getString(
-                            structure.getName()));
-        }
-
-        mMap[x][y].setStructure(structure);
+            mMap[x][y] = new MapElement(structure);
     }
 
     private boolean hasSurroundingRoad(int x, int y)
