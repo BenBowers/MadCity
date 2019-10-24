@@ -8,6 +8,9 @@ import edu.curtin.madcity.database.DbSchema.GameDataTable;
 import edu.curtin.madcity.database.DbSchema.MapElementTable;
 import edu.curtin.madcity.database.DbSchema.SettingsTable;
 
+/**
+ * Class for creating and handling the database
+ */
 public class DbHelper extends SQLiteOpenHelper
 {
     private static final int VERSION = 1;

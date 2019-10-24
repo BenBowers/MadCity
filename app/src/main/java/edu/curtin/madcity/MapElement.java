@@ -10,6 +10,9 @@ import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
 
+/**
+ * Class holding all the data of an individual map element
+ */
 public class MapElement
 {
     private int mStructure;
@@ -22,22 +25,7 @@ public class MapElement
         defaultName();
     }
 
-    private void defaultName()
-    {
-        Structure s = getStructure();
-        if(s instanceof Road)
-        {
-            mOwnerName = "Road";
-        }
-        else if (s instanceof Residential)
-        {
-            mOwnerName = "Residential";
-        }
-        else
-        {
-            mOwnerName = "Commercial";
-        }
-    }
+
 
     public MapElement(int structure, Bitmap image, String ownerName)
     {
@@ -89,6 +77,10 @@ public class MapElement
         return mStructure;
     }
 
+    /**
+     * Returns the bitmap image in the form of a byte array
+     * @return
+     */
     public byte[] getImageBytes()
     {
         byte[] arr;
@@ -113,5 +105,25 @@ public class MapElement
         }
 
         return arr;
+    }
+
+    /**
+     * Sets the name to the default one of the structure type
+     */
+    private void defaultName()
+    {
+        Structure s = getStructure();
+        if(s instanceof Road)
+        {
+            mOwnerName = "Road";
+        }
+        else if (s instanceof Residential)
+        {
+            mOwnerName = "Residential";
+        }
+        else
+        {
+            mOwnerName = "Commercial";
+        }
     }
 }

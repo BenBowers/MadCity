@@ -6,6 +6,9 @@ import android.database.CursorWrapper;
 import edu.curtin.madcity.database.DbSchema.SettingsTable.Cols;
 import edu.curtin.madcity.settings.Settings;
 
+/**
+ * Settings cursor wrapper get() method will return a new settings object
+ */
 public class SettingsCursor extends CursorWrapper
 {
     public SettingsCursor(Cursor cursor)

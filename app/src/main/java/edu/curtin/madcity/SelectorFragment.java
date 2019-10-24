@@ -20,6 +20,9 @@ import edu.curtin.madcity.structure.StructureData;
 import static android.app.Activity.RESULT_OK;
 import static edu.curtin.madcity.StructureSelector.STRUCTURE_EXTRA;
 
+/**
+ * Fragment for selecting the current function in the map activity
+ */
 public class SelectorFragment extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------

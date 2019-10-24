@@ -1,5 +1,8 @@
 package edu.curtin.madcity.settings;
 
+/**
+ * Class for holding a setting as a float
+ */
 public class FloatSetting extends Setting
 {
     private float mValue;

@@ -1,8 +1,10 @@
 package edu.curtin.madcity.settings;
 
-import java.io.Serializable;
 
-public class IntSetting extends Setting implements Serializable
+/**
+ * Class for holding an int setting
+ */
+public class IntSetting extends Setting
 {
     private int mValue;
     public final int MAX;

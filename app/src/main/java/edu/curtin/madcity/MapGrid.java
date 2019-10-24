@@ -18,7 +18,10 @@ import edu.curtin.madcity.structure.Road;
 import edu.curtin.madcity.structure.Structure;
 import edu.curtin.madcity.structure.StructureData;
 
-
+/**
+ * Fragment containing the grid of all the map elements heavily inspired
+ * from practical 3
+ */
 public class MapGrid extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------

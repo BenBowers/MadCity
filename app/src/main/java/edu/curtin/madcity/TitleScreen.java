@@ -7,6 +7,9 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Activity for the title screen duh
+ */
 public class TitleScreen extends AppCompatActivity
 {
 // CLASS CONSTANTS -----------------------------------------------------------

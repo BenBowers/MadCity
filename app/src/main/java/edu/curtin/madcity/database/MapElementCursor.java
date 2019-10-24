@@ -8,6 +8,9 @@ import android.graphics.BitmapFactory;
 import edu.curtin.madcity.MapElement;
 import edu.curtin.madcity.database.DbSchema.MapElementTable.Cols;
 
+/**
+ * Cursor for a map element use get x and get y for the coordinates stored
+ */
 public class MapElementCursor extends CursorWrapper
 {
 
@@ -36,6 +39,11 @@ public class MapElementCursor extends CursorWrapper
     }
 
 
+    /**
+     * Function to decode a bitmap image will return null if there is none
+     * @param b
+     * @return
+     */
     private static Bitmap getBitmap(byte[] b)
     {
         return b == null ? null :

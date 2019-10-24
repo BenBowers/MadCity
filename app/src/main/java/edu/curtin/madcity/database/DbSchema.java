@@ -71,7 +71,7 @@ public class DbSchema
                             Cols.ROAD_BUILDING_COST + " INTEGER)";
         }
 
-        public static ContentValues settingsCV(Settings settings)
+        public static ContentValues CV(Settings settings)
         {
             ContentValues cv = new ContentValues();
 

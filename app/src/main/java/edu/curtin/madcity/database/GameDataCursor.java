@@ -5,7 +5,9 @@ import android.database.CursorWrapper;
 
 import edu.curtin.madcity.GameData;
 import edu.curtin.madcity.database.DbSchema.GameDataTable.Cols;
-
+/**
+ * Cursor class for all the game data contained in the database
+ */
 public class GameDataCursor extends CursorWrapper
 {
     public GameDataCursor(Cursor cursor)

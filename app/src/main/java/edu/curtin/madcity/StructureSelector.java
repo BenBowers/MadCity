@@ -22,6 +22,9 @@ import edu.curtin.madcity.structure.StructureData;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Used for selecting the structure to place down
+ */
 public class StructureSelector extends DialogFragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------

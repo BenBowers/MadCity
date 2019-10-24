@@ -7,6 +7,9 @@ import edu.curtin.madcity.GameData;
 import edu.curtin.madcity.R;
 import edu.curtin.madcity.database.DbSchema.SettingsTable;
 
+/**
+ * Class to hold all of the games settings
+ */
 public class Settings
 {
 
@@ -130,12 +133,16 @@ public class Settings
         return SETTINGS.length;
     }
 
+    /**
+     * Updates the settings in the database
+     * @param context
+     */
     public void updateDb(Context context)
     {
         Log.d("UPDATE_SETTING", "!!!!!");
         GameData.getInstance(context).getDb().update(
                 SettingsTable.NAME,
-                SettingsTable.settingsCV(this),
+                SettingsTable.CV(this),
                 "ID = ?",
                 new String[] {"1"});
     }

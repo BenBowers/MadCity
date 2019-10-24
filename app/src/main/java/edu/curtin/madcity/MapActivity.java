@@ -8,6 +8,9 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+/**
+ * Activity for the main game
+ */
 public class MapActivity extends AppCompatActivity
 {
     private static final String TAG = "MapActivity";

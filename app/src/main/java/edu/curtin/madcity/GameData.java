@@ -419,7 +419,7 @@ public class GameData
             {
                 settings = new Settings();
                 db.insert(DbSchema.SettingsTable.NAME, null,
-                          DbSchema.SettingsTable.settingsCV(settings));
+                          DbSchema.SettingsTable.CV(settings));
             }
             else
             {

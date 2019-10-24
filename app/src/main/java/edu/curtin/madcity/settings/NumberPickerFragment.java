@@ -19,6 +19,9 @@ import edu.curtin.madcity.R;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Dialog shown when the user clicks on an integer based setting
+ */
 public class NumberPickerFragment extends DialogFragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------

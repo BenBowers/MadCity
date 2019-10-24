@@ -28,14 +28,17 @@ import edu.curtin.madcity.settings.Settings;
 
 import static android.app.Activity.RESULT_OK;
 
-
+/**
+ * Fragment containing a list of settings for the user to edit
+ */
 public class SettingsList extends Fragment
 {
 // CLASS CONSTANTS -----------------------------------------------------------
     private static final String TAG  = "SettingsList";
     private static final String DIALOG_NUMBER = "DialogNumber";
     private static final int REQUEST_INT = 0;
-    private final Settings SETTINGS = GameData.getInstance(getContext()).settings;
+    private final Settings SETTINGS = GameData.getInstance(getContext())
+            .settings;
 
     private RecyclerView mRecyclerView;
     private SettingsAdaptor mAdaptor = new SettingsAdaptor();
@@ -209,7 +212,8 @@ public class SettingsList extends Fragment
                 {
                     NumberPickerFragment dialog =
                             NumberPickerFragment.newInstance(setting);
-                    dialog.setTargetFragment(SettingsList.this, REQUEST_INT);
+                    dialog.setTargetFragment(SettingsList.this,
+                                             REQUEST_INT);
                     dialog.show(fragmentManager, DIALOG_NUMBER);
                 }
             }
