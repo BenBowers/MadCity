@@ -338,8 +338,11 @@ public class GameData
         // Java 7 automatic resource control no need for cursor.close()
         loadSettings();
         loadGameData();
+        if(mGameTime != 0)
+        {
             initMap(); // Initialize the array from the settings
             loadMap(); // Load the map from the database
+        }
     }
 
     /**
