@@ -40,3 +40,11 @@ However, also be aware that if your app crashes for any other reason, that's you
 | 8. Structure Photos (bonus) | 2       |
 | 9. Code Quality             | 5 / 5   |
 | Total                       | 25 / 25 |
+
+## Screenshots
+![](./screenshots/Screenshot_1574743586.png)
+![](./screenshots/Screenshot_1574743604.png)
+![](./screenshots/Screenshot_1574743608.png)
+![](./screenshots/Screenshot_1574743630.png)
+![](./screenshots/Screenshot_1574743640.png)
+![](./screenshots/Screenshot_1574743657.png)
